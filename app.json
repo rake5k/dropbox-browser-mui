@@ -1,0 +1,20 @@
+{
+  "name": "dropbox-browser",
+  "scripts": {
+  },
+  "env": {
+    "DROPBOX_ACCESS_TOKEN": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

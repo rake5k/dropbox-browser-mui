@@ -1,14 +1,11 @@
-import _ from 'lodash';
-import React, { Component } from 'react';
-import Dropbox from 'dropbox';
+import React from 'react';
 
 import EntryList from './components/EntryList';
 import './App.css';
+import * as helpers from './App.helpers';
 import logo from './logo.svg';
 
-const dbx = new Dropbox({ accessToken: process.env.REACT_APP_DROPBOX_ACCESS_TOKEN });
-
-class App extends Component {
+class App extends React.Component {
 
     constructor(props) {
         super(props);
@@ -20,13 +17,13 @@ class App extends Component {
     }
 
     componentDidMount() {
-        loadEntries(this.state.path)
+        helpers.loadEntries(this.state.path)
             .then((entries) => this.setState({ entries }));
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state.path !== prevState.path) {
-            loadEntries(this.state.path)
+            helpers.loadEntries(this.state.path)
                 .then((entries) => this.setState({ entries }));
         }
     }
@@ -53,7 +50,7 @@ class App extends Component {
     }
 
     handleFileClick(path) {
-        dbx.filesGetTemporaryLink({ path })
+        helpers.loadFileLink(path)
             .then(console.log);
     }
 
@@ -64,20 +61,3 @@ class App extends Component {
 }
 
 export default App;
-
-async function loadEntries(path) {
-    if (!process.env.REACT_APP_DROPBOX_ACCESS_TOKEN) {
-        throw new Error('Dropbox Access Token required');
-    }
-
-    try {
-        const { entries } = await dbx.filesListFolder({ path });
-        return _.map(entries, (entry) => ({
-            name: entry.name,
-            path: entry.path_display,
-            type: entry['.tag']
-        }));
-    } catch (error) {
-        console.log(error);
-    }
-}

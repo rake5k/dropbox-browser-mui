@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import EntryList from './components/EntryList';
+import Viewer from './components/Viewer';
 import './App.css';
 import * as helpers from './App.helpers';
 import logo from './logo.svg';
@@ -11,6 +12,7 @@ class App extends Component {
         super(props);
         this.state = {
             entries: null,
+            fileLink: null,
             path: ''
         }
     }
@@ -40,17 +42,20 @@ class App extends Component {
                 <div>
                     <EntryList
                         entries={this.state.entries}
-                        onFileClick={this.handleFileClick}
+                        onFileClick={this.handleFileClick.bind(this)}
                         onFolderClick={this.handleFolderClick.bind(this)}
                     />
                 </div>
+                {this.state.fileLink && <Viewer file={this.state.fileLink} />}
             </div>
         );
     }
 
     handleFileClick(path) {
         helpers.loadFileLink(path)
-            .then(console.log);
+            .then((file) => {
+                this.setState({ fileLink: file.link })
+            });
     }
 
     handleFolderClick(path) {

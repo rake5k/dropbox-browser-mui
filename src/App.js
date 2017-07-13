@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import EntryList from './components/EntryList';
 import './App.css';
 import * as helpers from './App.helpers';
 import logo from './logo.svg';
 
-class App extends React.Component {
+class App extends Component {
 
     constructor(props) {
         super(props);

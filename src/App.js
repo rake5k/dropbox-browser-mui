@@ -11,7 +11,6 @@ class App extends Component {
         super(props);
         this.state = {
             entries: null,
-            isPreview: false,
             path: ''
         }
     }

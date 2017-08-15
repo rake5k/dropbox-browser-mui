@@ -5,13 +5,16 @@ import React from 'react';
 
 const styles = theme => ({
     progress: {
-        margin: `0 ${theme.spacing.unit * 2}px`,
+        left: 0,
+        margin: `80px auto`,
+        position: 'absolute',
+        right: 0,
     },
 });
 
 function Loader({ classes }) {
     return (
-        <CircularProgress className={classes.progress} size={50} />
+        <CircularProgress className={classes.progress} />
     )
 }
 

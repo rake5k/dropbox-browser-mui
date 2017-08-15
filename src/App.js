@@ -33,13 +33,11 @@ class App extends Component {
         return (
             <div>
                 <SimpleAppBar />
-                <div>
-                    <EntryList
-                        entries={this.state.entries}
-                        onFileClick={this.handleFileClick.bind(this)}
-                        onFolderClick={this.handleFolderClick.bind(this)}
-                    />
-                </div>
+                <EntryList
+                    entries={this.state.entries}
+                    onFileClick={this.handleFileClick.bind(this)}
+                    onFolderClick={this.handleFolderClick.bind(this)}
+                />
                 {this.state.fileLink && <Viewer file={this.state.fileLink} />}
             </div>
         );

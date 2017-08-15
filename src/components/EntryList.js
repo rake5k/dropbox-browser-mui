@@ -8,9 +8,9 @@ import Loader from './Loader';
 
 const styles = theme => ({
     root: {
-        width: '100%',
-        maxWidth: 360,
         background: theme.palette.background.paper,
+        paddingTop: 80,
+        width: '100%',
     },
 });
 
@@ -24,7 +24,7 @@ function EntryList({ classes, entries, onFileClick, onFolderClick }) {
     }
 
     return (
-        <List>
+        <List className={classes.root}>
             {entries.map((entry, index) => (
                 <Entry
                     {...entry}

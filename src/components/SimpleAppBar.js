@@ -7,7 +7,9 @@ import Typography from 'material-ui/Typography';
 
 const styles = {
     root: {
+        position: 'fixed',
         width: '100%',
+        zIndex: 1000,
     },
 };
 

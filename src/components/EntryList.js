@@ -1,10 +1,22 @@
+import List from 'material-ui/List';
+import { withStyles } from 'material-ui/styles';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Entry from './Entry';
+import Loader from './Loader';
 
-function EntryList({ entries, onFileClick, onFolderClick }) {
+const styles = theme => ({
+    root: {
+        width: '100%',
+        maxWidth: 360,
+        background: theme.palette.background.paper,
+    },
+});
+
+function EntryList({ classes, entries, onFileClick, onFolderClick }) {
     if (!entries) {
-        return <p>loading...</p>;
+        return <Loader />;
     }
 
     if (!entries.length) {
@@ -12,7 +24,7 @@ function EntryList({ entries, onFileClick, onFolderClick }) {
     }
 
     return (
-        <ul>
+        <List>
             {entries.map((entry, index) => (
                 <Entry
                     {...entry}
@@ -21,8 +33,12 @@ function EntryList({ entries, onFileClick, onFolderClick }) {
                     onFolderClick={onFolderClick}
                 />
             ))}
-        </ul>
+        </List>
     )
 }
 
-export default EntryList;
+EntryList.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(EntryList);

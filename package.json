@@ -4,8 +4,11 @@
   "private": true,
   "dependencies": {
     "dropbox": "^2.5.7",
+    "material-ui": "next",
+    "material-ui-icons": "^1.0.0-alpha.19",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "typeface-roboto": "^0.0.35"
   },
   "devDependencies": {
     "react-scripts": "1.0.11"

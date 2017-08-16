@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import EntryList from './components/EntryList';
 import SimpleAppBar from './components/SimpleAppBar';
-import Viewer from './components/Viewer';
+import ViewerDialog from './components/ViewerDialog';
 import './App.css';
 import * as helpers from './App.helpers';
 
@@ -13,7 +13,8 @@ class App extends Component {
         this.state = {
             entries: null,
             fileLink: null,
-            path: ''
+            fileName: null,
+            path: '',
         }
     }
 
@@ -38,7 +39,7 @@ class App extends Component {
                     onFileClick={this.handleFileClick.bind(this)}
                     onFolderClick={this.handleFolderClick.bind(this)}
                 />
-                {this.state.fileLink && <Viewer file={this.state.fileLink} />}
+                <ViewerDialog fileLink={this.state.fileLink} fileName={this.state.fileName} />
             </div>
         );
     }
@@ -46,7 +47,10 @@ class App extends Component {
     handleFileClick(path) {
         helpers.loadFileLink(path)
             .then(file => {
-                this.setState({ fileLink: file.link })
+                this.setState({
+                    fileLink: file.link,
+                    fileName: file.metadata.name,
+                })
             });
     }
 

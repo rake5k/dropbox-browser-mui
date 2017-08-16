@@ -16,7 +16,7 @@ const styles = {
 function SimpleAppBar({ classes, title }) {
     return (
         <div className={classes.root}>
-            <AppBar position="static" color="default">
+            <AppBar position="static">
                 <Toolbar>
                     <Typography type="title" color="inherit">
                         {title}

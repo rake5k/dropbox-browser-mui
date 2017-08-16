@@ -19,20 +19,20 @@ class App extends Component {
 
     componentDidMount() {
         helpers.loadEntries(this.state.path)
-            .then((entries) => this.setState({ entries }));
+            .then(entries => this.setState({ entries }));
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state.path !== prevState.path) {
             helpers.loadEntries(this.state.path)
-                .then((entries) => this.setState({ entries }));
+                .then(entries => this.setState({ entries }));
         }
     }
 
     render() {
         return (
             <div>
-                <SimpleAppBar />
+                <SimpleAppBar title={process.env.REACT_APP_TITLE} />
                 <EntryList
                     entries={this.state.entries}
                     onFileClick={this.handleFileClick.bind(this)}
@@ -45,7 +45,7 @@ class App extends Component {
 
     handleFileClick(path) {
         helpers.loadFileLink(path)
-            .then((file) => {
+            .then(file => {
                 this.setState({ fileLink: file.link })
             });
     }

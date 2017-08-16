@@ -13,13 +13,13 @@ const styles = {
     },
 };
 
-function SimpleAppBar({ classes }) {
+function SimpleAppBar({ classes, title }) {
     return (
         <div className={classes.root}>
             <AppBar position="static" color="default">
                 <Toolbar>
                     <Typography type="title" color="inherit">
-                        VSLK Schiessresultate
+                        {title}
                     </Typography>
                 </Toolbar>
             </AppBar>

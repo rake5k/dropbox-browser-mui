@@ -5,7 +5,6 @@
       "required": true
     },
     "REACT_APP_TITLE": {
-      "required": true,
       "value": "Dropbox Browser"
     }
   },

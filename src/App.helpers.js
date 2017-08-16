@@ -10,7 +10,7 @@ export async function loadEntries(path) {
 
     try {
         const { entries } = await dbx.filesListFolder({ path });
-        return _.map(entries, (entry) => ({
+        return _.map(entries, entry => ({
             name: entry.name,
             path: entry.path_display,
             type: entry['.tag']

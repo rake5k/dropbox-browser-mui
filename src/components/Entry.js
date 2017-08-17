@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Avatar from 'material-ui/Avatar';
 import FolderIcon from 'material-ui-icons/Folder';
-import FileDownloadIcon from 'material-ui-icons/FileDownload';
+import FileIcon from 'material-ui-icons/InsertDriveFile';
 import { ListItem, ListItemText } from 'material-ui/List';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -13,7 +13,7 @@ function Entry(props) {
     return (
         <ListItem button onClick={() => onClick(path)}>
             <Avatar>
-                {type === 'file' ? <FileDownloadIcon /> : <FolderIcon />}
+                {type === 'file' ? <FileIcon /> : <FolderIcon />}
             </Avatar>
             <ListItemText primary={name} secondary="Datum" />
         </ListItem>

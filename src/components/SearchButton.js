@@ -1,5 +1,6 @@
 import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
+import CloseIcon from 'material-ui-icons/Close';
 import SearchIcon from 'material-ui-icons/Search';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -16,16 +17,21 @@ const styles = theme => ({
 });
 
 function SearchButton(props) {
-    const { classes, onClick } = props;
+    const { classes } = props;
+    const moveUp = props.isActive ? { bottom: 76 } : {};
+
     return (
         <Button
             fab
             color="primary"
             aria-label="search"
             className={classes.button}
-            onClick={onClick}
+            onClick={props.onClick}
+            style={moveUp}
         >    
-            <SearchIcon />
+            {props.isActive
+                ? <CloseIcon />
+                : <SearchIcon />}
         </Button>
     );
 }

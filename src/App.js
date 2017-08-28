@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import EntryList from './components/EntryList';
+import SearchButton from './components/SearchButton';
+import SearchDrawer from './components/SearchDrawer';
 import SimpleAppBar from './components/SimpleAppBar';
 import ViewerDialog from './components/ViewerDialog';
 import './App.css';
@@ -14,6 +16,7 @@ class App extends Component {
             entries: null,
             fileLink: null,
             fileName: null,
+            isSearching: false,
             path: '',
         }
     }
@@ -39,7 +42,13 @@ class App extends Component {
                     onFileClick={this.handleFileClick.bind(this)}
                     onFolderClick={this.handleFolderClick.bind(this)}
                 />
-                <ViewerDialog fileLink={this.state.fileLink} fileName={this.state.fileName} />
+                <SearchButton isActive={this.state.isSearching} onClick={this.toggleSearch.bind(this)} />
+                <SearchDrawer isOpen={this.state.isSearching} onClose={this.toggleSearch.bind(this)} />
+                <ViewerDialog
+                    fileLink={this.state.fileLink}
+                    fileName={this.state.fileName}
+                    onClose={this.handleViewerClose.bind(this)}
+                />
             </div>
         );
     }
@@ -56,6 +65,14 @@ class App extends Component {
 
     handleFolderClick(path) {
         this.setState({ entries: null, path });
+    }
+
+    handleViewerClose() {
+        this.setState({ fileLink: null });
+    }
+
+    toggleSearch() {
+        this.setState({ isSearching: !this.state.isSearching });
     }
 
 }

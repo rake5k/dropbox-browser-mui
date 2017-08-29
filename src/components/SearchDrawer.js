@@ -13,7 +13,7 @@ const styles = theme => ({
 });
 
 function SearchDrawer(props) {
-    const { classes, isOpen, onClose } = props;
+    const { classes, isOpen, onClose, onSearch } = props;
 
     return (
         <Drawer
@@ -23,7 +23,7 @@ function SearchDrawer(props) {
             open={isOpen}
         >
             <div className={classes.searchField}>
-                <SearchField />
+                <SearchField onChange={onSearch} />
             </div>
         </Drawer>
     );
@@ -33,6 +33,7 @@ SearchDrawer.propTypes = {
     classes: PropTypes.object.isRequired,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
+    onSearch: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SearchDrawer);

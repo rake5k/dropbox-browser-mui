@@ -21,5 +21,22 @@ export async function loadEntries(path) {
 }
 
 export async function loadFileLink(path) {
-    return dbx.filesGetTemporaryLink({ path });
+    try {
+        return dbx.filesGetTemporaryLink({ path });
+    } catch (error) {
+        console.log(error);
+    }    
+}
+
+export async function searchFiles(query) {
+    try {
+        const { matches } = await dbx.filesSearch({ path: '', query });
+        return _.map(matches, match => ({
+            name: match.metadata.name,
+            path: match.metadata.path_display,
+            type: match.metadata['.tag']
+        }));
+    } catch (error) {
+        console.log(error);
+    }    
 }

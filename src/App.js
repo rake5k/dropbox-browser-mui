@@ -26,7 +26,10 @@ class App extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.path !== prevState.path) {
+        if (
+            this.state.path !== prevState.path
+            || (!this.state.isSearching && prevState.isSearching)
+        ) {
             helpers.loadEntries(this.state.path)
                 .then(entries => this.setState({ entries }));
         }
@@ -41,7 +44,11 @@ class App extends Component {
                     onFileClick={this.handleFileClick.bind(this)}
                     onFolderClick={this.handleFolderClick.bind(this)}
                 />
-                <Search isActive={this.state.isSearching} onToggle={this.handleSearchToggle.bind(this)} />
+                <Search
+                    isActive={this.state.isSearching}
+                    onSearch={this.handleSearch.bind(this)}
+                    onToggle={this.handleSearchToggle.bind(this)}
+                />
                 <ViewerDialog
                     fileLink={this.state.fileLink}
                     fileName={this.state.fileName}
@@ -67,6 +74,11 @@ class App extends Component {
 
     handleViewerClose() {
         this.setState({ fileLink: null });
+    }
+
+    handleSearch(query) {
+        helpers.searchFiles(query)
+            .then(entries => this.setState({ entries }));
     }
 
     handleSearchToggle() {

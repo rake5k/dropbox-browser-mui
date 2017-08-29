@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 const styles = theme => ({
     container: {
@@ -21,9 +22,11 @@ class SearchField extends Component {
     };
 
     handleChange = event => {
-        this.setState({
-            value: event.target.value,
-        });
+        const debouncedSearch = _.debounce(
+            this.props.onChange,
+            700
+        );
+        debouncedSearch(event.target.value);
     };
 
     render() {
@@ -45,6 +48,7 @@ class SearchField extends Component {
 
 SearchField.propTypes = {
     classes: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired, 
 };
 
 export default withStyles(styles)(SearchField);

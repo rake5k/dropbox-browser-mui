@@ -10,11 +10,12 @@ export async function loadEntries(path) {
 
     try {
         const { entries } = await dbx.filesListFolder({ path });
-        return _.map(entries, entry => ({
+        const normalized = _.map(entries, entry => ({
             name: entry.name,
             path: entry.path_display,
             type: entry['.tag']
         }));
+        return orderEntries(normalized);
     } catch (error) {
         console.log(error);
     }
@@ -31,12 +32,27 @@ export async function loadFileLink(path) {
 export async function searchFiles(query) {
     try {
         const { matches } = await dbx.filesSearch({ path: '', query });
-        return _.map(matches, match => ({
+        const normalized =  _.map(matches, match => ({
             name: match.metadata.name,
             path: match.metadata.path_display,
             type: match.metadata['.tag']
         }));
+        return orderEntries(normalized);
     } catch (error) {
         console.log(error);
     }    
+}
+
+function orderEntries(entries) {
+    const folders = _(entries)
+        .filter(entry => entry.type === 'folder')
+        .sortBy(['name'])
+        .value();
+    const files = _(entries)
+        .filter(entry => entry.type === 'file')
+        .map(entry => ({ ...entry, year: parseInt(entry.name.split(' - ')[0], 10) }))
+        .orderBy(['year', 'name'], ['desc', 'asc'])
+        .value();
+
+    return [...folders, ...files];
 }

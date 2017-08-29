@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 
 const styles = theme => ({
     container: {
@@ -16,34 +16,20 @@ const styles = theme => ({
     },
 });
 
-class SearchField extends Component {
-    state = {
-        value: null,
-    };
+function SearchField(props) {
+    const { classes, onChange } = props;
 
-    handleChange = event => {
-        const debouncedSearch = _.debounce(
-            this.props.onChange,
-            700
-        );
-        debouncedSearch(event.target.value);
-    };
-
-    render() {
-        const classes = this.props.classes;
-
-        return (
-            <div className={classes.container}>
-                <TextField
-                    id="search"
-                    InputProps={{ placeholder: 'Search files and folders...' }}
-                    fullWidth
-                    margin="normal"
-                    onChange={this.handleChange}
-                />
-            </div>
-        );
-    }
+    return (
+        <div className={classes.container}>
+            <TextField
+                id="search"
+                InputProps={{ placeholder: 'Search files and folders...' }}
+                fullWidth
+                margin="normal"
+                onChange={handleChange(onChange)}
+            />
+        </div>
+    );
 }
 
 SearchField.propTypes = {
@@ -52,3 +38,10 @@ SearchField.propTypes = {
 };
 
 export default withStyles(styles)(SearchField);
+
+function handleChange(search) {
+    return event => {
+        const debouncedSearch = _.debounce(search, 700);
+        debouncedSearch(event.target.value);
+    };
+}

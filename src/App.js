@@ -77,6 +77,7 @@ class App extends Component {
     }
 
     handleSearch(query) {
+        this.setState({ entries: null });
         helpers.searchFiles(query)
             .then(entries => this.setState({ entries }));
     }

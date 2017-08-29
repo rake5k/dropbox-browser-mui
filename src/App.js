@@ -69,7 +69,7 @@ class App extends Component {
     }
 
     handleFolderClick(path) {
-        this.setState({ entries: null, path });
+        this.setState({ entries: null, isSearching: false, path });
     }
 
     handleViewerClose() {

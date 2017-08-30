@@ -4,10 +4,6 @@ import _ from 'lodash';
 const dbx = new Dropbox({ accessToken: process.env.REACT_APP_DROPBOX_ACCESS_TOKEN });
 
 export async function loadEntries(path) {
-    if (!process.env.REACT_APP_DROPBOX_ACCESS_TOKEN) {
-        throw new Error('Dropbox Access Token required');
-    }
-
     try {
         const { entries } = await dbx.filesListFolder({ path });
         const normalized = _.map(entries, entry => ({

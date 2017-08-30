@@ -30,6 +30,7 @@ class ViewerDialog extends Component {
 
     handleRequestClose = () => {
         this.setState({ open: false });
+        this.props.onClose();
     };
 
     handleOpen = () => {
@@ -39,26 +40,24 @@ class ViewerDialog extends Component {
     render() {
         const { classes, fileLink, fileName } = this.props;
         return (
-            <div>
-                <Dialog
-                    fullScreen
-                    open={this.state.open}
-                    onRequestClose={this.handleRequestClose}
-                    transition={<Slide direction="up" />}
-                >
-                    <AppBar className={classes.appBar}>
-                        <Toolbar>
-                            <IconButton color="contrast" onClick={this.handleRequestClose} aria-label="Close">
-                                <CloseIcon />
-                            </IconButton>
-                            <Typography type="title" color="inherit">
-                                {fileName}
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <Viewer file={fileLink} />
-                </Dialog>
-            </div>
+            <Dialog
+                fullScreen
+                open={this.state.open}
+                onRequestClose={this.handleRequestClose}
+                transition={<Slide direction="up" />}
+            >
+                <AppBar className={classes.appBar}>
+                    <Toolbar>
+                        <IconButton color="contrast" onClick={this.handleRequestClose} aria-label="Close">
+                            <CloseIcon />
+                        </IconButton>
+                        <Typography type="title" color="inherit">
+                            {fileName}
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Viewer file={fileLink} />
+            </Dialog>
         );
     }
 }
@@ -66,6 +65,7 @@ class ViewerDialog extends Component {
 ViewerDialog.propTypes = {
     classes: PropTypes.object.isRequired,
     fileLink: PropTypes.string,
+    onClose: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ViewerDialog);

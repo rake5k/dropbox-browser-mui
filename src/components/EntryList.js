@@ -9,7 +9,14 @@ import Loader from './Loader';
 const styles = theme => ({
     root: {
         background: theme.palette.background.paper,
+        paddingBottom: 56,
         paddingTop: 80,
+        width: '100%',
+    },
+    emptyState: {
+        marginTop: 80,
+        position: 'absolute',
+        textAlign: 'center',
         width: '100%',
     },
 });
@@ -20,7 +27,7 @@ function EntryList({ classes, entries, onFileClick, onFolderClick }) {
     }
 
     if (!entries.length) {
-        return <p>...empty</p>;
+        return <p className={classes.emptyState}>...empty</p>;
     }
 
     return (

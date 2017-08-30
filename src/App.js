@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import EntryList from './components/EntryList';
+import Search from './components/Search';
 import SimpleAppBar from './components/SimpleAppBar';
 import ViewerDialog from './components/ViewerDialog';
 import './App.css';
@@ -14,6 +15,7 @@ class App extends Component {
             entries: null,
             fileLink: null,
             fileName: null,
+            isSearching: false,
             path: '',
         }
     }
@@ -24,7 +26,10 @@ class App extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.path !== prevState.path) {
+        if (
+            this.state.path !== prevState.path
+            || (!this.state.isSearching && prevState.isSearching)
+        ) {
             helpers.loadEntries(this.state.path)
                 .then(entries => this.setState({ entries }));
         }
@@ -39,7 +44,16 @@ class App extends Component {
                     onFileClick={this.handleFileClick.bind(this)}
                     onFolderClick={this.handleFolderClick.bind(this)}
                 />
-                <ViewerDialog fileLink={this.state.fileLink} fileName={this.state.fileName} />
+                <Search
+                    isActive={this.state.isSearching}
+                    onSearch={this.handleSearch.bind(this)}
+                    onToggle={this.handleSearchToggle.bind(this)}
+                />
+                <ViewerDialog
+                    fileLink={this.state.fileLink}
+                    fileName={this.state.fileName}
+                    onClose={this.handleViewerClose.bind(this)}
+                />
             </div>
         );
     }
@@ -55,7 +69,21 @@ class App extends Component {
     }
 
     handleFolderClick(path) {
-        this.setState({ entries: null, path });
+        this.setState({ entries: null, isSearching: false, path });
+    }
+
+    handleViewerClose() {
+        this.setState({ fileLink: null });
+    }
+
+    handleSearch(query) {
+        this.setState({ entries: null });
+        helpers.searchFiles(query)
+            .then(entries => this.setState({ entries }));
+    }
+
+    handleSearchToggle() {
+        this.setState({ isSearching: !this.state.isSearching });
     }
 
 }

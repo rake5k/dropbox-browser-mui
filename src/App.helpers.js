@@ -30,6 +30,8 @@ export async function searchFiles(query) {
         const { matches } = await dbx.filesSearch({
             path: '',
             query,
+            // Searching file contents is only available for Dropbox Business accounts:
+            // http://dropbox.github.io/dropbox-sdk-js/global.html#FilesSearchArg
             mode: { '.tag': 'filename_and_content' }
         });
         const normalized =  _.map(matches, match => ({

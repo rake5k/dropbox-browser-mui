@@ -31,7 +31,11 @@ export async function loadFileLink(path) {
 
 export async function searchFiles(query) {
     try {
-        const { matches } = await dbx.filesSearch({ path: '', query });
+        const { matches } = await dbx.filesSearch({
+            path: '',
+            query,
+            mode: { '.tag': 'filename_and_content' }
+        });
         const normalized =  _.map(matches, match => ({
             name: match.metadata.name,
             path: match.metadata.path_display,

@@ -11,6 +11,7 @@
     "typeface-roboto": "^0.0.35"
   },
   "devDependencies": {
+    "prettier": "^1.6.1",
     "react-scripts": "^1.0.12"
   },
   "scripts": {

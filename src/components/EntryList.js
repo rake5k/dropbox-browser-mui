@@ -41,7 +41,7 @@ function EntryList({ classes, entries, onFileClick, onFolderClick }) {
                 />
             ))}
         </List>
-    )
+    );
 }
 
 EntryList.propTypes = {

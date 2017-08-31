@@ -12,9 +12,7 @@ function Entry(props) {
 
     return (
         <ListItem button onClick={() => onClick(path)}>
-            <Avatar>
-                {type === 'file' ? <FileIcon /> : <FolderIcon />}
-            </Avatar>
+            <Avatar>{type === 'file' ? <FileIcon /> : <FolderIcon />}</Avatar>
             <ListItemText primary={name} secondary="Datum" />
         </ListItem>
     );
@@ -23,7 +21,7 @@ function Entry(props) {
 Entry.propTypes = {
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['file', 'folder'])
+    type: PropTypes.oneOf(['file', 'folder']),
 };
 
 export default Entry;

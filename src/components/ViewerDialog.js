@@ -21,7 +21,7 @@ class ViewerDialog extends Component {
     state = {
         open: false,
     };
-    
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.fileLink) {
             this.handleOpen();
@@ -48,7 +48,11 @@ class ViewerDialog extends Component {
             >
                 <AppBar className={classes.appBar}>
                     <Toolbar>
-                        <IconButton color="contrast" onClick={this.handleRequestClose} aria-label="Close">
+                        <IconButton
+                            color="contrast"
+                            onClick={this.handleRequestClose}
+                            aria-label="Close"
+                        >
                             <CloseIcon />
                         </IconButton>
                         <Typography type="title" color="inherit">

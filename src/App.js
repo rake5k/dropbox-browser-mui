@@ -8,7 +8,6 @@ import './App.css';
 import * as helpers from './App.helpers';
 
 class App extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -17,20 +16,22 @@ class App extends Component {
             fileName: null,
             isSearching: false,
             path: '',
-        }
+        };
     }
 
     componentDidMount() {
-        helpers.loadEntries(this.state.path)
+        helpers
+            .loadEntries(this.state.path)
             .then(entries => this.setState({ entries }));
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (
-            this.state.path !== prevState.path
-            || (!this.state.isSearching && prevState.isSearching)
+            this.state.path !== prevState.path ||
+            (!this.state.isSearching && prevState.isSearching)
         ) {
-            helpers.loadEntries(this.state.path)
+            helpers
+                .loadEntries(this.state.path)
                 .then(entries => this.setState({ entries }));
         }
     }
@@ -59,13 +60,12 @@ class App extends Component {
     }
 
     handleFileClick(path) {
-        helpers.loadFileLink(path)
-            .then(file => {
-                this.setState({
-                    fileLink: file.link,
-                    fileName: file.metadata.name,
-                })
+        helpers.loadFileLink(path).then(file => {
+            this.setState({
+                fileLink: file.link,
+                fileName: file.metadata.name,
             });
+        });
     }
 
     handleFolderClick(path) {
@@ -78,14 +78,12 @@ class App extends Component {
 
     handleSearch(query) {
         this.setState({ entries: null });
-        helpers.searchFiles(query)
-            .then(entries => this.setState({ entries }));
+        helpers.searchFiles(query).then(entries => this.setState({ entries }));
     }
 
     handleSearchToggle() {
         this.setState({ isSearching: !this.state.isSearching });
     }
-
 }
 
 export default App;

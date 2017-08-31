@@ -13,9 +13,7 @@ const styles = theme => ({
 });
 
 function Loader({ classes }) {
-    return (
-        <CircularProgress className={classes.progress} />
-    )
+    return <CircularProgress className={classes.progress} />;
 }
 
 Loader.propTypes = {

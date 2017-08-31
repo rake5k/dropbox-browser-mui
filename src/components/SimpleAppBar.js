@@ -5,6 +5,8 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
+import Logo from './Logo';
+
 const styles = {
     root: {
         position: 'fixed',
@@ -18,6 +20,9 @@ function SimpleAppBar({ classes, title }) {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
+                    <a href="/">
+                        <Logo />
+                    </a>
                     <Typography type="title" color="inherit">
                         {title}
                     </Typography>

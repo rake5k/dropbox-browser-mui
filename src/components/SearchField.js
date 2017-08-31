@@ -34,7 +34,7 @@ function SearchField(props) {
 
 SearchField.propTypes = {
     classes: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired, 
+    onChange: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SearchField);

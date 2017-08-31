@@ -28,10 +28,8 @@ function SearchButton(props) {
             className={classes.button}
             onClick={props.onClick}
             style={moveUp}
-        >    
-            {props.isActive
-                ? <CloseIcon />
-                : <SearchIcon />}
+        >
+            {props.isActive ? <CloseIcon /> : <SearchIcon />}
         </Button>
     );
 }

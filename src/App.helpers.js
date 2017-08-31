@@ -1,7 +1,9 @@
 import Dropbox from 'dropbox';
 import _ from 'lodash';
 
-const dbx = new Dropbox({ accessToken: process.env.REACT_APP_DROPBOX_ACCESS_TOKEN });
+const dbx = new Dropbox({
+    accessToken: process.env.REACT_APP_DROPBOX_ACCESS_TOKEN,
+});
 
 export async function loadEntries(path) {
     try {
@@ -9,7 +11,7 @@ export async function loadEntries(path) {
         const normalized = _.map(entries, entry => ({
             name: entry.name,
             path: entry.path_display,
-            type: entry['.tag']
+            type: entry['.tag'],
         }));
         return orderEntries(normalized);
     } catch (error) {
@@ -22,7 +24,7 @@ export async function loadFileLink(path) {
         return dbx.filesGetTemporaryLink({ path });
     } catch (error) {
         console.log(error);
-    }    
+    }
 }
 
 export async function searchFiles(query) {
@@ -32,17 +34,17 @@ export async function searchFiles(query) {
             query,
             // Searching file contents is only available for Dropbox Business accounts:
             // http://dropbox.github.io/dropbox-sdk-js/global.html#FilesSearchArg
-            mode: { '.tag': 'filename_and_content' }
+            mode: { '.tag': 'filename_and_content' },
         });
-        const normalized =  _.map(matches, match => ({
+        const normalized = _.map(matches, match => ({
             name: match.metadata.name,
             path: match.metadata.path_display,
-            type: match.metadata['.tag']
+            type: match.metadata['.tag'],
         }));
         return orderEntries(normalized);
     } catch (error) {
         console.log(error);
-    }    
+    }
 }
 
 function orderEntries(entries) {
@@ -52,7 +54,10 @@ function orderEntries(entries) {
         .value();
     const files = _(entries)
         .filter(entry => entry.type === 'file')
-        .map(entry => ({ ...entry, year: parseInt(entry.name.split(' - ')[0], 10) }))
+        .map(entry => ({
+            ...entry,
+            year: parseInt(entry.name.split(' - ')[0], 10),
+        }))
         .orderBy(['year', 'name'], ['desc', 'asc'])
         .value();
 

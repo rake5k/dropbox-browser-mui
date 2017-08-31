@@ -6,8 +6,8 @@ import App from './App';
 
 describe('App', () => {
     beforeEach(() => {
-        helpers.loadEntries = jest.fn(async () => (await []));
-        helpers.loadFileLink = jest.fn(async () => (await []));
+        helpers.loadEntries = jest.fn(async () => await []);
+        helpers.loadFileLink = jest.fn(async () => await []);
     });
 
     it('renders without crashing', () => {

@@ -16,12 +16,7 @@ function SearchDrawer(props) {
     const { classes, isOpen, onClose, onSearch } = props;
 
     return (
-        <Drawer
-            anchor="bottom"
-            docked
-            onRequestClose={onClose}
-            open={isOpen}
-        >
+        <Drawer anchor="bottom" docked onRequestClose={onClose} open={isOpen}>
             <div className={classes.searchField}>
                 <SearchField onChange={onSearch} />
             </div>

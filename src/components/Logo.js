@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import Avatar from 'material-ui/Avatar';
 import { withStyles } from 'material-ui/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import logo from '../logo.jpg';
 
 const styles = {
     root: {
-        marginRight: 18,
-        width: 30,
+        marginRight: 16,
     },
 };
 
 function Logo({ classes }) {
-    return <img alt="Logo" className={classes.root} src={logo} />;
+    return <Avatar alt="VSLK-Logo" className={classes.root} src={logo} />;
 }
 
 Logo.propTypes = {

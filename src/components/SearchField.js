@@ -22,6 +22,7 @@ function SearchField(props) {
     return (
         <div className={classes.container}>
             <TextField
+                autoComplete="off"
                 id="search"
                 InputProps={{ placeholder: 'Search files and folders...' }}
                 fullWidth

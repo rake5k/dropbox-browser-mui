@@ -1,27 +1,37 @@
 import _ from 'lodash';
 import Avatar from 'material-ui/Avatar';
+import { lightGreen, lime } from 'material-ui/colors';
+import { ListItem, ListItemText } from 'material-ui/List';
+import { withStyles } from 'material-ui/styles';
 import FolderIcon from 'material-ui-icons/Folder';
 import FileIcon from 'material-ui-icons/InsertDriveFile';
-import { ListItem, ListItemText } from 'material-ui/List';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+const styles = theme => ({
+    file: { backgroundColor: lightGreen[600] },
+    folder: { backgroundColor: lime[700] },
+});
+
 function Entry(props) {
-    const { name, path, type } = props;
+    const { classes, name, path, type } = props;
     const onClick = props[`on${_.upperFirst(type)}Click`];
 
     return (
         <ListItem button onClick={() => onClick(path)}>
-            <Avatar>{type === 'file' ? <FileIcon /> : <FolderIcon />}</Avatar>
+            <Avatar className={classes[type]}>
+                {type === 'file' ? <FileIcon /> : <FolderIcon />}
+            </Avatar>
             <ListItemText primary={name} secondary="Datum" />
         </ListItem>
     );
 }
 
 Entry.propTypes = {
+    classes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['file', 'folder']),
 };
 
-export default Entry;
+export default withStyles(styles)(Entry);

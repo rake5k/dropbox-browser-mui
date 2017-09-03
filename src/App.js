@@ -1,3 +1,6 @@
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import { lightGreen, lime } from 'material-ui/colors';
+import red from 'material-ui/colors/red';
 import React, { Component } from 'react';
 
 import EntryList from './components/EntryList';
@@ -6,6 +9,17 @@ import SimpleAppBar from './components/SimpleAppBar';
 import ViewerDialog from './components/ViewerDialog';
 import './App.css';
 import * as helpers from './App.helpers';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            ...lightGreen,
+            500: lightGreen[700],
+        },
+        secondary: lime,
+        error: red,
+    },
+});
 
 class App extends Component {
     constructor(props) {
@@ -38,24 +52,26 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-                <SimpleAppBar title={process.env.REACT_APP_TITLE} />
-                <EntryList
-                    entries={this.state.entries}
-                    onFileClick={this.handleFileClick.bind(this)}
-                    onFolderClick={this.handleFolderClick.bind(this)}
-                />
-                <Search
-                    isActive={this.state.isSearching}
-                    onSearch={this.handleSearch.bind(this)}
-                    onToggle={this.handleSearchToggle.bind(this)}
-                />
-                <ViewerDialog
-                    fileLink={this.state.fileLink}
-                    fileName={this.state.fileName}
-                    onClose={this.handleViewerClose.bind(this)}
-                />
-            </div>
+            <MuiThemeProvider theme={theme}>
+                <div>
+                    <SimpleAppBar title={process.env.REACT_APP_TITLE} />
+                    <EntryList
+                        entries={this.state.entries}
+                        onFileClick={this.handleFileClick.bind(this)}
+                        onFolderClick={this.handleFolderClick.bind(this)}
+                    />
+                    <Search
+                        isActive={this.state.isSearching}
+                        onSearch={this.handleSearch.bind(this)}
+                        onToggle={this.handleSearchToggle.bind(this)}
+                    />
+                    <ViewerDialog
+                        fileLink={this.state.fileLink}
+                        fileName={this.state.fileName}
+                        onClose={this.handleViewerClose.bind(this)}
+                    />
+                </div>
+            </MuiThemeProvider>
         );
     }
 

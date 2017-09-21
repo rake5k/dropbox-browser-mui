@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Avatar from 'material-ui/Avatar';
 import { lightGreen, lime } from 'material-ui/colors';
 import { ListItem, ListItemText } from 'material-ui/List';
@@ -15,7 +14,6 @@ const styles = theme => ({
 
 function Entry(props) {
     const { classes, name, path, type } = props;
-    const onClick = props[`on${_.upperFirst(type)}Click`];
 
     return (
         <ListItem button component="a" href={path}>

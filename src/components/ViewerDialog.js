@@ -9,7 +9,9 @@ import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
 
+import Loader from './Loader';
 import Viewer from './Viewer';
+import * as helpers from '../App.helpers';
 
 const styles = {
     appBar: {
@@ -19,26 +21,31 @@ const styles = {
 
 class ViewerDialog extends Component {
     state = {
-        open: false,
+        fileLink: null,
+        fileName: null,
+        open: true,
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.fileLink) {
-            this.handleOpen();
-        }
+    componentDidMount() {
+        const path = decodeURIComponent(this.props.location.search).split(
+            'path=',
+        )[1];
+        helpers.loadFileLink(path).then(file => {
+            this.setState({
+                fileLink: file.link,
+                fileName: file.metadata.name,
+            });
+        });
     }
 
-    handleRequestClose = () => {
-        this.setState({ open: false });
-        this.props.onClose();
-    };
-
-    handleOpen = () => {
-        this.setState({ open: true });
-    };
+    // handleRequestClose = () => {
+    //     this.setState({
+    //         fileLink: null,
+    //         open: false,
+    //     });
+    // };
 
     render() {
-        const { classes, fileLink, fileName } = this.props;
         return (
             <Dialog
                 fullScreen
@@ -46,21 +53,25 @@ class ViewerDialog extends Component {
                 onRequestClose={this.handleRequestClose}
                 transition={<Slide direction="up" />}
             >
-                <AppBar className={classes.appBar}>
+                <AppBar className={this.props.classes.appBar}>
                     <Toolbar>
                         <IconButton
                             color="contrast"
-                            onClick={this.handleRequestClose}
                             aria-label="Close"
+                            href="/"
                         >
                             <CloseIcon />
                         </IconButton>
                         <Typography type="title" color="inherit">
-                            {fileName}
+                            {this.state.fileName}
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Viewer file={fileLink} />
+                {this.state.fileLink ? (
+                    <Viewer file={this.state.fileLink} />
+                ) : (
+                    <Loader />
+                )}
             </Dialog>
         );
     }
@@ -69,7 +80,7 @@ class ViewerDialog extends Component {
 ViewerDialog.propTypes = {
     classes: PropTypes.object.isRequired,
     fileLink: PropTypes.string,
-    onClose: PropTypes.func.isRequired,
+    match: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(ViewerDialog);

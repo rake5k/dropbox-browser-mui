@@ -26,29 +26,9 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fileLink: null,
-            fileName: null,
             isSearching: false,
-            path: '',
         };
     }
-
-    // componentDidMount() {
-    //     helpers
-    //         .loadEntries(this.state.path)
-    //         .then(entries => this.setState({ entries }));
-    // }
-
-    // componentDidUpdate(prevProps, prevState) {
-    //     if (
-    //         this.state.path !== prevState.path ||
-    //         (!this.state.isSearching && prevState.isSearching)
-    //     ) {
-    //         helpers
-    //             .loadEntries(this.state.path)
-    //             .then(entries => this.setState({ entries }));
-    //     }
-    // }
 
     render() {
         return (
@@ -56,44 +36,18 @@ class App extends Component {
                 <MuiThemeProvider theme={theme}>
                     <div>
                         <SimpleAppBar title={process.env.REACT_APP_TITLE} />
-                        {/* <EntryList
-                            entries={this.state.entries}
-                            onFileClick={this.handleFileClick.bind(this)}
-                            onFolderClick={this.handleFolderClick.bind(this)}
-                        /> */}
                         <Route exact path="/" component={EntryList} />
-                        <Route path="/:path" component={EntryList} />
+                        <Route path="/browse/:path" component={EntryList} />
                         <Search
                             isActive={this.state.isSearching}
                             onSearch={this.handleSearch.bind(this)}
                             onToggle={this.handleSearchToggle.bind(this)}
                         />
-                        <ViewerDialog
-                            fileLink={this.state.fileLink}
-                            fileName={this.state.fileName}
-                            onClose={this.handleViewerClose.bind(this)}
-                        />
+                        <Route exact path="/view" component={ViewerDialog} />
                     </div>
                 </MuiThemeProvider>
             </Router>
         );
-    }
-
-    handleFileClick(path) {
-        helpers.loadFileLink(path).then(file => {
-            this.setState({
-                fileLink: file.link,
-                fileName: file.metadata.name,
-            });
-        });
-    }
-
-    handleFolderClick(path) {
-        this.setState({ entries: null, isSearching: false, path });
-    }
-
-    handleViewerClose() {
-        this.setState({ fileLink: null });
     }
 
     handleSearch(query) {

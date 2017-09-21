@@ -23,12 +23,9 @@ const styles = theme => ({
 });
 
 class EntryList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            entries: null,
-        };
-    }
+    state = {
+        entries: null,
+    };
 
     static propTypes = {
         classes: PropTypes.object.isRequired,
@@ -36,7 +33,6 @@ class EntryList extends Component {
     };
 
     componentDidMount() {
-        console.log(this.props.match.params);
         helpers
             .loadEntries(
                 this.props.match.params.path
@@ -68,9 +64,13 @@ class EntryList extends Component {
 
         return (
             <List className={this.props.classes.root}>
-                {this.state.entries.map((entry, index) => (
-                    <Entry {...entry} key={index} />
-                ))}
+                {this.state.entries.map((entry, index) => {
+                    entry.path =
+                        entry.type === 'file'
+                            ? `/view?path=${entry.path}`
+                            : `/browse${entry.path}`;
+                    return <Entry {...entry} key={index} />;
+                })}
             </List>
         );
     }

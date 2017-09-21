@@ -2,6 +2,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { lightGreen, lime } from 'material-ui/colors';
 import red from 'material-ui/colors/red';
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import EntryList from './components/EntryList';
 import Search from './components/Search';
@@ -25,7 +26,6 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            entries: null,
             fileLink: null,
             fileName: null,
             isSearching: false,
@@ -33,45 +33,49 @@ class App extends Component {
         };
     }
 
-    componentDidMount() {
-        helpers
-            .loadEntries(this.state.path)
-            .then(entries => this.setState({ entries }));
-    }
+    // componentDidMount() {
+    //     helpers
+    //         .loadEntries(this.state.path)
+    //         .then(entries => this.setState({ entries }));
+    // }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (
-            this.state.path !== prevState.path ||
-            (!this.state.isSearching && prevState.isSearching)
-        ) {
-            helpers
-                .loadEntries(this.state.path)
-                .then(entries => this.setState({ entries }));
-        }
-    }
+    // componentDidUpdate(prevProps, prevState) {
+    //     if (
+    //         this.state.path !== prevState.path ||
+    //         (!this.state.isSearching && prevState.isSearching)
+    //     ) {
+    //         helpers
+    //             .loadEntries(this.state.path)
+    //             .then(entries => this.setState({ entries }));
+    //     }
+    // }
 
     render() {
         return (
-            <MuiThemeProvider theme={theme}>
-                <div>
-                    <SimpleAppBar title={process.env.REACT_APP_TITLE} />
-                    <EntryList
-                        entries={this.state.entries}
-                        onFileClick={this.handleFileClick.bind(this)}
-                        onFolderClick={this.handleFolderClick.bind(this)}
-                    />
-                    <Search
-                        isActive={this.state.isSearching}
-                        onSearch={this.handleSearch.bind(this)}
-                        onToggle={this.handleSearchToggle.bind(this)}
-                    />
-                    <ViewerDialog
-                        fileLink={this.state.fileLink}
-                        fileName={this.state.fileName}
-                        onClose={this.handleViewerClose.bind(this)}
-                    />
-                </div>
-            </MuiThemeProvider>
+            <Router>
+                <MuiThemeProvider theme={theme}>
+                    <div>
+                        <SimpleAppBar title={process.env.REACT_APP_TITLE} />
+                        {/* <EntryList
+                            entries={this.state.entries}
+                            onFileClick={this.handleFileClick.bind(this)}
+                            onFolderClick={this.handleFolderClick.bind(this)}
+                        /> */}
+                        <Route exact path="/" component={EntryList} />
+                        <Route path="/:path" component={EntryList} />
+                        <Search
+                            isActive={this.state.isSearching}
+                            onSearch={this.handleSearch.bind(this)}
+                            onToggle={this.handleSearchToggle.bind(this)}
+                        />
+                        <ViewerDialog
+                            fileLink={this.state.fileLink}
+                            fileName={this.state.fileName}
+                            onClose={this.handleViewerClose.bind(this)}
+                        />
+                    </div>
+                </MuiThemeProvider>
+            </Router>
         );
     }
 

@@ -1,10 +1,11 @@
 import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 
 import Entry from './Entry';
 import Loader from './Loader';
+import * as helpers from '../App.helpers';
 
 const styles = theme => ({
     root: {
@@ -21,31 +22,58 @@ const styles = theme => ({
     },
 });
 
-function EntryList({ classes, entries, onFileClick, onFolderClick }) {
-    if (!entries) {
-        return <Loader />;
+class EntryList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            entries: null,
+        };
     }
 
-    if (!entries.length) {
-        return <p className={classes.emptyState}>...empty</p>;
+    static propTypes = {
+        classes: PropTypes.object.isRequired,
+        match: PropTypes.object.isRequired,
+    };
+
+    componentDidMount() {
+        console.log(this.props.match.params);
+        helpers
+            .loadEntries(
+                this.props.match.params.path
+                    ? `/${this.props.match.params.path}`
+                    : '',
+            )
+            .then(entries => this.setState({ entries }));
     }
 
-    return (
-        <List className={classes.root}>
-            {entries.map((entry, index) => (
-                <Entry
-                    {...entry}
-                    key={index}
-                    onFileClick={onFileClick}
-                    onFolderClick={onFolderClick}
-                />
-            ))}
-        </List>
-    );
+    componentDidUpdate(prevProps, prevState) {
+        if (
+            this.state.path !== prevState.path ||
+            (!this.state.isSearching && prevState.isSearching)
+        ) {
+            helpers
+                .loadEntries(`/${this.props.match.params.path}`)
+                .then(entries => this.setState({ entries }));
+        }
+    }
+
+    render() {
+        if (!this.state.entries) {
+            return <Loader />;
+        }
+
+        if (!this.state.entries.length) {
+            return <p className={this.props.classes.emptyState}>...empty</p>;
+        }
+
+        return (
+            <List className={this.props.classes.root}>
+                {this.state.entries.map((entry, index) => (
+                    <Entry {...entry} key={index} />
+                ))}
+            </List>
+        );
+    }
 }
-
-EntryList.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(EntryList);

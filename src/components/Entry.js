@@ -18,7 +18,7 @@ function Entry(props) {
     const onClick = props[`on${_.upperFirst(type)}Click`];
 
     return (
-        <ListItem button onClick={() => onClick(path)}>
+        <ListItem button component="a" href={path}>
             <Avatar className={classes[type]}>
                 {type === 'file' ? <FileIcon /> : <FolderIcon />}
             </Avatar>

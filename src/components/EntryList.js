@@ -33,20 +33,24 @@ class EntryList extends Component {
     };
 
     componentDidMount() {
-        helpers
-            .loadEntries(
-                this.props.match.params.path
-                    ? `/${this.props.match.params.path}`
-                    : '',
-            )
-            .then(entries => this.setState({ entries }));
+        const path = this.props.location.pathname;
+        helpers.loadFileMetadata(path).then(metadata => {
+            const splitPath = this.props.location.pathname.split('/');
+            splitPath.pop();
+            const parentPath = splitPath.join('/');
+            const path =
+                metadata['.tag'] === 'folder'
+                    ? this.props.location.pathname
+                    : parentPath;
+
+            helpers
+                .loadEntries(path)
+                .then(entries => this.setState({ entries }));
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (
-            this.state.path !== prevState.path ||
-            (!this.state.isSearching && prevState.isSearching)
-        ) {
+        if (!this.state.isSearching && prevState.isSearching) {
             helpers
                 .loadEntries(`/${this.props.match.params.path}`)
                 .then(entries => this.setState({ entries }));
@@ -64,13 +68,9 @@ class EntryList extends Component {
 
         return (
             <List className={this.props.classes.root}>
-                {this.state.entries.map((entry, index) => {
-                    entry.path =
-                        entry.type === 'file'
-                            ? `/view?path=${entry.path}`
-                            : `/browse${entry.path}`;
-                    return <Entry {...entry} key={index} />;
-                })}
+                {this.state.entries.map((entry, index) => (
+                    <Entry {...entry} key={index} />
+                ))}
             </List>
         );
     }

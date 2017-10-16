@@ -37,13 +37,13 @@ class App extends Component {
                     <div>
                         <SimpleAppBar title={process.env.REACT_APP_TITLE} />
                         <Route exact path="/" component={EntryList} />
-                        <Route path="/browse/:path" component={EntryList} />
+                        <Route path="/:path" component={EntryList} />
+                        <Route path="/:path" component={ViewerDialog} />
                         <Search
                             isActive={this.state.isSearching}
                             onSearch={this.handleSearch.bind(this)}
                             onToggle={this.handleSearchToggle.bind(this)}
                         />
-                        <Route exact path="/view" component={ViewerDialog} />
                     </div>
                 </MuiThemeProvider>
             </Router>

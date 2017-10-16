@@ -23,27 +23,29 @@ class ViewerDialog extends Component {
     state = {
         fileLink: null,
         fileName: null,
-        open: true,
+        open: false,
     };
 
     componentDidMount() {
-        const path = decodeURIComponent(this.props.location.search).split(
-            'path=',
-        )[1];
-        helpers.loadFileLink(path).then(file => {
-            this.setState({
-                fileLink: file.link,
-                fileName: file.metadata.name,
-            });
+        const path = this.props.location.pathname;
+        helpers.loadFileMetadata(path).then(metadata => {
+            if (metadata['.tag'] === 'file') {
+                helpers.loadFileLink(path).then(file => {
+                    this.setState({
+                        fileLink: file.link,
+                        fileName: file.metadata.name,
+                        open: true,
+                    });
+                });
+            }
         });
     }
 
-    // handleRequestClose = () => {
-    //     this.setState({
-    //         fileLink: null,
-    //         open: false,
-    //     });
-    // };
+    handleRequestClose = () => {
+        this.setState({
+            open: false,
+        });
+    };
 
     render() {
         return (
@@ -58,7 +60,7 @@ class ViewerDialog extends Component {
                         <IconButton
                             color="contrast"
                             aria-label="Close"
-                            href="/"
+                            onClick={this.handleRequestClose}
                         >
                             <CloseIcon />
                         </IconButton>

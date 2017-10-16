@@ -7,7 +7,9 @@ const dbx = new Dropbox({
 
 export async function loadEntries(path) {
     try {
-        const { entries } = await dbx.filesListFolder({ path });
+        const { entries } = await dbx.filesListFolder({
+            path: path === '/' ? '' : path,
+        });
         const normalized = _.map(entries, entry => ({
             name: entry.name,
             path: entry.path_display,
@@ -22,6 +24,18 @@ export async function loadEntries(path) {
 export async function loadFileLink(path) {
     try {
         return dbx.filesGetTemporaryLink({ path });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function loadFileMetadata(path) {
+    if (path === '' || path === '/') {
+        return { '.tag': 'folder' };
+    }
+
+    try {
+        return dbx.filesGetMetadata({ path });
     } catch (error) {
         console.log(error);
     }

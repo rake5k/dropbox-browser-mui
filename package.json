@@ -15,6 +15,9 @@
     "prettier": "^1.7.0",
     "react-scripts": "1.0.14"
   },
+  "engines": {
+    "node": "8"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

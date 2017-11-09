@@ -53,7 +53,7 @@ class ViewerDialog extends Component {
                 fullScreen
                 open={this.state.open}
                 onRequestClose={this.handleRequestClose}
-                transition={<Slide direction="up" />}
+                transition={props => <Slide direction="up" {...props} />}
             >
                 <AppBar className={this.props.classes.appBar}>
                     <Toolbar>

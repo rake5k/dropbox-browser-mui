@@ -35,17 +35,22 @@ class EntryList extends Component {
     componentDidMount() {
         const path = this.props.location.pathname;
         helpers.loadFileMetadata(path).then(metadata => {
-            const splitPath = this.props.location.pathname.split('/');
-            splitPath.pop();
-            const parentPath = splitPath.join('/');
-            const path =
-                metadata['.tag'] === 'folder'
-                    ? this.props.location.pathname
-                    : parentPath;
+            if (metadata['.tag'] === 'folder') {
+                helpers
+                    .loadEntries(path)
+                    .then(entries => this.setState({ entries }));
+            }
+        });
+    }
 
-            helpers
-                .loadEntries(path)
-                .then(entries => this.setState({ entries }));
+    componentWillReceiveProps(nextProps) {
+        const path = nextProps.location.pathname;
+        helpers.loadFileMetadata(path).then(metadata => {
+            if (metadata['.tag'] === 'folder') {
+                helpers
+                    .loadEntries(path)
+                    .then(entries => this.setState({ entries }));
+            }
         });
     }
 

@@ -6,6 +6,7 @@ import FolderIcon from 'material-ui-icons/Folder';
 import FileIcon from 'material-ui-icons/InsertDriveFile';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
     file: { backgroundColor: lightGreen[600] },
@@ -16,7 +17,7 @@ function Entry(props) {
     const { classes, name, path, type } = props;
 
     return (
-        <ListItem button component="a" href={path}>
+        <ListItem button component={Link} to={path}>
             <Avatar className={classes[type]}>
                 {type === 'file' ? <FileIcon /> : <FolderIcon />}
             </Avatar>

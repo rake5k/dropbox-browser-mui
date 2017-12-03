@@ -14,6 +14,12 @@ import Loader from './Loader';
 import Viewer from './Viewer';
 import * as helpers from '../App.helpers';
 
+const initialState = {
+    fileLink: null,
+    fileName: null,
+    open: false,
+};
+
 const styles = {
     appBar: {
         position: 'relative',
@@ -25,29 +31,24 @@ function Transition(props) {
 }
 
 class ViewerDialog extends Component {
-    state = {
-        fileLink: null,
-        fileName: null,
-        open: false,
-    };
+    constructor(props) {
+        super(props);
+        this.state = initialState;
+    }
 
     componentDidMount() {
-        const path = this.props.location.pathname;
-        helpers.loadFileMetadata(path).then(metadata => {
-            if (metadata['.tag'] === 'file') {
-                helpers.loadFileLink(path).then(file => {
-                    this.setState({
-                        fileLink: file.link,
-                        fileName: file.metadata.name,
-                        open: true,
-                    });
-                });
-            }
-        });
+        this.load(this.props.location.pathname);
     }
 
     componentWillReceiveProps(nextProps) {
-        const path = nextProps.location.pathname;
+        this.load(nextProps.location.pathname);
+    }
+
+    handleRequestClose = () => {
+        this.resetState();
+    };
+
+    load = path => {
         helpers.loadFileMetadata(path).then(metadata => {
             if (metadata['.tag'] === 'file') {
                 helpers.loadFileLink(path).then(file => {
@@ -58,13 +59,13 @@ class ViewerDialog extends Component {
                     });
                 });
             } else {
-                this.setState({ open: false });
+                this.resetState();
             }
         });
-    }
+    };
 
-    handleRequestClose = () => {
-        this.setState({ fileLink: null, fileName: null, open: false });
+    resetState = () => {
+        this.setState(initialState);
     };
 
     render() {

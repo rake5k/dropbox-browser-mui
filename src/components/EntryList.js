@@ -23,35 +23,19 @@ const styles = theme => ({
 });
 
 class EntryList extends Component {
-    state = {
-        entries: null,
-    };
-
-    static propTypes = {
-        classes: PropTypes.object.isRequired,
-        match: PropTypes.object.isRequired,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            entries: null,
+        };
+    }
 
     componentDidMount() {
-        const path = this.props.location.pathname;
-        helpers.loadFileMetadata(path).then(metadata => {
-            if (metadata['.tag'] === 'folder') {
-                helpers
-                    .loadEntries(path)
-                    .then(entries => this.setState({ entries }));
-            }
-        });
+        this.load(this.props.location.pathname);
     }
 
     componentWillReceiveProps(nextProps) {
-        const path = nextProps.location.pathname;
-        helpers.loadFileMetadata(path).then(metadata => {
-            if (metadata['.tag'] === 'folder') {
-                helpers
-                    .loadEntries(path)
-                    .then(entries => this.setState({ entries }));
-            }
-        });
+        this.load(nextProps.location.pathname);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -61,6 +45,16 @@ class EntryList extends Component {
                 .then(entries => this.setState({ entries }));
         }
     }
+
+    load = path => {
+        helpers.loadFileMetadata(path).then(metadata => {
+            if (metadata['.tag'] === 'folder') {
+                helpers
+                    .loadEntries(path)
+                    .then(entries => this.setState({ entries }));
+            }
+        });
+    };
 
     render() {
         if (!this.state.entries) {
@@ -80,5 +74,10 @@ class EntryList extends Component {
         );
     }
 }
+
+EntryList.propTypes = {
+    classes: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(EntryList);

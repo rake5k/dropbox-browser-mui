@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Dialog from 'material-ui/Dialog';
 import AppBar from 'material-ui/AppBar';
@@ -8,6 +6,9 @@ import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Loader from './Loader';
 import Viewer from './Viewer';
@@ -18,6 +19,10 @@ const styles = {
         position: 'relative',
     },
 };
+
+function Transition(props) {
+    return <Slide direction="up" {...props} />;
+}
 
 class ViewerDialog extends Component {
     state = {
@@ -41,26 +46,47 @@ class ViewerDialog extends Component {
         });
     }
 
-    handleRequestClose = () => {
-        this.setState({
-            open: false,
+    componentWillReceiveProps(nextProps) {
+        const path = nextProps.location.pathname;
+        helpers.loadFileMetadata(path).then(metadata => {
+            if (metadata['.tag'] === 'file') {
+                helpers.loadFileLink(path).then(file => {
+                    this.setState({
+                        fileLink: file.link,
+                        fileName: file.metadata.name,
+                        open: true,
+                    });
+                });
+            } else {
+                this.setState({ open: false });
+            }
         });
+    }
+
+    handleRequestClose = () => {
+        this.setState({ fileLink: null, fileName: null, open: false });
     };
 
     render() {
+        const splitPath = this.props.location.pathname.split('/');
+        splitPath.pop();
+        const parentPath = splitPath.join('/');
+
         return (
             <Dialog
                 fullScreen
                 open={this.state.open}
                 onRequestClose={this.handleRequestClose}
-                transition={props => <Slide direction="up" {...props} />}
+                transition={Transition}
             >
                 <AppBar className={this.props.classes.appBar}>
                     <Toolbar>
                         <IconButton
                             color="contrast"
                             aria-label="Close"
+                            component={Link}
                             onClick={this.handleRequestClose}
+                            to={parentPath}
                         >
                             <CloseIcon />
                         </IconButton>

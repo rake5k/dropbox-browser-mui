@@ -38,14 +38,6 @@ class EntryList extends Component {
         this.load(nextProps.location.pathname);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (!this.state.isSearching && prevState.isSearching) {
-            helpers
-                .loadEntries(`/${this.props.match.params.path}`)
-                .then(entries => this.setState({ entries }));
-        }
-    }
-
     load = path => {
         helpers.loadFileMetadata(path).then(metadata => {
             if (metadata['.tag'] === 'folder') {
@@ -56,7 +48,7 @@ class EntryList extends Component {
         });
     };
 
-    render() {
+    render = () => {
         if (!this.state.entries) {
             return <Loader />;
         }
@@ -72,7 +64,7 @@ class EntryList extends Component {
                 ))}
             </List>
         );
-    }
+    };
 }
 
 EntryList.propTypes = {

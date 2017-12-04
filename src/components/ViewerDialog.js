@@ -68,7 +68,7 @@ class ViewerDialog extends Component {
         this.setState(initialState);
     };
 
-    render() {
+    render = () => {
         const splitPath = this.props.location.pathname.split('/');
         splitPath.pop();
         const parentPath = splitPath.join('/');
@@ -103,13 +103,12 @@ class ViewerDialog extends Component {
                 )}
             </Dialog>
         );
-    }
+    };
 }
 
 ViewerDialog.propTypes = {
     classes: PropTypes.object.isRequired,
-    fileLink: PropTypes.string,
-    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(ViewerDialog);

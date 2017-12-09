@@ -9,7 +9,8 @@
     "react": "16.1.0",
     "react-dom": "16.1.0",
     "react-router-dom": "^4.2.2",
-    "typeface-roboto": "^0.0.41"
+    "typeface-roboto": "^0.0.41",
+    "universal-url": "^1.0.0"
   },
   "devDependencies": {
     "prettier": "1.8.2",

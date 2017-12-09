@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Avatar from 'material-ui/Avatar';
 import { lightGreen, lime } from 'material-ui/colors';
 import { ListItem, ListItemText } from 'material-ui/List';
@@ -7,6 +6,7 @@ import FolderIcon from 'material-ui-icons/Folder';
 import FileIcon from 'material-ui-icons/InsertDriveFile';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
     file: { backgroundColor: lightGreen[600] },
@@ -15,10 +15,9 @@ const styles = theme => ({
 
 function Entry(props) {
     const { classes, name, path, type } = props;
-    const onClick = props[`on${_.upperFirst(type)}Click`];
 
     return (
-        <ListItem button onClick={() => onClick(path)}>
+        <ListItem button component={Link} to={path}>
             <Avatar className={classes[type]}>
                 {type === 'file' ? <FileIcon /> : <FolderIcon />}
             </Avatar>

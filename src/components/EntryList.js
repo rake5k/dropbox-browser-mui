@@ -1,10 +1,13 @@
+import _ from 'lodash';
 import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
+import { URLSearchParams } from 'universal-url';
 
 import Entry from './Entry';
 import Loader from './Loader';
+import * as helpers from '../App.helpers';
 
 const styles = theme => ({
     root: {
@@ -21,31 +24,87 @@ const styles = theme => ({
     },
 });
 
-function EntryList({ classes, entries, onFileClick, onFolderClick }) {
-    if (!entries) {
-        return <Loader />;
+class EntryList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            entries: null,
+        };
     }
 
-    if (!entries.length) {
-        return <p className={classes.emptyState}>...empty</p>;
+    componentDidMount() {
+        this.dispatchLoadingData(this.props);
     }
 
-    return (
-        <List className={classes.root}>
-            {entries.map((entry, index) => (
-                <Entry
-                    {...entry}
-                    key={index}
-                    onFileClick={onFileClick}
-                    onFolderClick={onFolderClick}
-                />
-            ))}
-        </List>
-    );
+    componentWillReceiveProps(nextProps) {
+        this.dispatchLoadingData(nextProps);
+    }
+
+    dispatchLoadingData(props) {
+        const params = props.location.search;
+        if (this.isSearchActive(params) && !this.isSearchQueryEmpty(params)) {
+            this.search(this.getSearchQuery(params));
+        } else if (!this.isSearchActive(params)) {
+            this.load(props.location.pathname);
+        }
+    }
+
+    getSearchQuery = params => new URLSearchParams(params).get('search');
+
+    isSearchActive = params => new URLSearchParams(params).has('search');
+
+    isSearchQueryEmpty = params =>
+        _.isEmpty(new URLSearchParams(params).get('search'));
+
+    load = path => {
+        helpers.loadFileMetadata(path).then(metadata => {
+            if (metadata['.tag'] === 'folder') {
+                helpers
+                    .loadEntries(path)
+                    .then(entries => this.setState({ entries }));
+            }
+        });
+    };
+
+    search = query => {
+        helpers.searchFiles(query).then(entries => this.setState({ entries }));
+    };
+
+    render = () => {
+        const params = this.props.location.search;
+        if (this.isSearchActive(params) && this.isSearchQueryEmpty(params)) {
+            return (
+                <div style={{ top: '100px' }}>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />Search...
+                </div>
+            );
+        }
+
+        if (!this.state.entries) {
+            return <Loader />;
+        }
+
+        if (!this.state.entries.length) {
+            return <p className={this.props.classes.emptyState}>...empty</p>;
+        }
+
+        return (
+            <List className={this.props.classes.root}>
+                {this.state.entries.map((entry, index) => (
+                    <Entry {...entry} key={index} />
+                ))}
+            </List>
+        );
+    };
 }
 
 EntryList.propTypes = {
     classes: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(EntryList);

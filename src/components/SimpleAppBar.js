@@ -4,6 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
+import { Link } from 'react-router-dom';
 
 import Logo from './Logo';
 
@@ -20,9 +21,9 @@ function SimpleAppBar({ classes, title }) {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <a href="/">
+                    <Link to="/">
                         <Logo />
-                    </a>
+                    </Link>
                     <Typography type="title" color="inherit">
                         {title}
                     </Typography>

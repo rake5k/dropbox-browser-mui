@@ -9,7 +9,6 @@ import Search from './components/Search';
 import SimpleAppBar from './components/SimpleAppBar';
 import ViewerDialog from './components/ViewerDialog';
 import './App.css';
-import * as helpers from './App.helpers';
 
 const theme = createMuiTheme({
     palette: {
@@ -31,16 +30,7 @@ function App() {
                     <Route exact path="/" component={EntryList} />
                     <Route path="/:path" component={EntryList} />
                     <Route path="/:path" component={ViewerDialog} />
-                    <Route
-                        render={props => (
-                            <Search
-                                {...props}
-                                onSearch={query =>
-                                    helpers.searchFiles(query).then(console.log)
-                                }
-                            />
-                        )}
-                    />
+                    <Route component={Search} />
                 </div>
             </MuiThemeProvider>
         </Router>

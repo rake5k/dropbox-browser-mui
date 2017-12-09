@@ -17,7 +17,6 @@ const styles = theme => ({
 });
 
 function SearchButton(props) {
-    const { classes, component, to } = props;
     const moveUp = props.isActive ? { bottom: 76 } : {};
 
     return (
@@ -25,11 +24,10 @@ function SearchButton(props) {
             fab
             color="primary"
             aria-label="search"
-            className={classes.button}
-            component={component}
-            onClick={props.onClick}
+            className={props.classes.button}
+            component={props.component}
             style={moveUp}
-            to={to}
+            to={props.to}
         >
             {props.isActive ? <CloseIcon /> : <SearchIcon />}
         </Button>
@@ -38,6 +36,9 @@ function SearchButton(props) {
 
 SearchButton.propTypes = {
     classes: PropTypes.object.isRequired,
+    component: PropTypes.func.isRequired,
+    isActive: PropTypes.bool,
+    to: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(SearchButton);

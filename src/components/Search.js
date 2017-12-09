@@ -1,13 +1,12 @@
-import { URLSearchParams } from 'universal-url';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { URLSearchParams } from 'universal-url';
+
 import SearchButton from './SearchButton';
 import SearchDrawer from './SearchDrawer';
 
 export default function Search(props) {
-    const { onSearch } = props;
-
     const params = new URLSearchParams(props.location.search);
     const isActive = params.has('search');
     isActive ? params.delete('search') : params.append('search', '');
@@ -18,11 +17,18 @@ export default function Search(props) {
     return (
         <div>
             <SearchButton isActive={isActive} component={Link} to={to} />
-            <SearchDrawer isOpen={isActive} onSearch={onSearch} />
+            <SearchDrawer
+                isOpen={isActive}
+                onSearch={query => {
+                    params.set('search', query);
+                    props.history.replace({ search: params.toString() });
+                }}
+            />
         </div>
     );
 }
 
 Search.propTypes = {
-    onSearch: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
 };

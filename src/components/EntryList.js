@@ -1,7 +1,9 @@
+import _ from 'lodash';
 import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { URLSearchParams } from 'universal-url';
 
 import Entry from './Entry';
 import Loader from './Loader';
@@ -31,12 +33,28 @@ class EntryList extends Component {
     }
 
     componentDidMount() {
-        this.load(this.props.location.pathname);
+        this.dispatchLoadingData(this.props);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.load(nextProps.location.pathname);
+        this.dispatchLoadingData(nextProps);
     }
+
+    dispatchLoadingData(props) {
+        const params = props.location.search;
+        if (this.isSearchActive(params) && !this.isSearchQueryEmpty(params)) {
+            this.search(this.getSearchQuery(params));
+        } else if (!this.isSearchActive(params)) {
+            this.load(props.location.pathname);
+        }
+    }
+
+    getSearchQuery = params => new URLSearchParams(params).get('search');
+
+    isSearchActive = params => new URLSearchParams(params).has('search');
+
+    isSearchQueryEmpty = params =>
+        _.isEmpty(new URLSearchParams(params).get('search'));
 
     load = path => {
         helpers.loadFileMetadata(path).then(metadata => {
@@ -48,7 +66,24 @@ class EntryList extends Component {
         });
     };
 
+    search = query => {
+        helpers.searchFiles(query).then(entries => this.setState({ entries }));
+    };
+
     render = () => {
+        const params = this.props.location.search;
+        if (this.isSearchActive(params) && this.isSearchQueryEmpty(params)) {
+            return (
+                <div style={{ top: '100px' }}>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />Search...
+                </div>
+            );
+        }
+
         if (!this.state.entries) {
             return <Loader />;
         }
@@ -69,7 +104,7 @@ class EntryList extends Component {
 
 EntryList.propTypes = {
     classes: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(EntryList);

@@ -49,13 +49,13 @@ class ViewerDialog extends Component {
     };
 
     load = path => {
+        this.open();
         helpers.loadFileMetadata(path).then(metadata => {
             if (metadata['.tag'] === 'file') {
                 helpers.loadFileLink(path).then(file => {
                     this.setState({
                         fileLink: file.link,
                         fileName: file.metadata.name,
-                        open: true,
                     });
                 });
             } else {
@@ -63,6 +63,12 @@ class ViewerDialog extends Component {
             }
         });
     };
+
+    open() {
+        if (!this.state.open) {
+            this.setState({ open: true });
+        }
+    }
 
     resetState = () => {
         this.setState(initialState);

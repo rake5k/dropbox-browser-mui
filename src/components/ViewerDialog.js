@@ -49,9 +49,9 @@ class ViewerDialog extends Component {
     };
 
     load = path => {
-        this.open();
         helpers.loadFileMetadata(path).then(metadata => {
             if (metadata['.tag'] === 'file') {
+                this.open();
                 helpers.loadFileLink(path).then(file => {
                     this.setState({
                         fileLink: file.link,

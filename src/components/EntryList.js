@@ -3,7 +3,6 @@ import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { URLSearchParams } from 'universal-url';
 
 import Entry from './Entry';
 import Loader from './Loader';

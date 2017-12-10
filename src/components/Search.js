@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { URLSearchParams } from 'universal-url';
 
 import SearchButton from './SearchButton';
 import SearchDrawer from './SearchDrawer';

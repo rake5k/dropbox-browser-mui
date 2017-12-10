@@ -7,6 +7,7 @@ import { URLSearchParams } from 'universal-url';
 
 import Entry from './Entry';
 import Loader from './Loader';
+import SearchEmptyState from './SearchEmptyState';
 import * as helpers from '../App.helpers';
 
 const styles = theme => ({
@@ -73,15 +74,7 @@ class EntryList extends Component {
     render = () => {
         const params = this.props.location.search;
         if (this.isSearchActive(params) && this.isSearchQueryEmpty(params)) {
-            return (
-                <div style={{ top: '100px' }}>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />Search...
-                </div>
-            );
+            return <SearchEmptyState />;
         }
 
         if (!this.state.entries) {

@@ -3,6 +3,7 @@ import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 
 import Entry from './Entry';
 import Loader from './Loader';
@@ -70,7 +71,27 @@ class EntryList extends Component {
     };
 
     render = () => {
+        return (
+            <div>
+                {this.renderHead()}
+                {this.renderContent()}
+            </div>
+        );
+    };
+
+    renderHead = () => (
+        <Helmet>
+            <title>
+                {this.props.location.pathname.split('/').pop() || 'Start'}
+                {' - '}
+                {process.env.REACT_APP_TITLE}
+            </title>
+        </Helmet>
+    );
+
+    renderContent = () => {
         const params = this.props.location.search;
+
         if (this.isSearchActive(params) && this.isSearchQueryEmpty(params)) {
             return (
                 <div style={{ top: '100px' }}>

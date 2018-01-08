@@ -17,19 +17,12 @@ class SearchDrawer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isClosing: false,
             open: props.isOpen,
-            value: '',
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        const isClosing =
-            this.props.isOpen === true && nextProps.isOpen === false;
-        this.setState({
-            value: isClosing ? '' : this.state.value,
-            open: nextProps.isOpen,
-        });
+        this.setState({ open: nextProps.isOpen });
     }
 
     debouncedSearch = _.debounce(this.props.onSearch, 700);
@@ -44,11 +37,9 @@ class SearchDrawer extends Component {
         return (
             <Drawer anchor="bottom" open={this.state.open} type="persistent">
                 <div className={this.props.classes.searchField}>
-                    <SearchField
-                        onChange={this.handleSearch}
-                        resetValue={this.state.isClosing}
-                        value={this.state.value}
-                    />
+                    {this.state.open && (
+                        <SearchField onChange={this.handleSearch} />
+                    )}
                 </div>
             </Drawer>
         );

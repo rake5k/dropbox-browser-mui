@@ -29,7 +29,9 @@ class SearchDrawer extends Component {
 
     handleSearch = value => {
         this.debouncedSearch.cancel();
-        this.debouncedSearch(value);
+        if (value) {
+            this.debouncedSearch(value);
+        }
     };
 
     render = () => {

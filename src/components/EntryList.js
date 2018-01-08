@@ -47,6 +47,7 @@ class EntryList extends Component {
             this.setState({ entries: null });
             this.search(this.getSearchQuery(params));
         } else if (!this.isSearchActive(params)) {
+            this.setState({ entries: null });
             this.load(props.location.pathname);
         }
     }

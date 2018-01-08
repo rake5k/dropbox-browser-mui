@@ -32,10 +32,12 @@ class SearchDrawer extends Component {
         });
     }
 
+    debouncedSearch = _.debounce(this.props.onSearch, 700);
+
     handleSearch = value => {
         this.setState({ value });
-        const debouncedSearch = _.debounce(this.props.onSearch, 700);
-        debouncedSearch(value);
+        this.debouncedSearch.cancel();
+        this.debouncedSearch(value);
     };
 
     render = () => {

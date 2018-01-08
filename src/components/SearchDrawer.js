@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Drawer from 'material-ui/Drawer';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
@@ -16,19 +17,36 @@ class SearchDrawer extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isClosing: false,
             open: props.isOpen,
+            value: '',
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ open: nextProps.isOpen });
+        const isClosing =
+            this.props.isOpen === true && nextProps.isOpen === false;
+        this.setState({
+            value: isClosing ? '' : this.state.value,
+            open: nextProps.isOpen,
+        });
     }
+
+    handleSearch = value => {
+        this.setState({ value });
+        const debouncedSearch = _.debounce(this.props.onSearch, 700);
+        debouncedSearch(value);
+    };
 
     render = () => {
         return (
             <Drawer anchor="bottom" open={this.state.open} type="persistent">
                 <div className={this.props.classes.searchField}>
-                    <SearchField onChange={this.props.onSearch} />
+                    <SearchField
+                        onChange={this.handleSearch}
+                        resetValue={this.state.isClosing}
+                        value={this.state.value}
+                    />
                 </div>
             </Drawer>
         );

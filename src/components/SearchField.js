@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
@@ -17,7 +16,7 @@ const styles = theme => ({
 });
 
 function SearchField(props) {
-    const { classes, onChange } = props;
+    const { classes, onChange, value } = props;
 
     return (
         <div className={classes.container}>
@@ -28,6 +27,7 @@ function SearchField(props) {
                 fullWidth
                 margin="normal"
                 onChange={handleChange(onChange)}
+                value={value}
             />
         </div>
     );
@@ -36,13 +36,11 @@ function SearchField(props) {
 SearchField.propTypes = {
     classes: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
+    resetValue: PropTypes.bool,
 };
 
 export default withStyles(styles)(SearchField);
 
-function handleChange(search) {
-    return event => {
-        const debouncedSearch = _.debounce(search, 700);
-        debouncedSearch(event.target.value);
-    };
+function handleChange(onChange) {
+    return event => onChange(event.target.value);
 }

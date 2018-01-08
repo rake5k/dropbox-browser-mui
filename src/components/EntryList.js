@@ -44,6 +44,7 @@ class EntryList extends Component {
     dispatchLoadingData(props) {
         const params = props.location.search;
         if (this.isSearchActive(params) && !this.isSearchQueryEmpty(params)) {
+            this.setState({ entries: null });
             this.search(this.getSearchQuery(params));
         } else if (!this.isSearchActive(params)) {
             this.load(props.location.pathname);

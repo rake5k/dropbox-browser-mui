@@ -13,7 +13,6 @@ const styles = theme => ({
     },
     icon: {
         height: 128,
-        margin: 40,
         width: 128,
     },
 });

@@ -1,6 +1,5 @@
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/fontawesome-free-solid';
 import { withStyles } from 'material-ui/styles';
+import SearchIcon from 'material-ui-icons/Search';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -13,15 +12,16 @@ const styles = theme => ({
         width: '100%',
     },
     icon: {
-        fontSize: '128pt',
+        height: 128,
         margin: 40,
+        width: 128,
     },
 });
 
 function SearchEmptyState({ classes }) {
     return (
         <div className={classes.emptyState}>
-            <FontAwesomeIcon className={classes.icon} icon={faSearch} />
+            <SearchIcon className={classes.icon} />
             <div>Begin typing to start the search</div>
         </div>
     );

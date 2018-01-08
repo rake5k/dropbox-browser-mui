@@ -26,12 +26,7 @@ class SearchDrawer extends Component {
 
     render = () => {
         return (
-            <Drawer
-                anchor="bottom"
-                onRequestClose={this.handleRequestClose}
-                open={this.state.open}
-                type="persistent"
-            >
+            <Drawer anchor="bottom" open={this.state.open} type="persistent">
                 <div className={this.props.classes.searchField}>
                     <SearchField onChange={this.props.onSearch} />
                 </div>

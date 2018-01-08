@@ -44,7 +44,7 @@ class ViewerDialog extends Component {
         this.load(nextProps.location.pathname);
     }
 
-    handleRequestClose = () => {
+    handleClose = () => {
         this.resetState();
     };
 
@@ -83,7 +83,7 @@ class ViewerDialog extends Component {
             <Dialog
                 fullScreen
                 open={this.state.open}
-                onRequestClose={this.handleRequestClose}
+                onClose={this.handleClose}
                 transition={Transition}
             >
                 <AppBar className={this.props.classes.appBar}>
@@ -92,7 +92,7 @@ class ViewerDialog extends Component {
                             color="contrast"
                             aria-label="Close"
                             component={Link}
-                            onClick={this.handleRequestClose}
+                            onClick={this.handleClose}
                             to={parentPath}
                         >
                             <CloseIcon />

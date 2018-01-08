@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet';
 
 import Entry from './Entry';
 import Loader from './Loader';
+import SearchEmptyState from './SearchEmptyState';
 import * as helpers from '../App.helpers';
 
 const styles = theme => ({
@@ -43,8 +44,10 @@ class EntryList extends Component {
     dispatchLoadingData(props) {
         const params = props.location.search;
         if (this.isSearchActive(params) && !this.isSearchQueryEmpty(params)) {
+            this.setState({ entries: null });
             this.search(this.getSearchQuery(params));
         } else if (!this.isSearchActive(params)) {
+            this.setState({ entries: null });
             this.load(props.location.pathname);
         }
     }
@@ -93,15 +96,7 @@ class EntryList extends Component {
         const params = this.props.location.search;
 
         if (this.isSearchActive(params) && this.isSearchQueryEmpty(params)) {
-            return (
-                <div style={{ top: '100px' }}>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />Search...
-                </div>
-            );
+            return <SearchEmptyState />;
         }
 
         if (!this.state.entries) {

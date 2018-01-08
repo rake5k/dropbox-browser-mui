@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
@@ -23,8 +22,9 @@ function SearchField(props) {
         <div className={classes.container}>
             <TextField
                 autoComplete="off"
+                autoFocus
                 id="search"
-                InputProps={{ placeholder: 'Search files and folders...' }}
+                inputProps={{ placeholder: 'Search files and folders...' }}
                 fullWidth
                 margin="normal"
                 onChange={handleChange(onChange)}
@@ -40,9 +40,6 @@ SearchField.propTypes = {
 
 export default withStyles(styles)(SearchField);
 
-function handleChange(search) {
-    return event => {
-        const debouncedSearch = _.debounce(search, 700);
-        debouncedSearch(event.target.value);
-    };
+function handleChange(onChange) {
+    return event => onChange(event.target.value);
 }

@@ -4,6 +4,7 @@ import { ListItem, ListItemText } from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import FolderIcon from 'material-ui-icons/Folder';
 import FileIcon from 'material-ui-icons/InsertDriveFile';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -21,7 +22,10 @@ function Entry(props) {
             <Avatar className={classes[type]}>
                 {type === 'file' ? <FileIcon /> : <FolderIcon />}
             </Avatar>
-            <ListItemText primary={name} secondary={date} />
+            <ListItemText
+                primary={name}
+                secondary={date && moment(date).format('LLL')}
+            />
         </ListItem>
     );
 }

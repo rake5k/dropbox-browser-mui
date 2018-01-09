@@ -1,13 +1,15 @@
 import _ from 'lodash';
 import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
+import EmptyIcon from 'material-ui-icons/Weekend';
+import SearchEmptyIcon from 'material-ui-icons/Search';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 
+import EmptyState from './EmptyState';
 import Entry from './Entry';
 import Loader from './Loader';
-import SearchEmptyState from './SearchEmptyState';
 import * as helpers from '../App.helpers';
 
 const styles = theme => ({
@@ -96,7 +98,10 @@ class EntryList extends Component {
         const params = this.props.location.search;
 
         if (this.isSearchActive(params) && this.isSearchQueryEmpty(params)) {
-            return <SearchEmptyState />;
+            const description = 'Begin typing to start the search';
+            return (
+                <EmptyState description={description} Icon={SearchEmptyIcon} />
+            );
         }
 
         if (!this.state.entries) {
@@ -104,7 +109,8 @@ class EntryList extends Component {
         }
 
         if (!this.state.entries.length) {
-            return <p className={this.props.classes.emptyState}>...empty</p>;
+            const description = 'No results here';
+            return <EmptyState description={description} Icon={EmptyIcon} />;
         }
 
         return (

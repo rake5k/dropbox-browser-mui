@@ -1,5 +1,4 @@
 import { withStyles } from 'material-ui/styles';
-import SearchIcon from 'material-ui-icons/Search';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -17,17 +16,19 @@ const styles = theme => ({
     },
 });
 
-function SearchEmptyState({ classes }) {
+function EmptyState({ classes, description, Icon }) {
     return (
         <div className={classes.emptyState}>
-            <SearchIcon className={classes.icon} />
-            <div>Begin typing to start the search</div>
+            <Icon className={classes.icon} />
+            <div>{description}</div>
         </div>
     );
 }
 
-SearchEmptyState.propTypes = {
+EmptyState.propTypes = {
     classes: PropTypes.object.isRequired,
+    description: PropTypes.string.isRequired,
+    Icon: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(SearchEmptyState);
+export default withStyles(styles)(EmptyState);

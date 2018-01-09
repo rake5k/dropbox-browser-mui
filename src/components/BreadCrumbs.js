@@ -21,6 +21,7 @@ const styles = {
         color: 'inherit',
     },
     row: {
+        flex: 0,
         marginLeft: 15,
         textAlign: 'right',
         whiteSpace: 'nowrap',

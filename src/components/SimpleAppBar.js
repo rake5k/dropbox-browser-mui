@@ -15,8 +15,11 @@ const styles = {
         width: '100%',
         zIndex: 1000,
     },
-    flex: {
+    title: {
         flex: 1,
+        minWidth: 65,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
     },
 };
@@ -32,7 +35,7 @@ function SimpleAppBar({ classes, location }) {
                     <Typography
                         type="title"
                         color="inherit"
-                        className={classes.flex}
+                        className={classes.title}
                     >
                         {process.env.REACT_APP_TITLE}
                     </Typography>

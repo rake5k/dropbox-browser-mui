@@ -14,14 +14,14 @@ const styles = theme => ({
 });
 
 function Entry(props) {
-    const { classes, name, path, type } = props;
+    const { classes, date, name, path, type } = props;
 
     return (
         <ListItem button component={Link} to={path}>
             <Avatar className={classes[type]}>
                 {type === 'file' ? <FileIcon /> : <FolderIcon />}
             </Avatar>
-            <ListItemText primary={name} secondary="Datum" />
+            <ListItemText primary={name} secondary={date} />
         </ListItem>
     );
 }

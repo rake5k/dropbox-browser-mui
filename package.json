@@ -6,6 +6,7 @@
     "dropbox": "^2.5.13",
     "material-ui": "^1.0.0-beta.27",
     "material-ui-icons": "^1.0.0-beta.17",
+    "moment": "^2.20.1",
     "react": "16.1.0",
     "react-dom": "16.1.0",
     "react-helmet": "^5.2.0",

@@ -11,6 +11,7 @@ export async function loadEntries(path) {
             path: path === '/' ? '' : path,
         });
         const normalized = _.map(entries, entry => ({
+            date: entry.client_modified,
             name: entry.name,
             path: entry.path_display,
             type: entry['.tag'],

@@ -26,7 +26,7 @@ function App() {
         <Router>
             <MuiThemeProvider theme={theme}>
                 <div>
-                    <SimpleAppBar title={process.env.REACT_APP_TITLE} />
+                    <Route component={SimpleAppBar} />
                     <Route exact path="/" component={EntryList} />
                     <Route path="/:path" component={EntryList} />
                     <Route path="/:path" component={ViewerDialog} />

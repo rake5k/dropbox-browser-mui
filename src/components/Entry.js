@@ -32,6 +32,7 @@ function Entry(props) {
 
 Entry.propTypes = {
     classes: PropTypes.object.isRequired,
+    date: PropTypes.string,
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['file', 'folder']),

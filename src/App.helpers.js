@@ -10,12 +10,7 @@ export async function loadEntries(path) {
         const { entries } = await dbx.filesListFolder({
             path: path === '/' ? '' : path,
         });
-        const normalized = _.map(entries, entry => ({
-            date: entry.client_modified,
-            name: entry.name,
-            path: entry.path_display,
-            type: entry['.tag'],
-        }));
+        const normalized = _.map(entries, normalizeEntry);
         return orderEntries(normalized);
     } catch (error) {
         console.log(error);
@@ -51,15 +46,22 @@ export async function searchFiles(query) {
             // http://dropbox.github.io/dropbox-sdk-js/global.html#FilesSearchArg
             mode: { '.tag': 'filename_and_content' },
         });
-        const normalized = _.map(matches, match => ({
-            name: match.metadata.name,
-            path: match.metadata.path_display,
-            type: match.metadata['.tag'],
-        }));
+        const normalized = _.map(matches, match =>
+            normalizeEntry(match.metadata),
+        );
         return orderEntries(normalized);
     } catch (error) {
         console.log(error);
     }
+}
+
+function normalizeEntry(entry) {
+    return {
+        date: entry.client_modified,
+        name: entry.name,
+        path: entry.path_display,
+        type: entry['.tag'],
+    };
 }
 
 function orderEntries(entries) {

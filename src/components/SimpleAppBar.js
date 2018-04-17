@@ -24,7 +24,7 @@ function SimpleAppBar({ classes, title }) {
                     <Link to="/">
                         <Logo />
                     </Link>
-                    <Typography type="title" color="inherit">
+                    <Typography variant="title" color="inherit">
                         {title}
                     </Typography>
                 </Toolbar>

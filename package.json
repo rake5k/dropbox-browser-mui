@@ -3,19 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "dropbox": "^2.5.13",
-    "material-ui": "^1.0.0-beta.27",
-    "material-ui-icons": "^1.0.0-beta.17",
-    "moment": "^2.20.1",
-    "react": "16.1.0",
-    "react-dom": "16.1.0",
+    "dropbox": "^4.0.3",
+    "material-ui": "^1.0.0-beta.36",
+    "material-ui-icons": "^1.0.0-beta.36",
+    "moment": "^2.22.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
     "react-helmet": "^5.2.0",
     "react-router-dom": "^4.2.2",
-    "typeface-roboto": "^0.0.41"
+    "typeface-roboto": "^0.0.54"
   },
   "devDependencies": {
-    "prettier": "1.8.2",
-    "react-scripts": "1.0.14"
+    "prettier": "^1.12.1",
+    "react-scripts": "1.1.4"
   },
   "engines": {
     "node": "8"

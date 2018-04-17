@@ -1,6 +1,4 @@
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { lightGreen, lime } from 'material-ui/colors';
-import red from 'material-ui/colors/red';
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -13,11 +11,15 @@ import './App.css';
 const theme = createMuiTheme({
     palette: {
         primary: {
-            ...lightGreen,
-            500: lightGreen[700],
+            light: '#99d066',
+            main: '#689f38',
+            dark: '#387002'
         },
-        secondary: lime,
-        error: red,
+        secondary: {
+            light: '#99d066',
+            main: '#689f38',
+            dark: '#387002'
+        },
     },
 });
 

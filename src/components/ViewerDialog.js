@@ -89,7 +89,7 @@ class ViewerDialog extends Component {
                 <AppBar className={this.props.classes.appBar}>
                     <Toolbar>
                         <IconButton
-                            color="contrast"
+                            color="inherit"
                             aria-label="Close"
                             component={Link}
                             onClick={this.handleClose}
@@ -97,7 +97,7 @@ class ViewerDialog extends Component {
                         >
                             <CloseIcon />
                         </IconButton>
-                        <Typography type="title" color="inherit">
+                        <Typography variant="title" color="inherit">
                             {this.state.fileName}
                         </Typography>
                     </Toolbar>

@@ -1,4 +1,4 @@
-import Dropbox from 'dropbox';
+import { Dropbox } from 'dropbox';
 import _ from 'lodash';
 
 const dbx = new Dropbox({

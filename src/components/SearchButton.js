@@ -21,7 +21,7 @@ function SearchButton(props) {
 
     return (
         <Button
-            fab
+            variant="fab"
             color="primary"
             aria-label="search"
             className={props.classes.button}

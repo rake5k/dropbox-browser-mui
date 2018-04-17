@@ -6,7 +6,6 @@ import EntryList from './components/EntryList';
 import Search from './components/Search';
 import SimpleAppBar from './components/SimpleAppBar';
 import ViewerDialog from './components/ViewerDialog';
-import './App.css';
 
 const theme = createMuiTheme({
     palette: {

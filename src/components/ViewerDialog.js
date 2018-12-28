@@ -46,6 +46,10 @@ class ViewerDialog extends Component {
         this.load(nextProps.location.pathname);
     }
 
+    componentWillUnmount() {
+        this.isCancelled = true;
+    }
+
     handleClose = () => {
         this.resetState();
     };
@@ -54,26 +58,32 @@ class ViewerDialog extends Component {
         helpers.loadFileMetadata(path).then(metadata => {
             if (metadata['.tag'] === 'file') {
                 this.open();
-                helpers.loadFileLink(path).then(file => {
-                    this.setState({
-                        fileLink: file.link,
-                        fileName: file.metadata.name,
-                    });
-                });
+                helpers.loadFileLink(path).then(this.setFile);
             } else {
                 this.resetState();
             }
         });
     };
 
-    open() {
-        if (!this.state.open) {
+    open = () => {
+        if (!this.state.open && !this.isCancelled) {
             this.setState({ open: true });
         }
-    }
+    };
+
+    setFile = file => {
+        if (!this.isCancelled) {
+            this.setState({
+                fileLink: file.link,
+                fileName: file.metadata.name,
+            });
+        }
+    };
 
     resetState = () => {
-        this.setState(initialState);
+        if (!this.isCancelled) {
+            this.setState(initialState);
+        }
     };
 
     render = () => {

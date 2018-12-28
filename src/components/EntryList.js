@@ -42,13 +42,17 @@ class EntryList extends Component {
         this.dispatchLoadingData(nextProps);
     }
 
+    componentWillUnmount() {
+        this.isCancelled = true;
+    }
+
     dispatchLoadingData(props) {
         const params = props.location.search;
         if (this.isSearchActive(params) && !this.isSearchQueryEmpty(params)) {
-            this.setState({ entries: null });
+            this.setEntries(null);
             this.search(this.getSearchQuery(params));
         } else if (!this.isSearchActive(params)) {
-            this.setState({ entries: null });
+            this.setEntries(null);
             this.load(props.location.pathname);
         }
     }
@@ -63,15 +67,19 @@ class EntryList extends Component {
     load = path => {
         helpers.loadFileMetadata(path).then(metadata => {
             if (metadata['.tag'] === 'folder') {
-                helpers
-                    .loadEntries(path)
-                    .then(entries => this.setState({ entries }));
+                helpers.loadEntries(path).then(this.setEntries);
             }
         });
     };
 
     search = query => {
-        helpers.searchFiles(query).then(entries => this.setState({ entries }));
+        helpers.searchFiles(query).then(this.setEntries);
+    };
+
+    setEntries = entries => {
+        if (!this.isCancelled) {
+            this.setState({ entries });
+        }
     };
 
     render = () => {

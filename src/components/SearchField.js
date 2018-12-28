@@ -1,5 +1,5 @@
-import { withStyles } from 'material-ui/styles';
-import TextField from 'material-ui/TextField';
+import { TextField } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 

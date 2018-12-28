@@ -1,4 +1,4 @@
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -12,13 +12,16 @@ const theme = createMuiTheme({
         primary: {
             light: '#99d066',
             main: '#689f38',
-            dark: '#387002'
+            dark: '#387002',
         },
         secondary: {
             light: '#99d066',
             main: '#689f38',
-            dark: '#387002'
+            dark: '#387002',
         },
+    },
+    typography: {
+        useNextVariants: true,
     },
 });
 

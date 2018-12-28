@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import Drawer from 'material-ui/Drawer';
-import { withStyles } from 'material-ui/styles';
+import { Drawer } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 

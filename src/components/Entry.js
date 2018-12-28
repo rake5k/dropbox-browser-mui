@@ -1,9 +1,9 @@
-import Avatar from 'material-ui/Avatar';
-import { lightGreen, lime } from 'material-ui/colors';
-import { ListItem, ListItemText } from 'material-ui/List';
-import { withStyles } from 'material-ui/styles';
-import FolderIcon from 'material-ui-icons/Folder';
-import FileIcon from 'material-ui-icons/InsertDriveFile';
+import Avatar from '@material-ui/core/Avatar';
+import { lightGreen, lime } from '@material-ui/core/colors';
+import ListItem from '@material-ui/core/ListItem';
+import { ListItemText } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { Folder, InsertDriveFile as File } from '@material-ui/icons';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -20,7 +20,7 @@ function Entry(props) {
     return (
         <ListItem button component={Link} to={path}>
             <Avatar className={classes[type]}>
-                {type === 'file' ? <FileIcon /> : <FolderIcon />}
+                {type === 'file' ? <File /> : <Folder />}
             </Avatar>
             <ListItemText
                 primary={name}

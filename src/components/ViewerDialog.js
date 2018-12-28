@@ -1,11 +1,13 @@
-import { withStyles } from 'material-ui/styles';
-import Dialog from 'material-ui/Dialog';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
-import CloseIcon from 'material-ui-icons/Close';
-import Slide from 'material-ui/transitions/Slide';
+import {
+    AppBar,
+    Dialog,
+    IconButton,
+    Slide,
+    Toolbar,
+    Typography,
+} from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { Close } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
@@ -84,7 +86,7 @@ class ViewerDialog extends Component {
                 fullScreen
                 open={this.state.open}
                 onClose={this.handleClose}
-                transition={Transition}
+                TransitionComponent={Transition}
             >
                 <AppBar className={this.props.classes.appBar}>
                     <Toolbar>
@@ -95,7 +97,7 @@ class ViewerDialog extends Component {
                             onClick={this.handleClose}
                             to={parentPath}
                         >
-                            <CloseIcon />
+                            <Close />
                         </IconButton>
                         <Typography variant="title" color="inherit">
                             {this.state.fileName}

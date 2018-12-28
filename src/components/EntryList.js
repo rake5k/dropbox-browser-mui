@@ -1,8 +1,7 @@
 import _ from 'lodash';
-import List from 'material-ui/List';
-import { withStyles } from 'material-ui/styles';
-import EmptyIcon from 'material-ui-icons/Weekend';
-import SearchEmptyIcon from 'material-ui-icons/Search';
+import { List } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { Weekend as Empty, Search as SearchEmpty } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
@@ -99,9 +98,7 @@ class EntryList extends Component {
 
         if (this.isSearchActive(params) && this.isSearchQueryEmpty(params)) {
             const description = 'Begin typing to start the search';
-            return (
-                <EmptyState description={description} Icon={SearchEmptyIcon} />
-            );
+            return <EmptyState description={description} Icon={SearchEmpty} />;
         }
 
         if (!this.state.entries) {
@@ -110,7 +107,7 @@ class EntryList extends Component {
 
         if (!this.state.entries.length) {
             const description = 'No results here';
-            return <EmptyState description={description} Icon={EmptyIcon} />;
+            return <EmptyState description={description} Icon={Empty} />;
         }
 
         return (

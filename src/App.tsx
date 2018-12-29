@@ -25,7 +25,7 @@ const theme = createMuiTheme({
     },
 });
 
-function App() {
+function App(): JSX.Element {
     return (
         <Router>
             <MuiThemeProvider theme={theme}>

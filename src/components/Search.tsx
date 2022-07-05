@@ -39,8 +39,8 @@ export default function Search(props: SearchProps): JSX.Element {
             <SearchButton isActive={isActive} component={link} />
             <SearchDrawer
                 isOpen={isActive}
-                onSearch={query => {
-                    params.set('search', query);
+                onSearch={q => {
+                    params.set('search', q);
                     props.history.replace({
                         search: params.toString(),
                     });

@@ -6,7 +6,6 @@ import {
     Toolbar,
     Typography,
 } from '@material-ui/core';
-import { SlideProps } from '@material-ui/core/Slide';
 import { Close } from '@material-ui/icons';
 import { Location } from 'history';
 import React, { Component } from 'react';

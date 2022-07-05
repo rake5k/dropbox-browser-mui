@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.7.1",
     "@material-ui/icons": "^3.0.1",
-    "@types/isomorphic-fetch": "^0.0.34",
+    "@types/isomorphic-fetch": "^0.0.36",
     "@types/jest": "^23.3.11",
     "@types/lodash": "^4.14.182",
     "@types/node": "^10.12.18",

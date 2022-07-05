@@ -26,8 +26,8 @@ const initialState = {
     open: false,
 };
 
-function Transition(props: SlideProps) {
-    return <Slide direction="up" {...props} />;
+function Transition() {
+    return <Slide direction="up" />;
 }
 
 interface ViewerDialogProps {

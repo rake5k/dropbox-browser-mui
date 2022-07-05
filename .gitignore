@@ -1,5 +1,9 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+# dev environment
+/result
+/.pre-commit-config.yaml
+
 # dependencies
 /node_modules
 

@@ -1,4 +1,4 @@
-import { Dropbox } from 'dropbox';
+import DropboxTypes, {Dropbox} from 'dropbox';
 import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 
@@ -7,14 +7,14 @@ import * as types from './common/types';
 const dbx = new Dropbox({
     accessToken: process.env.REACT_APP_DROPBOX_ACCESS_TOKEN,
     fetch,
-} as any); // Quick fix for: https://github.com/dropbox/dropbox-sdk-js/issues/221
+});
 
 export async function loadEntries(path: string): Promise<types.Entry[]> {
     return dbx
         .filesListFolder({ path: path === '/' ? '' : path })
         .then(res =>
             orderEntries(
-                res.entries
+                res.result.entries
                     .filter(entry => entry['.tag'] !== 'deleted')
                     .map(normalizeEntry),
             ),
@@ -23,8 +23,8 @@ export async function loadEntries(path: string): Promise<types.Entry[]> {
 
 export async function loadFile(path: string): Promise<types.File> {
     return dbx.filesGetTemporaryLink({ path }).then(res => ({
-        name: res.metadata.name,
-        link: res.link,
+        name: res.result.metadata.name,
+        link: res.result.link,
     }));
 }
 
@@ -35,20 +35,22 @@ export async function loadEntryType(
         return 'folder';
     }
 
-    return dbx.filesGetMetadata({ path }).then(res => res['.tag']);
+    return dbx.filesGetMetadata({ path }).then(res => res.result['.tag']);
 }
 
 export async function search(query: string): Promise<types.Entry[]> {
     return dbx
-        .filesSearch({
-            path: '',
+        .filesSearchV2({
             query,
-            // Searching file contents is only available for Dropbox Business accounts:
-            // http://dropbox.github.io/dropbox-sdk-js/global.html#FilesSearchArg
-            mode: { '.tag': 'filename_and_content' },
+            options: {
+                path: ''
+            },
         })
         .then(res => {
-            const entries = res.matches
+            const entries = res.result.matches
+                .map(match => match.metadata)
+                .filter(match => match['.tag'] == 'metadata')
+                .map(match => (match as DropboxTypes.files.MetadataV2Metadata))
                 .filter(match => match.metadata['.tag'] !== 'deleted')
                 .map(match => normalizeEntry(match.metadata));
             return orderEntries(entries);
@@ -73,17 +75,13 @@ function orderEntries(entries: types.Entry[]): types.Entry[] {
 }
 
 function normalizeEntry(
-    entry: DropboxTypes.files.MetadataReference,
+    entry: DropboxTypes.files.FileMetadataReference | DropboxTypes.files.FolderMetadataReference | DropboxTypes.files.DeletedMetadataReference,
 ): types.Entry {
     switch (entry['.tag']) {
         case 'file':
-            return normalizeEntryFile(
-                entry as DropboxTypes.files.FileMetadataReference,
-            );
+            return normalizeEntryFile(entry);
         case 'folder':
-            return normalizeEntryFolder(
-                entry as DropboxTypes.files.FolderMetadataReference,
-            );
+            return normalizeEntryFolder(entry);
         default:
             throw new TypeError(
                 `Entry of type '${

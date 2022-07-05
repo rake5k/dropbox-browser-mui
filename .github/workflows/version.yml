@@ -1,0 +1,26 @@
+name: Version Increment
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
+
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: git config --global user.name 'Christian Harke'
+      - run: git config --global user.email 'christian@harke.ch'
+      - run: npm version patch -m "[RELEASE] %s"
+      - run: git push && git push --tags

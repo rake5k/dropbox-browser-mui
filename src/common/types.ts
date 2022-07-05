@@ -1,3 +1,5 @@
+import DropboxTypes from 'dropbox';
+
 export type EntryType = 'file' | 'folder';
 
 export interface Entry {

@@ -10,7 +10,8 @@ describe('App', () => {
         helpers.loadFile = jest.fn(async () => await []);
     });
 
-    xit('renders without crashing', () => {
+    it('renders without crashing', () => {
+        process.env.REACT_APP_TITLE = 'Dropbox Browser test';
         const div = document.createElement('div');
         ReactDOM.render(<App />, div);
     });

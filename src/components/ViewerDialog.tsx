@@ -6,9 +6,10 @@ import {
     Toolbar,
     Typography,
 } from '@material-ui/core';
+import { TransitionProps } from "@material-ui/core/transitions/transition";
 import { Close } from '@material-ui/icons';
 import { Location } from 'history';
-import React, { Component } from 'react';
+import React, { Component, PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 
 import Loader from './Loader';
@@ -25,8 +26,8 @@ const initialState = {
     open: false,
 };
 
-function Transition() {
-    return <Slide direction="up" />;
+function Transition(props: PropsWithChildren<TransitionProps>) {
+    return <Slide direction="up" { ...props } />;
 }
 
 interface ViewerDialogProps {

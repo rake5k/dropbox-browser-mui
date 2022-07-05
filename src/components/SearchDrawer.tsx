@@ -40,7 +40,7 @@ class SearchDrawer extends Component<SearchDrawerProps, SearchDrawerState> {
         }
     };
 
-    debouncedSearch: ((query: string) => void) & _.Cancelable = _.debounce(
+    debouncedSearch: _.DebouncedFunc<(query: string) => void> = _.debounce(
         this.props.onSearch,
         700,
     );

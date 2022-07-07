@@ -6,137 +6,88 @@ import {
     Toolbar,
     Typography,
 } from '@material-ui/core';
-import { TransitionProps } from "@material-ui/core/transitions/transition";
+import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { Close } from '@material-ui/icons';
-import { Location } from 'history';
-import React, { Component, PropsWithChildren } from 'react';
-import { Link } from 'react-router-dom';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 import Loader from './Loader';
 import Viewer from './Viewer';
 import * as helpers from '../App.helpers';
 import * as types from '../common/types';
 
-const initialState = {
-    file: {
-        link: '',
-        name: '',
-    },
-    isLoading: true,
-    open: false,
-};
-
 function Transition(props: PropsWithChildren<TransitionProps>) {
-    return <Slide direction="up" { ...props } />;
+    return <Slide direction="up" {...props} />;
 }
 
-interface ViewerDialogProps {
-    readonly location: Location;
-}
+export default function ViewerDialog(): JSX.Element {
+    const path = useLocation().pathname;
+    const [isOpen, setOpen] = useState(false);
+    const [isLoading, setLoading] = useState(true);
+    const [file, setFile] = useState({ name: '', link: '' });
 
-interface ViewerDialogState {
-    file: types.File;
-    isLoading: boolean;
-    open: boolean;
-}
+    useEffect(() => {
+        load();
+    }, [path]);
 
-export default class ViewerDialog extends Component<
-    ViewerDialogProps,
-    ViewerDialogState
-> {
-    isCancelled: boolean;
-
-    constructor(props: ViewerDialogProps) {
-        super(props);
-        this.isCancelled = false;
-        this.state = initialState;
-    }
-
-    componentDidMount = (): void => {
-        this.load(this.props.location.pathname);
-    };
-
-    componentWillReceiveProps = (nextProps: ViewerDialogProps): void => {
-        this.load(nextProps.location.pathname);
-    };
-
-    componentWillUnmount = (): void => {
-        this.isCancelled = true;
-    };
-
-    handleClose = (): void => {
-        this.resetState();
-    };
-
-    load = (path: string): void => {
-        helpers.loadEntryType(path).then(type => {
+    const load = (): void => {
+        helpers.loadEntryType(path).then((type) => {
             if (type === 'file') {
-                this.open();
-                helpers.loadFile(path).then(file => {
-                    this.setFile(file);
-                    this.setState({ isLoading: false });
-                });
+                handleOpen();
+                helpers.loadFile(path).then(handleFileLoaded);
             } else {
-                this.resetState();
+                resetState();
             }
         });
     };
 
-    open = (): void => {
-        if (!this.state.open && !this.isCancelled) {
-            this.setState({ open: true });
-        }
+    const handleOpen = (): void => {
+        setOpen(true);
     };
 
-    setFile = (file: types.File): void => {
-        if (!this.isCancelled) {
-            this.setState({ file });
-        }
+    const handleClose = (): void => {
+        resetState();
     };
 
-    resetState = (): void => {
-        if (!this.isCancelled) {
-            this.setState(initialState);
-        }
+    const handleFileLoaded = (f: types.File) => {
+        setFile(f);
+        setLoading(false);
     };
 
-    render = (): JSX.Element => {
-        const parentPath = this.props.location.pathname
-            .split('/')
-            .slice(0, -1)
-            .join('/');
-        const link = (itemProps: any): JSX.Element => (
-            <Link to={parentPath} {...itemProps} />
-        );
-
-        return (
-            <Dialog
-                fullScreen
-                open={this.state.open}
-                onClose={this.handleClose}
-                TransitionComponent={Transition}
-            >
-                <AppBar position="relative">
-                    <Toolbar>
-                        <IconButton
-                            color="inherit"
-                            aria-label="Close"
-                            component={link}
-                            onClick={this.handleClose}
-                        >
-                            <Close />
-                        </IconButton>
-                        <Typography variant="h6" color="inherit">
-                            {this.state.file.name}
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                {this.state.isLoading ? (
-                    <Loader />
-                ) : (
-                    <Viewer file={this.state.file.link} />
-                )}
-            </Dialog>
-        );
+    const resetState = (): void => {
+        setOpen(false);
+        setLoading(true);
+        setFile({ name: '', link: '' });
     };
+
+    const parentPath = path.split('/').slice(0, -1).join('/');
+    const link = (itemProps: any): JSX.Element => (
+        <Link to={parentPath} {...itemProps} />
+    );
+
+    return (
+        <Dialog
+            fullScreen
+            open={isOpen}
+            onClose={handleClose}
+            TransitionComponent={Transition}
+        >
+            <AppBar position="relative">
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="Close"
+                        component={link}
+                        onClick={handleClose}
+                    >
+                        <Close />
+                    </IconButton>
+                    <Typography variant="h6" color="inherit">
+                        {file.name}
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            {isLoading ? <Loader /> : <Viewer file={file.link} />}
+        </Dialog>
+    );
 }

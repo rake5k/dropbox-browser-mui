@@ -1,16 +1,20 @@
-import { Location } from 'history';
-import _ from 'lodash';
 import { List } from '@material-ui/core';
-import { Theme, withStyles, WithStyles } from '@material-ui/core/styles';
+import { Theme, WithStyles, withStyles } from '@material-ui/core/styles';
 import { Weekend as Empty, Search as SearchEmpty } from '@material-ui/icons';
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { useLocation } from 'react-router-dom';
 
 import EmptyState from './EmptyState';
 import Entry from './Entry';
 import Loader from './Loader';
 import * as helpers from '../App.helpers';
 import * as types from '../common/types';
+import {
+    getSearchQuery,
+    isSearchActive,
+    isSearchQueryEmpty,
+} from './EntryList.helpers';
 
 const styles = (theme: Theme) => ({
     root: {
@@ -21,120 +25,88 @@ const styles = (theme: Theme) => ({
     },
 });
 
-interface EntryListProps extends WithStyles<typeof styles> {
-    readonly location: Location;
-}
+interface EntryListProps extends WithStyles<typeof styles> {}
 
-interface EntryListState {
-    entries: types.Entry[];
-    isLoading: boolean;
-}
+function EntryList(props: EntryListProps): JSX.Element {
+    const location = useLocation();
+    const path = location.pathname;
+    const searchParams: URLSearchParams = new URLSearchParams(location.search);
+    const [entries, setEntries] = useState<types.Entry[]>([]);
+    const [isLoading, setLoading] = useState(true);
 
-class EntryList extends Component<EntryListProps, EntryListState> {
-    isCancelled: boolean;
+    useEffect(() => {
+        dispatchLoadingData();
+    }, [path]);
 
-    constructor(props: EntryListProps) {
-        super(props);
-        this.isCancelled = false;
-        this.state = {
-            entries: [],
-            isLoading: true,
-        };
-    }
+    useEffect(() => {
+        dispatchSearch();
+    }, [location.search]);
 
-    componentDidMount = (): void => {
-        this.dispatchLoadingData(this.props);
-    };
-
-    componentWillReceiveProps = (nextProps: EntryListProps): void => {
-        this.dispatchLoadingData(nextProps);
-    };
-
-    componentWillUnmount = (): void => {
-        this.isCancelled = true;
-    };
-
-    dispatchLoadingData = (props: EntryListProps): void => {
-        const params: URLSearchParams = new URLSearchParams(
-            props.location.search,
-        );
-        if (this.isSearchActive(params) && !this.isSearchQueryEmpty(params)) {
-            this.setState({ isLoading: true });
-            this.search(this.getSearchQuery(params));
-        } else if (!this.isSearchActive(params)) {
-            this.setState({ isLoading: true });
-            this.load(props.location.pathname);
-        }
-    };
-
-    getSearchQuery = (params: URLSearchParams): string =>
-        params.get('search') || '';
-
-    isSearchActive = (params: URLSearchParams): boolean => params.has('search');
-
-    isSearchQueryEmpty = (params: URLSearchParams): boolean =>
-        _.isEmpty(this.getSearchQuery(params));
-
-    load = (path: string): void => {
-        helpers.loadEntryType(path).then(type => {
+    const dispatchLoadingData = (): void => {
+        setLoading(true);
+        helpers.loadEntryType(path).then((type) => {
             if (type === 'folder') {
-                helpers.loadEntries(path).then(this.setEntries);
+                helpers.loadEntries(path).then(handleEntriesLoaded);
             }
         });
     };
 
-    search = (query: string): void => {
-        helpers.search(query).then(this.setEntries);
-    };
-
-    setEntries = (entries: types.Entry[]): void => {
-        if (!this.isCancelled) {
-            this.setState({ entries, isLoading: false });
+    const dispatchSearch = (): void => {
+        if (isSearchActive(searchParams) && !isSearchQueryEmpty(searchParams)) {
+            setLoading(true);
+            helpers
+                .search(getSearchQuery(searchParams))
+                .then(handleEntriesLoaded);
+        } else if (!isSearchActive(searchParams)) {
+            dispatchLoadingData();
         }
     };
 
-    render = (): JSX.Element => (
-        <div>
-            {this.renderHead()}
-            {this.renderContent()}
-        </div>
-    );
+    const handleEntriesLoaded = (e: types.Entry[]): void => {
+        setEntries(e);
+        setLoading(false);
+    };
 
-    renderHead = (): JSX.Element => (
+    const renderHead = (): JSX.Element => (
         <Helmet>
             <title>
-                {this.props.location.pathname.split('/').pop() || 'Start'}
+                {location.pathname.split('/').pop() || 'Start'}
                 {' - '}
                 {process.env.REACT_APP_TITLE}
             </title>
         </Helmet>
     );
 
-    renderContent = (): JSX.Element => {
-        const params = new URLSearchParams(this.props.location.search);
-
-        if (this.state.isLoading) {
+    const renderContent = (): JSX.Element => {
+        if (isLoading) {
             return <Loader />;
         }
 
-        if (this.isSearchActive(params) && this.isSearchQueryEmpty(params)) {
+        if (isSearchActive(searchParams) && isSearchQueryEmpty(searchParams)) {
             const description = 'Begin typing to start the search';
             return <EmptyState description={description} Icon={SearchEmpty} />;
         }
 
-        if (!this.state.entries.length) {
+        if (!entries.length) {
             const description = 'No results here';
             return <EmptyState description={description} Icon={Empty} />;
         }
 
         return (
-            <List className={this.props.classes.root}>
-                {this.state.entries.map((entry, index) => (
+            <List className={props.classes.root}>
+                {entries.map((entry, index) => (
                     <Entry {...entry} key={index} />
                 ))}
             </List>
         );
     };
+
+    return (
+        <div>
+            {renderHead()}
+            {renderContent()}
+        </div>
+    );
 }
 
 export default withStyles(styles)(EntryList);

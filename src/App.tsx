@@ -1,6 +1,6 @@
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import EntryList from './components/EntryList';
 import Search from './components/Search';
@@ -27,17 +27,25 @@ const theme = createMuiTheme({
 
 function App(): JSX.Element {
     return (
-        <Router>
+        <BrowserRouter>
             <MuiThemeProvider theme={theme}>
                 <div>
                     <SimpleAppBar title={process.env.REACT_APP_TITLE} />
-                    <Route exact path="/" component={EntryList} />
-                    <Route path="/:path" component={EntryList} />
-                    <Route path="/:path" component={ViewerDialog} />
-                    <Route component={Search} />
+                    <Route exact path="/">
+                        <EntryList />
+                    </Route>
+                    <Route path="/:path">
+                        <EntryList />
+                    </Route>
+                    <Route path="/:path">
+                        <ViewerDialog />
+                    </Route>
+                    <Route>
+                        <Search />
+                    </Route>
                 </div>
             </MuiThemeProvider>
-        </Router>
+        </BrowserRouter>
     );
 }
 

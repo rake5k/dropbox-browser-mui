@@ -1,25 +1,21 @@
-import { History, Location } from 'history';
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 import SearchButton from './SearchButton';
 import SearchDrawer from './SearchDrawer';
 
-interface SearchProps {
-    readonly history: History;
-    readonly location: Location;
-}
-
-export default function Search(props: SearchProps): JSX.Element {
-    const params = new URLSearchParams(props.location.search);
+export default function Search(): JSX.Element {
+    const location = useLocation();
+    const history = useHistory();
+    const params = new URLSearchParams(location.search);
     const isActive = params.has('search');
     const query = params.get('search');
 
     isActive ? params.delete('search') : params.append('search', '');
     const to = params.toString()
-        ? props.location.pathname + '?' + params.toString()
-        : props.location.pathname;
+        ? location.pathname + '?' + params.toString()
+        : location.pathname;
 
     const link = (itemProps: any): JSX.Element => (
         <Link to={to} {...itemProps} />
@@ -41,7 +37,7 @@ export default function Search(props: SearchProps): JSX.Element {
                 isOpen={isActive}
                 onSearch={q => {
                     params.set('search', q);
-                    props.history.replace({
+                    history.replace({
                         search: params.toString(),
                     });
                 }}

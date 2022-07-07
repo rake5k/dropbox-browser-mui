@@ -1,4 +1,4 @@
-import DropboxTypes, {Dropbox} from 'dropbox';
+import DropboxTypes, { Dropbox } from 'dropbox';
 import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 
@@ -11,21 +11,23 @@ const dbx = new Dropbox({
 
 export async function loadEntries(path: string): Promise<types.Entry[]> {
     return dbx
-        .filesListFolder({ path: path === '/' ? '' : path })
-        .then(res =>
+        .filesListFolder({ path: normalizePath(path) })
+        .then((res) =>
             orderEntries(
                 res.result.entries
-                    .filter(entry => entry['.tag'] !== 'deleted')
+                    .filter((entry) => entry['.tag'] !== 'deleted')
                     .map(normalizeEntry),
             ),
         );
 }
 
 export async function loadFile(path: string): Promise<types.File> {
-    return dbx.filesGetTemporaryLink({ path }).then(res => ({
-        name: res.result.metadata.name,
-        link: res.result.link,
-    }));
+    return dbx
+        .filesGetTemporaryLink({ path: normalizePath(path) })
+        .then((res) => ({
+            name: res.result.metadata.name,
+            link: res.result.link,
+        }));
 }
 
 export async function loadEntryType(
@@ -35,7 +37,9 @@ export async function loadEntryType(
         return 'folder';
     }
 
-    return dbx.filesGetMetadata({ path }).then(res => res.result['.tag']);
+    return dbx
+        .filesGetMetadata({ path: normalizePath(path) })
+        .then((res) => res.result['.tag']);
 }
 
 export async function search(query: string): Promise<types.Entry[]> {
@@ -43,28 +47,28 @@ export async function search(query: string): Promise<types.Entry[]> {
         .filesSearchV2({
             query,
             options: {
-                path: ''
+                path: '',
             },
         })
-        .then(res => {
+        .then((res) => {
             const entries = res.result.matches
-                .map(match => match.metadata)
-                .filter(match => match['.tag'] == 'metadata')
-                .map(match => (match as DropboxTypes.files.MetadataV2Metadata))
-                .filter(match => match.metadata['.tag'] !== 'deleted')
-                .map(match => normalizeEntry(match.metadata));
+                .map((match) => match.metadata)
+                .filter((match) => match['.tag'] == 'metadata')
+                .map((match) => match as DropboxTypes.files.MetadataV2Metadata)
+                .filter((match) => match.metadata['.tag'] !== 'deleted')
+                .map((match) => normalizeEntry(match.metadata));
             return orderEntries(entries);
         });
 }
 
 function orderEntries(entries: types.Entry[]): types.Entry[] {
     const folders = _(entries)
-        .filter(entry => entry.type === 'folder')
+        .filter((entry) => entry.type === 'folder')
         .sortBy(['name'])
         .value();
     const files = _(entries)
-        .filter(entry => entry.type === 'file')
-        .map(entry => ({
+        .filter((entry) => entry.type === 'file')
+        .map((entry) => ({
             ...entry,
             year: parseInt(entry.name.split(' - ')[0], 10),
         }))
@@ -74,8 +78,15 @@ function orderEntries(entries: types.Entry[]): types.Entry[] {
     return [...folders, ...files];
 }
 
+function normalizePath(path: string) {
+    return path === '/' ? '' : path;
+}
+
 function normalizeEntry(
-    entry: DropboxTypes.files.FileMetadataReference | DropboxTypes.files.FolderMetadataReference | DropboxTypes.files.DeletedMetadataReference,
+    entry:
+        | DropboxTypes.files.FileMetadataReference
+        | DropboxTypes.files.FolderMetadataReference
+        | DropboxTypes.files.DeletedMetadataReference,
 ): types.Entry {
     switch (entry['.tag']) {
         case 'file':
@@ -84,9 +95,7 @@ function normalizeEntry(
             return normalizeEntryFolder(entry);
         default:
             throw new TypeError(
-                `Entry of type '${
-                    entry['.tag']
-                }' received, expected 'file'|'folder'.`,
+                `Entry of type '${entry['.tag']}' received, expected 'file'|'folder'.`,
             );
     }
 }

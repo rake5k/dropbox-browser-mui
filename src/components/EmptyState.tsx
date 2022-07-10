@@ -1,34 +1,34 @@
-import { withStyles, WithStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import React from 'react';
 
-const styles = {
+const useStyles = makeStyles({
     root: {
         color: '#cccccc',
         marginTop: `80px`,
-        position: 'absolute' as 'absolute',
-        textAlign: 'center' as 'center',
+        position: 'absolute',
+        textAlign: 'center',
         width: '100%',
     },
     icon: {
         height: 128,
         width: 128,
     },
-};
+});
 
-interface EmptyStateProps extends WithStyles<typeof styles> {
+interface EmptyStateProps {
     readonly description: string;
     readonly Icon: React.ComponentType<SvgIconProps>;
 }
 
-function EmptyState(props: EmptyStateProps): JSX.Element {
+export default function EmptyState(props: EmptyStateProps): JSX.Element {
+    const classes = useStyles();
     const { Icon } = props;
+
     return (
-        <div className={props.classes.root}>
-            <Icon className={props.classes.icon} />
+        <div className={classes.root}>
+            <Icon className={classes.icon} />
             <div>{props.description}</div>
         </div>
     );
 }
-
-export default withStyles(styles)(EmptyState);

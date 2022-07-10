@@ -1,10 +1,10 @@
 import { Fab } from '@material-ui/core';
-import { FabProps } from '@material-ui/core/Fab';
-import { withStyles, WithStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Close, Search } from '@material-ui/icons';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const styles = {
+const useStyles = makeStyles({
     button: {
         margin: 0,
         top: 'auto',
@@ -13,27 +13,29 @@ const styles = {
         left: 'auto',
         position: 'fixed' as 'fixed',
     },
-};
+});
 
-interface SearchButtonProps extends WithStyles<typeof styles> {
-    readonly component: React.ReactType<FabProps>;
+interface SearchButtonProps {
     readonly isActive: boolean;
 }
 
-function SearchButton(props: SearchButtonProps): JSX.Element {
+export default function SearchButton(props: SearchButtonProps): JSX.Element {
+    const classes = useStyles();
     const moveUp = props.isActive ? { bottom: 76 } : {};
+
+    const link = (itemProps: any): JSX.Element => (
+        <Link to={props.isActive ? '/' : '/search'} {...itemProps} />
+    );
 
     return (
         <Fab
             color="primary"
             aria-label="search"
-            className={props.classes.button}
-            component={props.component}
+            className={classes.button}
+            component={link}
             style={moveUp}
         >
             {props.isActive ? <Close /> : <Search />}
         </Fab>
     );
 }
-
-export default withStyles(styles)(SearchButton);

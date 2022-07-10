@@ -1,26 +1,27 @@
 import { TextField } from '@material-ui/core';
-import { Theme, withStyles, WithStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import React from 'react';
 
-const styles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     root: {
         display: 'flex',
-        flexWrap: 'wrap' as 'wrap',
+        flexWrap: 'wrap',
     },
     textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing,
+        marginRight: theme.spacing,
         width: 200,
     },
-});
+}));
 
-interface SearchFieldProps extends WithStyles<typeof styles> {
+interface SearchFieldProps {
     readonly onChange: (query: string) => void;
 }
 
-function SearchField(props: SearchFieldProps): JSX.Element {
+export default function SearchField(props: SearchFieldProps): JSX.Element {
+    const classes = useStyles();
     return (
-        <div className={props.classes.root}>
+        <div className={classes.root}>
             <TextField
                 autoComplete="off"
                 autoFocus
@@ -33,8 +34,6 @@ function SearchField(props: SearchFieldProps): JSX.Element {
         </div>
     );
 }
-
-export default withStyles(styles)(SearchField);
 
 function handleChange(onChange: (query: string) => void) {
     return (event: React.ChangeEvent<HTMLInputElement>): void =>

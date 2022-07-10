@@ -1,25 +1,27 @@
-import { AppBar, Toolbar, Typography } from '@material-ui/core/';
-import { withStyles, WithStyles } from '@material-ui/core/styles';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Logo from './Logo';
 
-const styles = {
+const useStyles = makeStyles({
     root: {
-        position: 'fixed' as 'fixed',
+        position: 'fixed',
         width: '100%',
         zIndex: 1000,
     },
-};
+});
 
-interface SimpleAppBarProps extends WithStyles<typeof styles> {
+interface SimpleAppBarProps {
     readonly title?: string;
 }
 
-function SimpleAppBar(props: SimpleAppBarProps): JSX.Element {
+export default function SimpleAppBar(props: SimpleAppBarProps): JSX.Element {
+    const classes = useStyles();
+
     return (
-        <div className={props.classes.root}>
+        <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
                     <Link to="/">
@@ -33,5 +35,3 @@ function SimpleAppBar(props: SimpleAppBarProps): JSX.Element {
         </div>
     );
 }
-
-export default withStyles(styles)(SimpleAppBar);

@@ -8,44 +8,40 @@ import {
 } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { Close } from '@material-ui/icons';
-import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import Loader from './Loader';
 import Viewer from './Viewer';
+import { getSearchQuery, isSearchQueryEmpty } from './ViewerDialog.helpers';
 import * as helpers from '../App.helpers';
 import * as types from '../common/types';
+import { deleteParam } from '../utils/SearchParams';
 
-function Transition(props: PropsWithChildren<TransitionProps>) {
+function Transition(props: TransitionProps) {
     return <Slide direction="up" {...props} />;
 }
 
 export default function ViewerDialog(): JSX.Element {
-    const path = useLocation().pathname;
-    const [isOpen, setOpen] = useState(false);
+    const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setLoading] = useState(true);
     const [file, setFile] = useState({ name: '', link: '' });
+    const isOpen = !isSearchQueryEmpty(searchParams);
 
     useEffect(() => {
         load();
-    }, [path]);
+    }, [getSearchQuery(searchParams)]);
 
     const load = (): void => {
-        helpers.loadEntryType(path).then((type) => {
-            if (type === 'file') {
-                handleOpen();
-                helpers.loadFile(path).then(handleFileLoaded);
-            } else {
-                resetState();
-            }
-        });
-    };
-
-    const handleOpen = (): void => {
-        setOpen(true);
+        if (isOpen) {
+            helpers
+                .loadFile(getSearchQuery(searchParams))
+                .then(handleFileLoaded);
+        }
     };
 
     const handleClose = (): void => {
+        setSearchParams(deleteParam(searchParams, 'f'));
         resetState();
     };
 
@@ -55,15 +51,9 @@ export default function ViewerDialog(): JSX.Element {
     };
 
     const resetState = (): void => {
-        setOpen(false);
         setLoading(true);
         setFile({ name: '', link: '' });
     };
-
-    const parentPath = path.split('/').slice(0, -1).join('/');
-    const link = (itemProps: any): JSX.Element => (
-        <Link to={parentPath} {...itemProps} />
-    );
 
     return (
         <Dialog
@@ -77,7 +67,6 @@ export default function ViewerDialog(): JSX.Element {
                     <IconButton
                         color="inherit"
                         aria-label="Close"
-                        component={link}
                         onClick={handleClose}
                     >
                         <Close />

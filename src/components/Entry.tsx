@@ -1,30 +1,39 @@
 import { Avatar, ListItem, ListItemText } from '@material-ui/core';
 import { lightGreen, lime } from '@material-ui/core/colors';
-import { withStyles, WithStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Folder, InsertDriveFile as File } from '@material-ui/icons';
 import moment from 'moment';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import * as types from '../common/types';
+import { appendParam } from '../utils/SearchParams';
 
-const styles = {
+const useStyles = makeStyles({
     file: { backgroundColor: lightGreen[600] },
     folder: { backgroundColor: lime[700] },
-};
+});
 
-interface EntryProps extends types.Entry, WithStyles<typeof styles> {
+interface EntryProps extends types.Entry {
     readonly date?: string;
 }
 
-function Entry(props: EntryProps): JSX.Element {
-    const link = (itemProps: any): JSX.Element => (
-        <Link to={props.path} {...itemProps} />
-    );
+export default function Entry(props: EntryProps): JSX.Element {
+    const classes = useStyles();
+
+    const link = (itemProps: any): JSX.Element => {
+        if (props.type === 'file') {
+            const [searchParams] = useSearchParams();
+            const params = appendParam(searchParams, 'f', props.path);
+            return <Link to={`?${params}`} {...itemProps} />;
+        } else {
+            return <Link to={`/browse${props.path}`} {...itemProps} />;
+        }
+    };
 
     return (
         <ListItem button component={link}>
-            <Avatar className={props.classes[props.type]}>
+            <Avatar className={classes[props.type]}>
                 {props.type === 'file' ? <File /> : <Folder />}
             </Avatar>
             <ListItemText
@@ -34,5 +43,3 @@ function Entry(props: EntryProps): JSX.Element {
         </ListItem>
     );
 }
-
-export default withStyles(styles)(Entry);

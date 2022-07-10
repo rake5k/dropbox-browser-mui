@@ -1,18 +1,17 @@
 import { CircularProgress } from '@material-ui/core';
-import { withStyles, WithStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-const styles = {
+const useStyles = makeStyles({
     root: {
         left: 0,
         margin: `80px auto`,
-        position: 'absolute' as 'absolute',
+        position: 'absolute',
         right: 0,
     },
-};
+});
 
-function Loader(props: WithStyles<typeof styles>): JSX.Element {
-    return <CircularProgress className={props.classes.root} />;
+export default function Loader(): JSX.Element {
+    const classes = useStyles();
+    return <CircularProgress className={classes.root} />;
 }
-
-export default withStyles(styles)(Loader);

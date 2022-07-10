@@ -1,13 +1,18 @@
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import {
+    BrowserRouter as Router,
+    Navigate,
+    Route,
+    Routes,
+} from 'react-router-dom';
 
-import EntryList from './components/EntryList';
-import Search from './components/Search';
-import SimpleAppBar from './components/SimpleAppBar';
-import ViewerDialog from './components/ViewerDialog';
+import EntryList, { context as browseContext } from './components/EntryList';
+import Layout from './components/Layout';
+import NoMatch from './components/NoMatch';
+import Search, { context as searchContext } from './components/Search';
 
-const theme = createMuiTheme({
+const theme = createTheme({
     palette: {
         primary: {
             light: '#99d066',
@@ -20,33 +25,31 @@ const theme = createMuiTheme({
             dark: '#387002',
         },
     },
-    typography: {
-        useNextVariants: true,
-    },
 });
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
     return (
-        <BrowserRouter>
+        <Router>
             <MuiThemeProvider theme={theme}>
                 <div>
-                    <SimpleAppBar title={process.env.REACT_APP_TITLE} />
-                    <Route exact path="/">
-                        <EntryList />
-                    </Route>
-                    <Route path="/:path">
-                        <EntryList />
-                    </Route>
-                    <Route path="/:path">
-                        <ViewerDialog />
-                    </Route>
-                    <Route>
-                        <Search />
-                    </Route>
+                    <Routes>
+                        <Route path="/" element={<Layout />}>
+                            <Route
+                                index
+                                element={
+                                    <Navigate to={browseContext} replace />
+                                }
+                            />
+                            <Route path={browseContext} element={<EntryList />}>
+                                <Route index element={<EntryList />} />
+                                <Route path=":path/*" element={<EntryList />} />
+                            </Route>
+                            <Route path={searchContext} element={<Search />} />
+                            <Route path="*" element={<NoMatch />} />
+                        </Route>
+                    </Routes>
                 </div>
             </MuiThemeProvider>
-        </BrowserRouter>
+        </Router>
     );
 }
-
-export default App;

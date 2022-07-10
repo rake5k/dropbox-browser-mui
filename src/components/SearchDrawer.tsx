@@ -1,23 +1,25 @@
 import _ from 'lodash';
 import { Drawer } from '@material-ui/core';
-import { Theme, withStyles, WithStyles } from '@material-ui/core/styles';
-import React, { Component } from 'react';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import React from 'react';
 
 import SearchField from './SearchField';
 
-const styles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     searchField: {
-        paddingLeft: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
+        paddingLeft: theme.spacing,
+        paddingRight: theme.spacing,
     },
-});
+}));
 
-interface SearchDrawerProps extends WithStyles<typeof styles> {
+interface SearchDrawerProps {
     readonly isOpen: boolean;
     readonly onSearch: (query: string) => void;
 }
 
-function SearchDrawer(props: SearchDrawerProps): JSX.Element {
+export default function SearchDrawer(props: SearchDrawerProps): JSX.Element {
+    const classes = useStyles();
+
     const handleSearch = (query: string): void => {
         debouncedSearch.cancel();
         if (query) {
@@ -30,11 +32,9 @@ function SearchDrawer(props: SearchDrawerProps): JSX.Element {
 
     return (
         <Drawer anchor="bottom" open={props.isOpen} variant="persistent">
-            <div className={props.classes.searchField}>
+            <div className={classes.searchField}>
                 {props.isOpen && <SearchField onChange={handleSearch} />}
             </div>
         </Drawer>
     );
 }
-
-export default withStyles(styles)(SearchDrawer);

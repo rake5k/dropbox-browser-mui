@@ -1,6 +1,6 @@
 import { List } from '@material-ui/core';
-import { Theme, WithStyles, withStyles } from '@material-ui/core/styles';
-import { Weekend as Empty, Search as SearchEmpty } from '@material-ui/icons';
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { Weekend as Empty } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router-dom';
@@ -8,58 +8,40 @@ import { useLocation } from 'react-router-dom';
 import EmptyState from './EmptyState';
 import Entry from './Entry';
 import Loader from './Loader';
+import SearchButton from './SearchButton';
 import * as helpers from '../App.helpers';
 import * as types from '../common/types';
-import {
-    getSearchQuery,
-    isSearchActive,
-    isSearchQueryEmpty,
-} from './EntryList.helpers';
 
-const styles = (theme: Theme) => ({
-    root: {
-        background: theme.palette.background.paper,
-        paddingBottom: 56,
-        paddingTop: 80,
-        width: '100%',
-    },
-});
+export const context = 'browse';
 
-interface EntryListProps extends WithStyles<typeof styles> {}
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            background: theme.palette.background.paper,
+            paddingBottom: 56,
+            paddingTop: 80,
+            width: '100%',
+        },
+    }),
+);
 
-function EntryList(props: EntryListProps): JSX.Element {
-    const location = useLocation();
-    const path = location.pathname;
-    const searchParams: URLSearchParams = new URLSearchParams(location.search);
+export default function EntryList(): JSX.Element {
+    const classes = useStyles();
+    const path = getBrowsePath(useLocation().pathname);
     const [entries, setEntries] = useState<types.Entry[]>([]);
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        dispatchLoadingData();
+        load();
     }, [path]);
 
-    useEffect(() => {
-        dispatchSearch();
-    }, [location.search]);
-
-    const dispatchLoadingData = (): void => {
+    const load = (): void => {
         setLoading(true);
         helpers.loadEntryType(path).then((type) => {
             if (type === 'folder') {
                 helpers.loadEntries(path).then(handleEntriesLoaded);
             }
         });
-    };
-
-    const dispatchSearch = (): void => {
-        if (isSearchActive(searchParams) && !isSearchQueryEmpty(searchParams)) {
-            setLoading(true);
-            helpers
-                .search(getSearchQuery(searchParams))
-                .then(handleEntriesLoaded);
-        } else if (!isSearchActive(searchParams)) {
-            dispatchLoadingData();
-        }
     };
 
     const handleEntriesLoaded = (e: types.Entry[]): void => {
@@ -70,7 +52,7 @@ function EntryList(props: EntryListProps): JSX.Element {
     const renderHead = (): JSX.Element => (
         <Helmet>
             <title>
-                {location.pathname.split('/').pop() || 'Start'}
+                {path.split('/').pop() || 'Start'}
                 {' - '}
                 {process.env.REACT_APP_TITLE}
             </title>
@@ -82,18 +64,13 @@ function EntryList(props: EntryListProps): JSX.Element {
             return <Loader />;
         }
 
-        if (isSearchActive(searchParams) && isSearchQueryEmpty(searchParams)) {
-            const description = 'Begin typing to start the search';
-            return <EmptyState description={description} Icon={SearchEmpty} />;
-        }
-
         if (!entries.length) {
             const description = 'No results here';
             return <EmptyState description={description} Icon={Empty} />;
         }
 
         return (
-            <List className={props.classes.root}>
+            <List className={classes.root}>
                 {entries.map((entry, index) => (
                     <Entry {...entry} key={index} />
                 ))}
@@ -105,8 +82,11 @@ function EntryList(props: EntryListProps): JSX.Element {
         <div>
             {renderHead()}
             {renderContent()}
+            <SearchButton isActive={false} />
         </div>
     );
 }
 
-export default withStyles(styles)(EntryList);
+function getBrowsePath(path: string) {
+    return path.substring(context.length + 1);
+}

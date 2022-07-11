@@ -16,20 +16,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface Props {
     onChange: (query: string) => void;
+    defaultValue?: string;
 }
 
-export default function SearchField(props: Props) {
+export default function SearchField({ onChange, defaultValue }: Props) {
     const classes = useStyles();
     return (
         <div className={classes.root}>
             <TextField
                 autoComplete="off"
                 autoFocus
+                defaultValue={defaultValue}
                 id="search"
                 inputProps={{ placeholder: 'Search files and folders...' }}
                 fullWidth
                 margin="normal"
-                onChange={handleChange(props.onChange)}
+                onChange={handleChange(onChange)}
             />
         </div>
     );

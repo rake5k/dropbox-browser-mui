@@ -11,9 +11,9 @@ import EntryList from '../components/EntryList';
 import Loader from '../components/Loader';
 import SearchDrawer from '../components/SearchDrawer';
 import SearchButton from '../components/SearchButton';
+import * as Repository from '../repositories/Dropbox';
 import * as types from '../types';
 import SearchQuery from '../utils/SearchQuery';
-import * as Repository from '../repositories/Dropbox';
 
 export const context = 'search';
 
@@ -77,6 +77,7 @@ export default function Search() {
             {renderContent()}
             <SearchButton isActive={true} />
             <SearchDrawer
+                defaultValue={searchQuery.get(searchParams)}
                 isOpen={true}
                 onSearch={(q) => setSearchParams({ q }, { replace: true })}
             />

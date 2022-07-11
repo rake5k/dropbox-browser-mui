@@ -11,15 +11,15 @@ const useStyles = makeStyles({
         right: 20,
         bottom: 20,
         left: 'auto',
-        position: 'fixed' as 'fixed',
+        position: 'fixed',
     },
 });
 
-interface SearchButtonProps {
-    readonly isActive: boolean;
+interface Props {
+    isActive: boolean;
 }
 
-export default function SearchButton(props: SearchButtonProps): JSX.Element {
+export default function SearchButton(props: Props) {
     const classes = useStyles();
     const moveUp = props.isActive ? { bottom: 76 } : {};
 

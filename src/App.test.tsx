@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import * as helpers from './App.helpers';
+import * as Repository from './repositories/Dropbox';
 import App from './App';
 
 describe('App', () => {
     beforeEach(() => {
-        helpers.loadEntries = jest.fn(async () => await []);
-        helpers.loadFile = jest.fn(async () => await []);
+        Repository.loadEntries = jest.fn(async () => await []);
+        Repository.loadFile = jest.fn(async () => await []);
     });
 
     it('renders without crashing', () => {

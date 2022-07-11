@@ -14,11 +14,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-interface SearchFieldProps {
-    readonly onChange: (query: string) => void;
+interface Props {
+    onChange: (query: string) => void;
 }
 
-export default function SearchField(props: SearchFieldProps): JSX.Element {
+export default function SearchField(props: Props) {
     const classes = useStyles();
     return (
         <div className={classes.root}>

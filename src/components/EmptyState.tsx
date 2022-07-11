@@ -16,19 +16,20 @@ const useStyles = makeStyles({
     },
 });
 
-interface EmptyStateProps {
-    readonly description: string;
-    readonly Icon: React.ComponentType<SvgIconProps>;
+interface Props {
+    description: string;
+    Icon: React.ComponentType<SvgIconProps>;
+    children?: React.ReactNode;
 }
 
-export default function EmptyState(props: EmptyStateProps): JSX.Element {
+export default function EmptyState({ description, Icon, children }: Props) {
     const classes = useStyles();
-    const { Icon } = props;
 
     return (
         <div className={classes.root}>
             <Icon className={classes.icon} />
-            <div>{props.description}</div>
+            <div>{description}</div>
+            {children}
         </div>
     );
 }

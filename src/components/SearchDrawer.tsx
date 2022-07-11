@@ -12,12 +12,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-interface SearchDrawerProps {
-    readonly isOpen: boolean;
-    readonly onSearch: (query: string) => void;
+interface Props {
+    isOpen: boolean;
+    onSearch: (query: string) => void;
 }
 
-export default function SearchDrawer(props: SearchDrawerProps): JSX.Element {
+export default function SearchDrawer(props: Props) {
     const classes = useStyles();
 
     const handleSearch = (query: string): void => {

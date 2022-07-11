@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Loader(): JSX.Element {
+export default function Loader() {
     const classes = useStyles();
     return <CircularProgress className={classes.root} />;
 }

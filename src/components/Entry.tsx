@@ -11,7 +11,7 @@ import moment from 'moment';
 import React from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import * as types from '../common/types';
+import * as types from '../types';
 import { appendParam } from '../utils/SearchParams';
 
 const useStyles = makeStyles({
@@ -19,14 +19,14 @@ const useStyles = makeStyles({
     folder: { backgroundColor: lime[700] },
 });
 
-interface EntryProps extends types.Entry {
-    readonly date?: string;
+interface Props extends types.Entry {
+    date?: string;
 }
 
-export default function Entry(props: EntryProps): JSX.Element {
+export default function Entry(props: Props) {
     const classes = useStyles();
 
-    const link = (itemProps: any): JSX.Element => {
+    const link = (itemProps: any) => {
         if (props.type === 'file') {
             const [searchParams] = useSearchParams();
             const params = appendParam(searchParams, 'f', props.path);

@@ -7,10 +7,10 @@ import {
     Routes,
 } from 'react-router-dom';
 
-import EntryList, { context as browseContext } from './components/EntryList';
-import Layout from './components/Layout';
-import NoMatch from './components/NoMatch';
-import Search, { context as searchContext } from './components/Search';
+import Browse, { context as browseContext } from './pages/Browse';
+import Layout from './pages/Layout';
+import NoMatch from './pages/NoMatch';
+import Search, { context as searchContext } from './pages/Search';
 
 const theme = createTheme({
     palette: {
@@ -40,9 +40,9 @@ export default function App(): JSX.Element {
                                     <Navigate to={browseContext} replace />
                                 }
                             />
-                            <Route path={browseContext} element={<EntryList />}>
-                                <Route index element={<EntryList />} />
-                                <Route path=":path/*" element={<EntryList />} />
+                            <Route path={browseContext} element={<Browse />}>
+                                <Route index element={<Browse />} />
+                                <Route path=":path/*" element={<Browse />} />
                             </Route>
                             <Route path={searchContext} element={<Search />} />
                             <Route path="*" element={<NoMatch />} />

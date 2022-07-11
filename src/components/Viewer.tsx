@@ -1,10 +1,10 @@
 import React from 'react';
 
 interface ViewerProps {
-    readonly file: string;
+    file: string;
 }
 
-function Viewer(props: ViewerProps): JSX.Element {
+function Viewer(props: ViewerProps) {
     const src = `https://docs.google.com/gview?url=${props.file}&embedded=true`;
     const style = { height: '100%', width: '100%' };
 

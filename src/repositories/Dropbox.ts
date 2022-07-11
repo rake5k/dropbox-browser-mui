@@ -1,7 +1,7 @@
 import DropboxTypes, { Dropbox } from 'dropbox';
 import _ from 'lodash';
 
-import * as types from './common/types';
+import * as types from '../types';
 
 const dbx = new Dropbox({
     accessToken: process.env.REACT_APP_DROPBOX_ACCESS_TOKEN,

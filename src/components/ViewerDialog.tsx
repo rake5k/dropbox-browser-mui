@@ -13,30 +13,31 @@ import { useSearchParams } from 'react-router-dom';
 
 import Loader from './Loader';
 import Viewer from './Viewer';
-import { getSearchQuery, isSearchQueryEmpty } from './ViewerDialog.helpers';
-import * as helpers from '../App.helpers';
-import * as types from '../common/types';
+import * as Repository from '../repositories/Dropbox';
+import * as types from '../types';
 import { deleteParam } from '../utils/SearchParams';
+import SearchQuery from '../utils/SearchQuery';
 
-function Transition(props: TransitionProps) {
-    return <Slide direction="up" {...props} />;
-}
+const Transition = (props: TransitionProps) => (
+    <Slide direction="up" {...props} />
+);
 
-export default function ViewerDialog(): JSX.Element {
+export default function ViewerDialog() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setLoading] = useState(true);
     const [file, setFile] = useState({ name: '', link: '' });
-    const isOpen = !isSearchQueryEmpty(searchParams);
+    const searchQuery = new SearchQuery('f');
+    const isOpen = !searchQuery.isEmpty(searchParams);
 
     useEffect(() => {
         load();
-    }, [getSearchQuery(searchParams)]);
+    }, [searchQuery.get(searchParams)]);
 
     const load = (): void => {
         if (isOpen) {
-            helpers
-                .loadFile(getSearchQuery(searchParams))
-                .then(handleFileLoaded);
+            Repository.loadFile(searchQuery.get(searchParams)).then(
+                handleFileLoaded,
+            );
         }
     };
 

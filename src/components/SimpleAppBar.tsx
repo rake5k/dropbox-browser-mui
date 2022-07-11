@@ -13,11 +13,11 @@ const useStyles = makeStyles({
     },
 });
 
-interface SimpleAppBarProps {
-    readonly title?: string;
+interface Props {
+    title: string;
 }
 
-export default function SimpleAppBar(props: SimpleAppBarProps): JSX.Element {
+export default function SimpleAppBar(props: Props) {
     const classes = useStyles();
 
     return (

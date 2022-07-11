@@ -15,25 +15,35 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface Props {
     isOpen: boolean;
     onSearch: (query: string) => void;
+    defaultValue?: string;
 }
 
-export default function SearchDrawer(props: Props) {
+export default function SearchDrawer({
+    isOpen,
+    onSearch,
+    defaultValue,
+}: Props) {
     const classes = useStyles();
 
-    const handleSearch = (query: string): void => {
+    const handleSearch = (q: string): void => {
         debouncedSearch.cancel();
-        if (query) {
-            debouncedSearch(query);
+        if (q) {
+            debouncedSearch(q);
         }
     };
 
     const debouncedSearch: _.DebouncedFunc<(query: string) => void> =
-        _.debounce(props.onSearch, 700);
+        _.debounce(onSearch, 700);
 
     return (
-        <Drawer anchor="bottom" open={props.isOpen} variant="persistent">
+        <Drawer anchor="bottom" open={isOpen} variant="persistent">
             <div className={classes.searchField}>
-                {props.isOpen && <SearchField onChange={handleSearch} />}
+                {isOpen && (
+                    <SearchField
+                        defaultValue={defaultValue}
+                        onChange={handleSearch}
+                    />
+                )}
             </div>
         </Drawer>
     );

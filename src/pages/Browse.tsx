@@ -68,5 +68,5 @@ export default function Browse() {
 }
 
 function getBrowsePath(path: string) {
-    return path.substring(context.length + 1);
+    return decodeURIComponent(path.substring(context.length + 1));
 }

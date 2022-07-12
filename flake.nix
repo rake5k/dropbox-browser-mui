@@ -23,13 +23,7 @@
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
       # Nixpkgs instantiated for supported system types.
-      nixpkgsFor = forAllSystems (system:
-        import nixpkgs {
-          inherit system;
-          config.permittedInsecurePackages = [
-            "nodejs-10.24.1"
-          ];
-        });
+      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
     in
     {
       checks = forAllSystems (system:
@@ -58,7 +52,7 @@
               figlet
               lolcat
 
-              nodejs-10_x
+              nodejs-18_x
             ];
 
             shellHook = ''

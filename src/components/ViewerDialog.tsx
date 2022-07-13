@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { Close } from '@material-ui/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import Loader from './Loader';
@@ -17,6 +17,7 @@ import * as Repository from '../repositories/Dropbox';
 import * as types from '../types';
 import { deleteParam } from '../utils/SearchParams';
 import SearchQuery from '../utils/SearchQuery';
+import _ from 'lodash';
 
 const Transition = (props: TransitionProps) => (
     <Slide direction="up" {...props} />
@@ -26,20 +27,18 @@ export default function ViewerDialog() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setLoading] = useState(true);
     const [file, setFile] = useState({ name: '', link: '' });
-    const searchQuery = new SearchQuery('f');
-    const isOpen = !searchQuery.isEmpty(searchParams);
+    const query = new SearchQuery('f').get(searchParams);
+    const isOpen = !_.isEmpty(query);
+
+    const load = useCallback(() => {
+        if (isOpen) {
+            Repository.loadFile(query).then(handleFileLoaded);
+        }
+    }, [isOpen, query]);
 
     useEffect(() => {
         load();
-    }, [searchQuery.get(searchParams)]);
-
-    const load = (): void => {
-        if (isOpen) {
-            Repository.loadFile(searchQuery.get(searchParams)).then(
-                handleFileLoaded,
-            );
-        }
-    };
+    }, [load]);
 
     const handleClose = (): void => {
         setSearchParams(deleteParam(searchParams, 'f'));

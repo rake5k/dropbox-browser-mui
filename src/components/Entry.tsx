@@ -26,9 +26,9 @@ interface Props extends types.Entry {
 export default function Entry(props: Props) {
     const classes = useStyles();
 
-    const link = (itemProps: any) => {
+    const EntryLink = (itemProps: any) => {
+        const [searchParams] = useSearchParams();
         if (props.type === 'file') {
-            const [searchParams] = useSearchParams();
             const params = appendParam(searchParams, 'f', props.path);
             return <Link to={`?${params}`} {...itemProps} />;
         } else {
@@ -37,7 +37,7 @@ export default function Entry(props: Props) {
     };
 
     return (
-        <ListItem button component={link}>
+        <ListItem button component={EntryLink}>
             <ListItemAvatar>
                 <Avatar className={classes[props.type]}>
                     {props.type === 'file' ? <File /> : <Folder />}

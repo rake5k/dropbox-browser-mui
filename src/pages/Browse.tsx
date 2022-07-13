@@ -1,5 +1,5 @@
 import { WeekendTwoTone as EmptyIcon } from '@material-ui/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router-dom';
 
@@ -17,18 +17,18 @@ export default function Browse() {
     const [entries, setEntries] = useState<types.Entry[]>([]);
     const [isLoading, setLoading] = useState(true);
 
-    useEffect(() => {
-        load();
-    }, [path]);
-
-    const load = (): void => {
+    const load = useCallback(() => {
         setLoading(true);
         Repository.loadEntryType(path).then((type) => {
             if (type === 'folder') {
                 Repository.loadEntries(path).then(handleEntriesLoaded);
             }
         });
-    };
+    }, [path]);
+
+    useEffect(() => {
+        load();
+    }, [load]);
 
     const handleEntriesLoaded = (e: types.Entry[]): void => {
         setEntries(e);

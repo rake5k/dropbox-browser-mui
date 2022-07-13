@@ -2,7 +2,8 @@ import {
     SearchTwoTone as SearchEmptyIcon,
     WeekendTwoTone as EmptyIcon,
 } from '@material-ui/icons';
-import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSearchParams } from 'react-router-dom';
 
@@ -21,20 +22,18 @@ export default function Search() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [entries, setEntries] = useState<types.Entry[]>([]);
     const [isLoading, setLoading] = useState(false);
-    const searchQuery = new SearchQuery('q');
+    const query = new SearchQuery('q').get(searchParams);
+
+    const load = useCallback(() => {
+        if (!_.isEmpty(query)) {
+            setLoading(true);
+            Repository.search(query).then(handleEntriesLoaded);
+        }
+    }, [query]);
 
     useEffect(() => {
         load();
-    }, [searchQuery.get(searchParams)]);
-
-    const load = (): void => {
-        if (!searchQuery.isEmpty(searchParams)) {
-            setLoading(true);
-            Repository.search(searchQuery.get(searchParams)).then(
-                handleEntriesLoaded,
-            );
-        }
-    };
+    }, [load]);
 
     const handleEntriesLoaded = (e: types.Entry[]): void => {
         setEntries(e);
@@ -44,7 +43,7 @@ export default function Search() {
     const renderHead = (): JSX.Element => (
         <Helmet>
             <title>
-                {searchQuery.get(searchParams) || 'Search'}
+                {query || 'Search'}
                 {' - '}
                 {process.env.REACT_APP_TITLE}
             </title>
@@ -56,7 +55,7 @@ export default function Search() {
             return <Loader />;
         }
 
-        if (searchQuery.isEmpty(searchParams)) {
+        if (_.isEmpty(query)) {
             const description = 'Begin typing to start the search';
             return (
                 <EmptyState description={description} Icon={SearchEmptyIcon} />
@@ -77,7 +76,7 @@ export default function Search() {
             {renderContent()}
             <SearchButton isActive={true} />
             <SearchDrawer
-                defaultValue={searchQuery.get(searchParams)}
+                defaultValue={query}
                 isOpen={true}
                 onSearch={(q) => setSearchParams({ q }, { replace: true })}
             />

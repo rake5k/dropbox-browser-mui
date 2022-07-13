@@ -47,7 +47,7 @@ export async function search(query: string): Promise<types.Entry[]> {
         .then((res) => {
             const entries = res.result.matches
                 .map((match) => match.metadata)
-                .filter((match) => match['.tag'] == 'metadata')
+                .filter((match) => match['.tag'] === 'metadata')
                 .map((match) => match as DropboxTypes.files.MetadataV2Metadata)
                 .filter((match) => match.metadata['.tag'] !== 'deleted')
                 .map((match) => normalizeEntry(match.metadata));

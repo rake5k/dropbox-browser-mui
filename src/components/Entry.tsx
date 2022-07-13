@@ -1,52 +1,66 @@
 import {
     Avatar,
-    ListItem,
     ListItemAvatar,
+    ListItemButton,
     ListItemText,
-} from '@material-ui/core';
-import { lightGreen, lime } from '@material-ui/core/colors';
-import { makeStyles } from '@material-ui/core/styles';
-import { Folder, InsertDriveFile as File } from '@material-ui/icons';
+} from '@mui/material';
+import { lightGreen, lime } from '@mui/material/colors';
+import { Folder, InsertDriveFile as File } from '@mui/icons-material';
 import moment from 'moment';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import * as types from '../types';
 import { appendParam } from '../utils/SearchParams';
-
-const useStyles = makeStyles({
-    file: { backgroundColor: lightGreen[600] },
-    folder: { backgroundColor: lime[700] },
-});
 
 interface Props extends types.Entry {
     date?: string;
 }
 
 export default function Entry(props: Props) {
-    const classes = useStyles();
-
-    const EntryLink = (itemProps: any) => {
-        const [searchParams] = useSearchParams();
-        if (props.type === 'file') {
-            const params = appendParam(searchParams, 'f', props.path);
-            return <Link to={`?${params}`} {...itemProps} />;
-        } else {
-            return <Link to={`/browse${props.path}`} {...itemProps} />;
-        }
+    const avatarTypes = {
+        file: {
+            icon: <File />,
+            style: { backgroundColor: lightGreen[600] },
+        },
+        folder: {
+            icon: <Folder />,
+            style: { backgroundColor: lime[700] },
+        },
     };
 
+    const EntryLink = forwardRef(
+        (itemProps, ref: React.Ref<HTMLAnchorElement>) => {
+            const [searchParams] = useSearchParams();
+            if (props.type === 'file') {
+                const params = appendParam(searchParams, 'f', props.path);
+                return <Link to={`?${params}`} ref={ref} {...itemProps} />;
+            } else {
+                return (
+                    <Link
+                        to={`/browse${props.path}`}
+                        ref={ref}
+                        {...itemProps}
+                    />
+                );
+            }
+        },
+    );
+
     return (
-        <ListItem button component={EntryLink}>
+        <ListItemButton
+            component={EntryLink}
+            ref={React.useRef<HTMLAnchorElement>(null)}
+        >
             <ListItemAvatar>
-                <Avatar className={classes[props.type]}>
-                    {props.type === 'file' ? <File /> : <Folder />}
+                <Avatar sx={avatarTypes[props.type].style}>
+                    {avatarTypes[props.type].icon}
                 </Avatar>
             </ListItemAvatar>
             <ListItemText
                 primary={props.name}
                 secondary={props.date && moment(props.date).format('LLL')}
             />
-        </ListItem>
+        </ListItemButton>
     );
 }

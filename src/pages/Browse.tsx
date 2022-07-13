@@ -1,4 +1,4 @@
-import { WeekendTwoTone as EmptyIcon } from '@material-ui/icons';
+import { WeekendTwoTone as EmptyIcon } from '@mui/icons-material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router-dom';

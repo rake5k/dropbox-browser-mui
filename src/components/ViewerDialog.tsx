@@ -3,12 +3,12 @@ import {
     Dialog,
     IconButton,
     Slide,
+    SlideProps,
     Toolbar,
     Typography,
-} from '@material-ui/core';
-import { TransitionProps } from '@material-ui/core/transitions/transition';
-import { Close } from '@material-ui/icons';
-import React, { useCallback, useEffect, useState } from 'react';
+} from '@mui/material';
+import { Close } from '@mui/icons-material';
+import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import Loader from './Loader';
@@ -19,9 +19,10 @@ import { deleteParam } from '../utils/SearchParams';
 import SearchQuery from '../utils/SearchQuery';
 import _ from 'lodash';
 
-const Transition = (props: TransitionProps) => (
-    <Slide direction="up" {...props} />
-);
+const Transition = forwardRef((props: SlideProps, ref) => (
+    <Slide direction="up" ref={ref} {...props} />
+));
+Transition.displayName = 'Transition';
 
 export default function ViewerDialog() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -58,6 +59,7 @@ export default function ViewerDialog() {
     return (
         <Dialog
             fullScreen
+            keepMounted
             open={isOpen}
             onClose={handleClose}
             TransitionComponent={Transition}

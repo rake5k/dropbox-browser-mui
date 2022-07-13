@@ -1,41 +1,34 @@
-import { Fab } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Close, Search } from '@material-ui/icons';
+import { Fab } from '@mui/material';
+import { Close, Search } from '@mui/icons-material';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const useStyles = makeStyles({
-    button: {
-        margin: 0,
-        top: 'auto',
-        right: 20,
-        bottom: 20,
-        left: 'auto',
-        position: 'fixed',
-    },
-});
+const fabStyle = {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    left: 'auto',
+    position: 'fixed',
+};
 
 interface Props {
     isActive: boolean;
 }
 
-export default function SearchButton(props: Props) {
-    const classes = useStyles();
-    const moveUp = props.isActive ? { bottom: 76 } : {};
+export default function SearchButton({ isActive }: Props) {
+    const navigate = useNavigate();
+    const moveUp = isActive ? 76 : 20;
 
-    const link = (itemProps: any): JSX.Element => (
-        <Link to={props.isActive ? '/' : '/search'} {...itemProps} />
-    );
+    const handleClick = () => navigate(isActive ? '/' : '/search');
 
     return (
         <Fab
-            color="primary"
             aria-label="search"
-            className={classes.button}
-            component={link}
-            style={moveUp}
+            color="primary"
+            onClick={handleClick}
+            sx={{ bottom: moveUp, ...fabStyle }}
         >
-            {props.isActive ? <Close /> : <Search />}
+            {isActive ? <Close /> : <Search />}
         </Fab>
     );
 }

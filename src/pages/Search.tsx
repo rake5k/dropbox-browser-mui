@@ -23,22 +23,32 @@ export default function Search() {
     const [entries, setEntries] = useState<Entry[]>([]);
     const [isLoading, setLoading] = useState(false);
     const query = new SearchQuery('q').get(searchParams);
+    let isApiSubscribed = true;
+
+    const handleEntriesLoaded = useCallback(
+        (e: Entry[]): void => {
+            if (isApiSubscribed) {
+                setEntries(e);
+                setLoading(false);
+            }
+        },
+        [isApiSubscribed],
+    );
 
     const load = useCallback(() => {
         if (!_.isEmpty(query)) {
             setLoading(true);
             Repository.search(query).then(handleEntriesLoaded);
         }
-    }, [query]);
+    }, [query, handleEntriesLoaded]);
 
     useEffect(() => {
         load();
-    }, [load]);
-
-    const handleEntriesLoaded = (e: Entry[]): void => {
-        setEntries(e);
-        setLoading(false);
-    };
+        return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            isApiSubscribed = false;
+        };
+    }, [load, isApiSubscribed]);
 
     const renderHead = (): JSX.Element => (
         <Helmet>

@@ -9,6 +9,7 @@ import Loader from 'components/Loader';
 import SearchButton from 'components/SearchButton';
 import * as Repository from 'repositories/Dropbox';
 import { Entry } from 'types';
+import { EntryType } from '../types';
 
 export const context = 'browse';
 
@@ -16,24 +17,39 @@ export default function Browse() {
     const path = getBrowsePath(useLocation().pathname);
     const [entries, setEntries] = useState<Entry[]>([]);
     const [isLoading, setLoading] = useState(true);
+    let isApiSubscribed = true;
+
+    const handleEntriesLoaded = useCallback(
+        (e: Entry[]): void => {
+            if (isApiSubscribed) {
+                setEntries(e);
+                setLoading(false);
+            }
+        },
+        [isApiSubscribed],
+    );
+
+    const handleEntryTypeLoaded = useCallback(
+        (type: EntryType | 'deleted') => {
+            if (isApiSubscribed && type === 'folder') {
+                Repository.loadEntries(path).then(handleEntriesLoaded);
+            }
+        },
+        [handleEntriesLoaded, isApiSubscribed, path],
+    );
 
     const load = useCallback(() => {
         setLoading(true);
-        Repository.loadEntryType(path).then((type) => {
-            if (type === 'folder') {
-                Repository.loadEntries(path).then(handleEntriesLoaded);
-            }
-        });
-    }, [path]);
+        Repository.loadEntryType(path).then(handleEntryTypeLoaded);
+    }, [path, handleEntryTypeLoaded]);
 
     useEffect(() => {
         load();
-    }, [load]);
-
-    const handleEntriesLoaded = (e: Entry[]): void => {
-        setEntries(e);
-        setLoading(false);
-    };
+        return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            isApiSubscribed = false;
+        };
+    }, [load, isApiSubscribed]);
 
     const renderHead = (): JSX.Element => (
         <Helmet>

@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/core/styles';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
+import { makeStyles } from '@mui/styles';
+import { SvgIconProps } from '@mui/material/SvgIcon';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -9,10 +9,6 @@ const useStyles = makeStyles({
         position: 'absolute',
         textAlign: 'center',
         width: '100%',
-    },
-    icon: {
-        height: 128,
-        width: 128,
     },
 });
 
@@ -24,10 +20,11 @@ interface Props {
 
 export default function EmptyState({ description, Icon, children }: Props) {
     const classes = useStyles();
+    const iconSize = 128;
 
     return (
         <div className={classes.root}>
-            <Icon className={classes.icon} />
+            <Icon sx={{ height: iconSize, width: iconSize }} />
             <div>{description}</div>
             {children}
         </div>

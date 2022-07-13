@@ -1,30 +1,22 @@
-import { List } from '@material-ui/core';
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import { List } from '@mui/material';
+import React, { useRef } from 'react';
 
 import Entry from './Entry';
 import * as types from '../types';
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            background: theme.palette.background.paper,
-            paddingBottom: 56,
-            paddingTop: 80,
-            width: '100%',
-        },
-    }),
-);
 
 interface Props {
     entries: types.Entry[];
 }
 
 export default function EntryList({ entries }: Props) {
-    const classes = useStyles();
+    const styles = {
+        paddingBottom: '56px',
+        paddingTop: '80px',
+        width: '100%',
+    };
 
     return (
-        <List className={classes.root}>
+        <List sx={styles} ref={useRef<HTMLUListElement>(null)}>
             {entries.map((entry, index) => (
                 <Entry {...entry} key={index} />
             ))}

@@ -1,14 +1,14 @@
 import _ from 'lodash';
-import { Drawer } from '@material-ui/core';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Drawer, Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import React from 'react';
 
 import SearchField from './SearchField';
 
 const useStyles = makeStyles((theme: Theme) => ({
     searchField: {
-        paddingLeft: theme.spacing,
-        paddingRight: theme.spacing,
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
     },
 }));
 

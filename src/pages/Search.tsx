@@ -1,7 +1,7 @@
 import {
     SearchTwoTone as SearchEmptyIcon,
     WeekendTwoTone as EmptyIcon,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';

@@ -1,5 +1,5 @@
-import { TextField } from '@material-ui/core';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { TextField, Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -8,8 +8,8 @@ const useStyles = makeStyles((theme: Theme) => ({
         flexWrap: 'wrap',
     },
     textField: {
-        marginLeft: theme.spacing,
-        marginRight: theme.spacing,
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
         width: 200,
     },
 }));
@@ -21,6 +21,12 @@ interface Props {
 
 export default function SearchField({ onChange, defaultValue }: Props) {
     const classes = useStyles();
+
+    const handleChange = (onChangeCb: (query: string) => void) => {
+        return (event: React.ChangeEvent<HTMLInputElement>): void =>
+            onChangeCb(event.target.value);
+    };
+
     return (
         <div className={classes.root}>
             <TextField
@@ -32,12 +38,8 @@ export default function SearchField({ onChange, defaultValue }: Props) {
                 fullWidth
                 margin="normal"
                 onChange={handleChange(onChange)}
+                variant="standard"
             />
         </div>
     );
-}
-
-function handleChange(onChange: (query: string) => void) {
-    return (event: React.ChangeEvent<HTMLInputElement>): void =>
-        onChange(event.target.value);
 }

@@ -1,11 +1,11 @@
 import { List } from '@mui/material';
 import React, { useRef } from 'react';
 
-import Entry from './Entry';
-import * as types from '../types';
+import Entry from 'components/Entry';
+import { Entry as DbEntry } from 'types';
 
 interface Props {
-    entries: types.Entry[];
+    entries: DbEntry[];
 }
 
 export default function EntryList({ entries }: Props) {

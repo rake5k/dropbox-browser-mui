@@ -3,7 +3,7 @@ import { Drawer, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 
-import SearchField from './SearchField';
+import SearchField from 'components/SearchField';
 
 const useStyles = makeStyles((theme: Theme) => ({
     searchField: {

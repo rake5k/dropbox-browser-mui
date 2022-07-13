@@ -7,10 +7,10 @@ import {
     Routes,
 } from 'react-router-dom';
 
-import Browse, { context as browseContext } from './pages/Browse';
-import Layout from './pages/Layout';
-import NoMatch from './pages/NoMatch';
-import Search, { context as searchContext } from './pages/Search';
+import Browse, { context as browseContext } from 'pages/Browse';
+import Layout from 'pages/Layout';
+import NoMatch from 'pages/NoMatch';
+import Search, { context as searchContext } from 'pages/Search';
 
 const theme = createTheme({
     palette: {

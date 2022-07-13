@@ -2,7 +2,7 @@ import { Avatar, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 
-import logo from '../assets/logo.jpg';
+import logo from 'assets/logo.jpg';
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {

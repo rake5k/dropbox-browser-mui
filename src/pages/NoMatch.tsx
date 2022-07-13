@@ -2,7 +2,7 @@ import { CancelPresentationTwoTone as NoMatchIcon } from '@mui/icons-material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import EmptyState from '../components/EmptyState';
+import EmptyState from 'components/EmptyState';
 
 export default function NoMatch() {
     return (

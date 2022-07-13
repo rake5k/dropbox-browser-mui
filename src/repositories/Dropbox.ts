@@ -1,13 +1,13 @@
 import DropboxTypes, { Dropbox } from 'dropbox';
 import _ from 'lodash';
 
-import * as types from '../types';
+import { Entry, EntryType, File, FileEntry, FolderEntry } from 'types';
 
 const dbx = new Dropbox({
     accessToken: process.env.REACT_APP_DROPBOX_ACCESS_TOKEN,
 });
 
-export async function loadEntries(path: string): Promise<types.Entry[]> {
+export async function loadEntries(path: string): Promise<Entry[]> {
     return dbx
         .filesListFolder({ path })
         .then((res) =>
@@ -19,7 +19,7 @@ export async function loadEntries(path: string): Promise<types.Entry[]> {
         );
 }
 
-export async function loadFile(path: string): Promise<types.File> {
+export async function loadFile(path: string): Promise<File> {
     return dbx.filesGetTemporaryLink({ path }).then((res) => ({
         name: res.result.metadata.name,
         link: res.result.link,
@@ -28,7 +28,7 @@ export async function loadFile(path: string): Promise<types.File> {
 
 export async function loadEntryType(
     path: string,
-): Promise<types.EntryType | 'deleted'> {
+): Promise<EntryType | 'deleted'> {
     if (path === '' || path === '/') {
         return 'folder';
     }
@@ -36,7 +36,7 @@ export async function loadEntryType(
     return dbx.filesGetMetadata({ path }).then((res) => res.result['.tag']);
 }
 
-export async function search(query: string): Promise<types.Entry[]> {
+export async function search(query: string): Promise<Entry[]> {
     return dbx
         .filesSearchV2({
             query,
@@ -55,7 +55,7 @@ export async function search(query: string): Promise<types.Entry[]> {
         });
 }
 
-function orderEntries(entries: types.Entry[]): types.Entry[] {
+function orderEntries(entries: Entry[]): Entry[] {
     const folders = _(entries)
         .filter((entry) => entry.type === 'folder')
         .sortBy(['name'])
@@ -77,7 +77,7 @@ function normalizeEntry(
         | DropboxTypes.files.FileMetadataReference
         | DropboxTypes.files.FolderMetadataReference
         | DropboxTypes.files.DeletedMetadataReference,
-): types.Entry {
+): Entry {
     switch (entry['.tag']) {
         case 'file':
             return normalizeEntryFile(entry);
@@ -92,7 +92,7 @@ function normalizeEntry(
 
 function normalizeEntryFile(
     entry: DropboxTypes.files.FileMetadataReference,
-): types.FileEntry {
+): FileEntry {
     if (!entry.path_display) {
         throw new Error(
             `Required property 'path_display' of entry is not set: ${entry}`,
@@ -109,7 +109,7 @@ function normalizeEntryFile(
 
 function normalizeEntryFolder(
     entry: DropboxTypes.files.FolderMetadataReference,
-): types.FolderEntry {
+): FolderEntry {
     if (!entry.path_display) {
         throw new Error(
             `Required property 'path_display' of entry is not set: ${entry}`,

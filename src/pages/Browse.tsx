@@ -3,18 +3,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router-dom';
 
-import EmptyState from '../components/EmptyState';
-import EntryList from '../components/EntryList';
-import Loader from '../components/Loader';
-import SearchButton from '../components/SearchButton';
-import * as Repository from '../repositories/Dropbox';
-import * as types from '../types';
+import EmptyState from 'components/EmptyState';
+import EntryList from 'components/EntryList';
+import Loader from 'components/Loader';
+import SearchButton from 'components/SearchButton';
+import * as Repository from 'repositories/Dropbox';
+import { Entry } from 'types';
 
 export const context = 'browse';
 
 export default function Browse() {
     const path = getBrowsePath(useLocation().pathname);
-    const [entries, setEntries] = useState<types.Entry[]>([]);
+    const [entries, setEntries] = useState<Entry[]>([]);
     const [isLoading, setLoading] = useState(true);
 
     const load = useCallback(() => {
@@ -30,7 +30,7 @@ export default function Browse() {
         load();
     }, [load]);
 
-    const handleEntriesLoaded = (e: types.Entry[]): void => {
+    const handleEntriesLoaded = (e: Entry[]): void => {
         setEntries(e);
         setLoading(false);
     };

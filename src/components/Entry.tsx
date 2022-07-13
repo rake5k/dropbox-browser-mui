@@ -10,10 +10,10 @@ import moment from 'moment';
 import React, { forwardRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import * as types from '../types';
-import { appendParam } from '../utils/SearchParams';
+import { Entry as DbEntry } from 'types';
+import { appendParam } from 'utils/SearchParams';
 
-interface Props extends types.Entry {
+interface Props extends DbEntry {
     date?: string;
 }
 

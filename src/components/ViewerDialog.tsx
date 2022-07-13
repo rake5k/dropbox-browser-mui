@@ -8,16 +8,16 @@ import {
     Typography,
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
+import _ from 'lodash';
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import Loader from './Loader';
-import Viewer from './Viewer';
-import * as Repository from '../repositories/Dropbox';
-import * as types from '../types';
-import { deleteParam } from '../utils/SearchParams';
-import SearchQuery from '../utils/SearchQuery';
-import _ from 'lodash';
+import Loader from 'components/Loader';
+import Viewer from 'components/Viewer';
+import * as Repository from 'repositories/Dropbox';
+import { File } from 'types';
+import { deleteParam } from 'utils/SearchParams';
+import SearchQuery from 'utils/SearchQuery';
 
 const Transition = forwardRef((props: SlideProps, ref) => (
     <Slide direction="up" ref={ref} {...props} />
@@ -46,7 +46,7 @@ export default function ViewerDialog() {
         resetState();
     };
 
-    const handleFileLoaded = (f: types.File) => {
+    const handleFileLoaded = (f: File) => {
         setFile(f);
         setLoading(false);
     };

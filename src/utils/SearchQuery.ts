@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export default class SearchQuery {
     private readonly _searchKey: string;
 
@@ -9,6 +7,4 @@ export default class SearchQuery {
 
     get = (params: URLSearchParams): string =>
         params.get(this._searchKey) || '';
-
-    isEmpty = (params: URLSearchParams): boolean => _.isEmpty(this.get(params));
 }

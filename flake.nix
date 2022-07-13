@@ -52,7 +52,7 @@
               figlet
               lolcat
 
-              nodejs-16_x
+              nodejs-18_x
             ];
 
             shellHook = ''

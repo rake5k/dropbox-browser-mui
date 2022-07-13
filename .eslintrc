@@ -1,3 +1,10 @@
 {
-  "extends": "react-app"
+  "extends": "react-app",
+  "overrides": [
+    {
+      "files": [
+        "**/*.ts?(x)"
+      ]
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
+import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import React from 'react';
 import {
     BrowserRouter as Router,
@@ -30,7 +30,7 @@ const theme = createTheme({
 export default function App(): JSX.Element {
     return (
         <Router>
-            <MuiThemeProvider theme={theme}>
+            <ThemeProvider theme={theme}>
                 <div>
                     <Routes>
                         <Route path="/" element={<Layout />}>
@@ -49,7 +49,7 @@ export default function App(): JSX.Element {
                         </Route>
                     </Routes>
                 </div>
-            </MuiThemeProvider>
+            </ThemeProvider>
         </Router>
     );
 }

@@ -17,11 +17,15 @@ export default function Browse() {
     const path = getBrowsePath(useLocation().pathname);
     const [entries, setEntries] = useState<Entry[]>([]);
     const [isLoading, setLoading] = useState(true);
-    let isApiSubscribed = true;
+    const [isApiSubscribed, setApiSubscribed] = useState(true);
 
     const handleEntriesLoaded = useCallback(
         (e: Entry[]): void => {
-            if (isApiSubscribed) {
+            if (!isApiSubscribed) {
+                console.log(
+                    'Browse: Api subscription was cancelled, doing nothing.',
+                );
+            } else {
                 setEntries(e);
                 setLoading(false);
             }
@@ -31,7 +35,15 @@ export default function Browse() {
 
     const handleEntryTypeLoaded = useCallback(
         (type: EntryType | 'deleted') => {
-            if (isApiSubscribed && type === 'folder') {
+            if (!isApiSubscribed) {
+                console.log(
+                    'Browse: Api subscription was cancelled, doing nothing.',
+                );
+            } else if (type !== 'folder') {
+                console.log(
+                    `Browse: Loaded entry type is ${type}, doing nothing.`,
+                );
+            } else {
                 Repository.loadEntries(path).then(handleEntriesLoaded);
             }
         },
@@ -39,17 +51,22 @@ export default function Browse() {
     );
 
     const load = useCallback(() => {
+        setApiSubscribed(true);
         setLoading(true);
         Repository.loadEntryType(path).then(handleEntryTypeLoaded);
     }, [path, handleEntryTypeLoaded]);
 
     useEffect(() => {
+        console.log('Browse: Path has changed, loading data from api...');
         load();
+    }, [load, path]);
+
+    useEffect(() => {
         return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            isApiSubscribed = false;
+            console.log('Browse: Clean-up: Cancelling api subscription.');
+            setApiSubscribed(false);
         };
-    }, [load, isApiSubscribed]);
+    }, [path]);
 
     const renderHead = (): JSX.Element => (
         <Helmet>

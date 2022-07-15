@@ -20,14 +20,18 @@ export const context = 'search';
 
 export default function Search() {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [entries, setEntries] = useState<Entry[]>([]);
-    const [isLoading, setLoading] = useState(false);
     const query = new SearchQuery('q').get(searchParams);
-    let isApiSubscribed = true;
+    const [entries, setEntries] = useState<Entry[]>([]);
+    const [isLoading, setLoading] = useState(true);
+    const [isApiSubscribed, setApiSubscribed] = useState(true);
 
     const handleEntriesLoaded = useCallback(
         (e: Entry[]): void => {
-            if (isApiSubscribed) {
+            if (!isApiSubscribed) {
+                console.log(
+                    `Search: Api subscription was cancelled, doing nothing.`,
+                );
+            } else {
                 setEntries(e);
                 setLoading(false);
             }
@@ -36,19 +40,29 @@ export default function Search() {
     );
 
     const load = useCallback(() => {
-        if (!_.isEmpty(query)) {
+        if (_.isEmpty(query)) {
+            console.log('Search: Query is empty, doing nothing.');
+        } else {
+            setApiSubscribed(true);
             setLoading(true);
             Repository.search(query).then(handleEntriesLoaded);
         }
     }, [query, handleEntriesLoaded]);
 
     useEffect(() => {
+        console.log('Search: Query has changed, loading data from api...');
         load();
         return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            isApiSubscribed = false;
+            setApiSubscribed(false);
         };
-    }, [load, isApiSubscribed]);
+    }, [load, query]);
+
+    useEffect(() => {
+        return () => {
+            console.log('Search: Clean-up: Cancelling api subscription.');
+            setApiSubscribed(false);
+        };
+    }, [query]);
 
     const renderHead = (): JSX.Element => (
         <Helmet>
@@ -61,8 +75,11 @@ export default function Search() {
     );
 
     const renderContent = (): JSX.Element => {
-        if (isLoading) {
-            return <Loader />;
+        if (_.isEmpty(query)) {
+            const description = 'Begin typing to start the search';
+            return (
+                <EmptyState description={description} Icon={SearchEmptyIcon} />
+            );
         }
 
         if (_.isEmpty(query)) {
@@ -70,6 +87,9 @@ export default function Search() {
             return (
                 <EmptyState description={description} Icon={SearchEmptyIcon} />
             );
+        }
+        if (isLoading) {
+            return <Loader />;
         }
 
         if (!entries.length) {

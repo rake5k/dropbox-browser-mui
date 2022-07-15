@@ -33,6 +33,10 @@ export default function ViewerDialog() {
 
     const load = useCallback(() => {
         if (isOpen) {
+            console.log(
+                'ViewerDialog: Query has changed, loading data from api...',
+            );
+            setLoading(true);
             Repository.loadFile(query).then(handleFileLoaded);
         }
     }, [isOpen, query]);
@@ -42,18 +46,13 @@ export default function ViewerDialog() {
     }, [load]);
 
     const handleClose = (): void => {
+        console.log('ViewerDialog: Closing dialog...');
         setSearchParams(deleteParam(searchParams, 'f'));
-        resetState();
     };
 
     const handleFileLoaded = (f: File) => {
         setFile(f);
         setLoading(false);
-    };
-
-    const resetState = (): void => {
-        setLoading(true);
-        setFile({ name: '', link: '' });
     };
 
     return (

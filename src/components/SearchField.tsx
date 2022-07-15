@@ -1,18 +1,5 @@
-import { TextField, Theme } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { SxProps, TextField, Theme } from '@mui/material';
 import React from 'react';
-
-const useStyles = makeStyles((theme: Theme) => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 200,
-    },
-}));
 
 interface Props {
     onChange: (query: string) => void;
@@ -20,15 +7,24 @@ interface Props {
 }
 
 export default function SearchField({ onChange, defaultValue }: Props) {
-    const classes = useStyles();
-
     const handleChange = (onChangeCb: (query: string) => void) => {
         return (event: React.ChangeEvent<HTMLInputElement>): void =>
             onChangeCb(event.target.value);
     };
 
+    const rootStyles: React.CSSProperties = {
+        display: 'flex',
+        flexWrap: 'wrap',
+    };
+
+    const textFieldStyles: SxProps<Theme> = {
+        marginLeft: (theme) => theme.spacing(1),
+        marginRight: (theme) => theme.spacing(1),
+        width: 200,
+    };
+
     return (
-        <div className={classes.root}>
+        <div style={rootStyles}>
             <TextField
                 autoComplete="off"
                 autoFocus
@@ -38,6 +34,7 @@ export default function SearchField({ onChange, defaultValue }: Props) {
                 fullWidth
                 margin="normal"
                 onChange={handleChange(onChange)}
+                sx={textFieldStyles}
                 variant="standard"
             />
         </div>

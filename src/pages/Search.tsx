@@ -97,7 +97,7 @@ export default function Search() {
             return <EmptyState description={description} Icon={EmptyIcon} />;
         }
 
-        return <EntryList entries={entries} />;
+        return <EntryList entries={entries} sx={{ paddingBottom: 7 }} />;
     };
 
     return (

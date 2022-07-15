@@ -9,24 +9,22 @@ interface Props {
 }
 
 export default function SimpleAppBar(props: Props) {
-    const styles: React.CSSProperties = {
+    const styles = {
         position: 'fixed',
         width: '100%',
-        zIndex: 1000,
+        zIndex: 'modal',
     };
 
     return (
-        <div style={styles}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Link to="/">
-                        <Logo />
-                    </Link>
-                    <Typography variant="h6" color="inherit">
-                        {props.title}
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-        </div>
+        <AppBar position="static" sx={styles}>
+            <Toolbar>
+                <Link to="/">
+                    <Logo />
+                </Link>
+                <Typography variant="h6" color="inherit">
+                    {props.title}
+                </Typography>
+            </Toolbar>
+        </AppBar>
     );
 }

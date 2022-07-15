@@ -101,7 +101,7 @@ export default function Search() {
     };
 
     return (
-        <div>
+        <>
             {renderHead()}
             {renderContent()}
             <SearchButton isActive={true} />
@@ -110,6 +110,6 @@ export default function Search() {
                 isOpen={true}
                 onSearch={(q) => setSearchParams({ q }, { replace: true })}
             />
-        </div>
+        </>
     );
 }

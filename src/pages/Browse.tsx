@@ -92,11 +92,11 @@ export default function Browse() {
     };
 
     return (
-        <div>
+        <>
             {renderHead()}
             {renderContent()}
             <SearchButton isActive={false} />
-        </div>
+        </>
     );
 }
 

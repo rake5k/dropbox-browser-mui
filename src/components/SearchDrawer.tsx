@@ -1,16 +1,8 @@
 import _ from 'lodash';
-import { Drawer, Theme } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Drawer } from '@mui/material';
 import React from 'react';
 
 import SearchField from 'components/SearchField';
-
-const useStyles = makeStyles((theme: Theme) => ({
-    searchField: {
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1),
-    },
-}));
 
 interface Props {
     isOpen: boolean;
@@ -23,7 +15,10 @@ export default function SearchDrawer({
     onSearch,
     defaultValue,
 }: Props) {
-    const classes = useStyles();
+    const searchFieldWrapperStyles: React.CSSProperties = {
+        paddingLeft: 16,
+        paddingRight: 16,
+    };
 
     const handleSearch = (q: string): void => {
         debouncedSearch.cancel();
@@ -37,7 +32,7 @@ export default function SearchDrawer({
 
     return (
         <Drawer anchor="bottom" open={isOpen} variant="persistent">
-            <div className={classes.searchField}>
+            <div style={searchFieldWrapperStyles}>
                 {isOpen && (
                     <SearchField
                         defaultValue={defaultValue}

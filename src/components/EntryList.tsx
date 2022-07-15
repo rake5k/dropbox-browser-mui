@@ -1,5 +1,5 @@
 import { List } from '@mui/material';
-import React, { useRef } from 'react';
+import React, { memo, useRef } from 'react';
 
 import Entry from 'components/Entry';
 import { Entry as DbEntry } from 'types';
@@ -8,7 +8,7 @@ interface Props {
     entries: DbEntry[];
 }
 
-export default function EntryList({ entries }: Props) {
+export default memo(function EntryList({ entries }: Props) {
     const styles = {
         paddingBottom: '56px',
         paddingTop: '80px',
@@ -22,4 +22,4 @@ export default function EntryList({ entries }: Props) {
             ))}
         </List>
     );
-}
+});

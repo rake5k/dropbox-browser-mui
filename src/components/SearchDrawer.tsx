@@ -15,7 +15,7 @@ export default function SearchDrawer({
     onSearch,
     defaultValue,
 }: Props) {
-    const searchFieldWrapperStyles: React.CSSProperties = {
+    const searchFieldWrapperStyles = {
         paddingLeft: 16,
         paddingRight: 16,
     };

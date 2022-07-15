@@ -8,13 +8,14 @@ interface Props {
 }
 
 export default function EmptyState({ description, Icon, children }: Props) {
-    const rootStyles: React.CSSProperties = {
+    const rootStyles = {
         color: '#cccccc',
         marginTop: `80px`,
         position: 'absolute',
         textAlign: 'center',
         width: '100%',
-    };
+    } as const;
+
     const iconStyles = {
         height: 128,
         width: 128,

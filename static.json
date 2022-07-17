@@ -2,5 +2,16 @@
   "root": "build/",
   "routes": {
     "/**": "index.html"
+  },
+  "headers": {
+    "/**": {
+      "Cache-Control": "no-store, no-cache"
+    },
+    "/static/**": {
+      "Cache-Control": "public, max-age=31536000"
+    },
+    "/favicon.png": {
+      "Cache-Control": "public, max-age=31536000"
+    }
   }
 }

@@ -14,6 +14,7 @@ import SearchDrawer from 'components/SearchDrawer';
 import SearchButton from 'components/SearchButton';
 import * as Repository from 'repositories/Dropbox';
 import { Entry } from 'types';
+import * as log from 'utils/Logger';
 import SearchQuery from 'utils/SearchQuery';
 
 export const context = 'search';
@@ -28,7 +29,7 @@ export default function Search() {
     const handleEntriesLoaded = useCallback(
         (e: Entry[]): void => {
             if (!isApiSubscribed) {
-                console.log(
+                log.debug(
                     `Search: Api subscription was cancelled, doing nothing.`,
                 );
             } else {
@@ -41,7 +42,7 @@ export default function Search() {
 
     const load = useCallback(() => {
         if (_.isEmpty(query)) {
-            console.log('Search: Query is empty, doing nothing.');
+            log.debug('Search: Query is empty, doing nothing.');
         } else {
             setApiSubscribed(true);
             setLoading(true);
@@ -50,7 +51,7 @@ export default function Search() {
     }, [query, handleEntriesLoaded]);
 
     useEffect(() => {
-        console.log('Search: Query has changed, loading data from api...');
+        log.debug('Search: Query has changed, loading data from api...');
         load();
         return () => {
             setApiSubscribed(false);
@@ -59,7 +60,7 @@ export default function Search() {
 
     useEffect(() => {
         return () => {
-            console.log('Search: Clean-up: Cancelling api subscription.');
+            log.debug('Search: Clean-up: Cancelling api subscription.');
             setApiSubscribed(false);
         };
     }, [query]);

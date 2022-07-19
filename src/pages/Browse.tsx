@@ -8,8 +8,8 @@ import EntryList from 'components/EntryList';
 import Loader from 'components/Loader';
 import SearchButton from 'components/SearchButton';
 import * as Repository from 'repositories/Dropbox';
-import { Entry } from 'types';
-import { EntryType } from '../types';
+import { Entry, EntryType } from 'types';
+import * as log from 'utils/Logger';
 
 export const context = 'browse';
 
@@ -22,7 +22,7 @@ export default function Browse() {
     const handleEntriesLoaded = useCallback(
         (e: Entry[]): void => {
             if (!isApiSubscribed) {
-                console.log(
+                log.debug(
                     'Browse: Api subscription was cancelled, doing nothing.',
                 );
             } else {
@@ -36,11 +36,11 @@ export default function Browse() {
     const handleEntryTypeLoaded = useCallback(
         (type: EntryType | 'deleted') => {
             if (!isApiSubscribed) {
-                console.log(
+                log.debug(
                     'Browse: Api subscription was cancelled, doing nothing.',
                 );
             } else if (type !== 'folder') {
-                console.log(
+                log.debug(
                     `Browse: Loaded entry type is ${type}, doing nothing.`,
                 );
             } else {
@@ -57,13 +57,13 @@ export default function Browse() {
     }, [path, handleEntryTypeLoaded]);
 
     useEffect(() => {
-        console.log('Browse: Path has changed, loading data from api...');
+        log.debug('Browse: Path has changed, loading data from api...');
         load();
     }, [load, path]);
 
     useEffect(() => {
         return () => {
-            console.log('Browse: Clean-up: Cancelling api subscription.');
+            log.debug('Browse: Clean-up: Cancelling api subscription.');
             setApiSubscribed(false);
         };
     }, [path]);

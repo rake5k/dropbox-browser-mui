@@ -16,6 +16,7 @@ import Loader from 'components/Loader';
 import Viewer from 'components/Viewer';
 import * as Repository from 'repositories/Dropbox';
 import { File } from 'types';
+import * as log from 'utils/Logger';
 import { deleteParam } from 'utils/SearchParams';
 import SearchQuery from 'utils/SearchQuery';
 
@@ -33,7 +34,7 @@ export default function ViewerDialog() {
 
     const load = useCallback(() => {
         if (isOpen) {
-            console.log(
+            log.debug(
                 'ViewerDialog: Query has changed, loading data from api...',
             );
             setLoading(true);
@@ -46,7 +47,7 @@ export default function ViewerDialog() {
     }, [load]);
 
     const handleClose = (): void => {
-        console.log('ViewerDialog: Closing dialog...');
+        log.debug('ViewerDialog: Closing dialog...');
         setSearchParams(deleteParam(searchParams, 'f'));
     };
 

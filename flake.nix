@@ -53,6 +53,7 @@
               lolcat
 
               nodejs-18_x
+              xsel
             ];
 
             shellHook = ''

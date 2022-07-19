@@ -1,36 +1,25 @@
-import Log4js from 'log4js';
+import log from 'loglevel';
 
 const isProduction = process.env.NODE_ENV === 'production';
-
-const logger = Log4js.getLogger();
-logger.level = isProduction ? Log4js.levels.WARN : Log4js.levels.ALL;
+const level = isProduction ? log.levels.WARN : log.levels.TRACE;
+log.setLevel(level);
 
 export const trace = (msg: string, ...args: any[]) => {
-    if (logger.isTraceEnabled()) {
-        logger.trace(msg, args);
-    }
+    log.trace(msg, args);
 };
 
 export const debug = (msg: string, ...args: any[]) => {
-    if (logger.isDebugEnabled()) {
-        logger.debug(msg, args);
-    }
+    log.debug(msg, args);
 };
 
 export const info = (msg: string, ...args: any[]) => {
-    if (logger.isInfoEnabled()) {
-        logger.info(msg, args);
-    }
+    log.info(msg, args);
 };
 
 export const warn = (msg: string, ...args: any[]) => {
-    if (logger.isWarnEnabled()) {
-        logger.warn(msg, args);
-    }
+    log.warn(msg, args);
 };
 
 export const error = (msg: string, ...args: any[]) => {
-    if (logger.isErrorEnabled()) {
-        logger.error(msg, args);
-    }
+    log.error(msg, args);
 };

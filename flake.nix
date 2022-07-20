@@ -14,7 +14,7 @@
 
   outputs = { self, nixpkgs, pre-commit-hooks }:
     let
-      name = "dropbox-browser";
+      name = "dropbox-browser-mui";
 
       # System types to support.
       supportedSystems = [ "x86_64-linux" ];
@@ -57,7 +57,7 @@
             ];
 
             shellHook = ''
-              figlet -w 83 ${name} | lolcat --freq 0.5
+              figlet -w 106 ${name} | lolcat --freq 0.5
                 ${self.checks.${system}.pre-commit-check.shellHook}
             '';
           };

@@ -36,7 +36,7 @@
   },
   "scripts": {
     "start": "env-cmd react-scripts start",
-    "build": "env-cmd react-scripts build",
+    "build": "env-cmd -f .env.production react-scripts build",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "test": "react-scripts test --env=jsdom",

@@ -1,9 +1,8 @@
-name: Release
+name: Version
 
 on:
   push:
-    tags:
-    - '*'
+    branches: [ master ]
 
 jobs:
   version:
@@ -35,6 +34,3 @@ jobs:
 
       - name: Git push
         run: git push && git push --tags
-
-      - name: Release
-        uses: softprops/action-gh-release@v1

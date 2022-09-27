@@ -81,7 +81,7 @@
                 '';
               in
               pkgs.dockerTools.buildLayeredImage {
-                name = app.pname;
+                name = "christianharke/${app.pname}";
                 tag = app.version;
                 contents = with pkgs; [
                   bash

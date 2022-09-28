@@ -2,7 +2,7 @@ name: Continuous Deployment
 
 on:
   release:
-    types: [ released ]
+    types: [ published ]
 
 jobs:
   deploy:

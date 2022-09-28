@@ -23,14 +23,16 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Git set user name
-        run: git config --global user.name 'Christian Harke'
-
-      - name: Git set user e-mail
-        run: git config --global user.email 'christian@harke.ch'
+      - name: Git config
+        run: |
+          git config --global user.name 'Christian Harke'
+          git config --global user.email 'christian@harke.ch'
 
       - name: Bump version
         run: npm version patch -m "[RELEASE] %s"
 
-      - name: Git push
-        run: git push && git push --tags
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tags: true

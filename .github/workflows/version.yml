@@ -33,10 +33,4 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push tag
-        uses: ad-m/github-push-action@master
-        with:
           github_token: ${{ secrets.PUSH_PAT }}
-          tags: true

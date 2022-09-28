@@ -6,7 +6,7 @@ on:
       - "v*.*.*"
 
 jobs:
-  version:
+  release:
     runs-on: ubuntu-latest
 
     steps:

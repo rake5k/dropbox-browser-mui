@@ -22,7 +22,7 @@ jobs:
         env:
           cache-name: cache-nix-container
         with:
-          path: ~/result
+          path: result
           key: ${{ runner.os }}-build-${{ env.cache-name }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}

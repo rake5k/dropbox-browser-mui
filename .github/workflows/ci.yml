@@ -17,7 +17,6 @@ jobs:
     steps:
       - name: Git checkout
         uses: actions/checkout@v3
-            ${{ runner.os }}-
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -36,6 +35,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Install node modules
         run: npm ci

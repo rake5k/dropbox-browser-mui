@@ -16,6 +16,17 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v15
 
+      - name: Cache nix container build output
+        id: cache-nix-container
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-nix-container
+        with:
+          path: ~/result
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+
       - name: Build Docker container using Nix
         run: nix build ".#docker"
         # Store the image in ./result

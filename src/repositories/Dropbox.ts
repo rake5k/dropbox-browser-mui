@@ -1,10 +1,10 @@
 import DropboxTypes, { Dropbox } from 'dropbox';
-import _ from 'lodash';
+import _ from 'lodash-es';
 
 import { Entry, EntryType, File, FileEntry, FolderEntry } from 'types';
 
 const dbx = new Dropbox({
-    accessToken: process.env.REACT_APP_DROPBOX_ACCESS_TOKEN,
+    accessToken: import.meta.env.VITE_DROPBOX_ACCESS_TOKEN,
 });
 
 export async function loadEntries(path: string): Promise<Entry[]> {

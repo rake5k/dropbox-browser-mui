@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash-es';
 import { Drawer } from '@mui/material';
 import React from 'react';
 

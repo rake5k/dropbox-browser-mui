@@ -18,6 +18,8 @@
     "crypto": "npm:crypto-browserify",
     "dropbox": "^10.32.0",
     "env-cmd": "^10.1.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
     "lodash-es": "^4.17.21",
     "loglevel": "^1.8.0",
     "moment": "^2.29.4",
@@ -52,6 +54,16 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
     ]
   },
   "devDependencies": {

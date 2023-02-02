@@ -8,7 +8,7 @@ export default function Layout() {
     return (
         <>
             <SimpleAppBar
-                title={process.env.REACT_APP_TITLE || 'Untitled App'}
+                title={import.meta.env.VITE_APP_TITLE || 'Untitled App'}
             />
             <Outlet />
             <ViewerDialog />

@@ -2,7 +2,7 @@ import {
     SearchTwoTone as SearchEmptyIcon,
     WeekendTwoTone as EmptyIcon,
 } from '@mui/icons-material';
-import _ from 'lodash';
+import _ from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSearchParams } from 'react-router-dom';
@@ -70,7 +70,7 @@ export default function Search() {
             <title>
                 {query || 'Search'}
                 {' - '}
-                {process.env.REACT_APP_TITLE}
+                {import.meta.env.VITE_APP_TITLE}
             </title>
         </Helmet>
     );

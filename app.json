@@ -1,10 +1,10 @@
 {
   "name": "dropbox-browser",
   "env": {
-    "REACT_APP_DROPBOX_ACCESS_TOKEN": {
+    "VITE_DROPBOX_ACCESS_TOKEN": {
       "required": true
     },
-    "REACT_APP_TITLE": {
+    "VITE_APP_TITLE": {
       "value": "Dropbox Browser"
     }
   },

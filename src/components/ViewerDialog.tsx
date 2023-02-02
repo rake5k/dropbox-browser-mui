@@ -8,7 +8,7 @@ import {
     Typography,
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
-import _ from 'lodash';
+import _ from 'lodash-es';
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 

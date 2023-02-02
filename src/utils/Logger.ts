@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash-es';
 import log, { LogLevelNumbers } from 'loglevel';
 
 function isNum(level: string) {
@@ -54,10 +54,10 @@ const getLogLevelName = (level: LogLevelNumbers): string => {
     }
 };
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = import.meta.env.PROD === true;
 const defaultLevel = isProduction ? log.levels.WARN : log.levels.TRACE;
 const selectedLevel =
-    convertLogLevel(process.env.REACT_APP_LOG_LEVEL) || defaultLevel;
+    convertLogLevel(import.meta.env.VITE_LOG_LEVEL) || defaultLevel;
 log.setLevel(selectedLevel);
 log.info(`Log level set to \`${getLogLevelName(log.getLevel())}\`.`);
 

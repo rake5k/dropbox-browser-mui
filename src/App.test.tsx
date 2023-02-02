@@ -7,7 +7,7 @@ jest.mock('./repositories/Dropbox');
 
 describe('App', () => {
     it('renders without crashing', () => {
-        process.env.REACT_APP_TITLE = 'Dropbox Browser test';
+        import.meta.env.VITE_APP_TITLE = 'Dropbox Browser test';
         const root = ReactDOM.createRoot(
             document.createElement('root') as HTMLElement,
         );

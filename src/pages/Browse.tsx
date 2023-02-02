@@ -73,7 +73,7 @@ export default function Browse() {
             <title>
                 {path.split('/').pop() || 'Start'}
                 {' - '}
-                {process.env.REACT_APP_TITLE}
+                {import.meta.env.VITE_APP_TITLE}
             </title>
         </Helmet>
     );

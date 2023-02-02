@@ -46,6 +46,7 @@ export default function Entry(props: Props) {
             }
         },
     );
+    EntryLink.displayName = 'EntryLink';
 
     return (
         <ListItemButton

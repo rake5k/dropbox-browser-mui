@@ -56,11 +56,11 @@ export async function search(query: string): Promise<Entry[]> {
 }
 
 function orderEntries(entries: Entry[]): Entry[] {
-    const folders = _(entries)
+    const folders = _.chain(entries)
         .filter((entry) => entry.type === 'folder')
-        .sortBy(['name'])
+        .orderBy(['name'])
         .value();
-    const files = _(entries)
+    const files = _.chain(entries)
         .filter((entry) => entry.type === 'file')
         .map((entry) => ({
             ...entry,

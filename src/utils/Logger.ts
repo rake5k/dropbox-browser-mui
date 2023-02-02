@@ -61,22 +61,22 @@ const selectedLevel =
 log.setLevel(selectedLevel);
 log.info(`Log level set to \`${getLogLevelName(log.getLevel())}\`.`);
 
-export const trace = (msg: string, ...args: any[]) => {
+export const trace = (msg: string, ...args: never[]) => {
     log.trace(msg, args);
 };
 
-export const debug = (msg: string, ...args: any[]) => {
+export const debug = (msg: string, ...args: never[]) => {
     log.debug(msg, args);
 };
 
-export const info = (msg: string, ...args: any[]) => {
+export const info = (msg: string, ...args: never[]) => {
     log.info(msg, args);
 };
 
-export const warn = (msg: string, ...args: any[]) => {
+export const warn = (msg: string, ...args: never[]) => {
     log.warn(msg, args);
 };
 
-export const error = (msg: string, ...args: any[]) => {
+export const error = (msg: string, ...args: never[]) => {
     log.error(msg, args);
 };

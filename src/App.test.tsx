@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { describe, it, vi } from 'vitest';
 
 import App from './App';
 
-jest.mock('./repositories/Dropbox');
+vi.mock('./repositories/Dropbox');
 
 describe('App', () => {
     it('renders without crashing', () => {

@@ -41,7 +41,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "serve": "vite preview",
-    "test": "react-scripts test --env=jsdom"
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "browserslist": {
     "production": [
@@ -70,16 +71,19 @@
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
     "@vitejs/plugin-react": "^3.0.1",
+    "@vitest/coverage-istanbul": "^0.28.3",
     "eslint": "^8.33.0",
     "eslint-config-standard-with-typescript": "^34.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
+    "happy-dom": "^8.2.3",
     "typescript": "^4.9.5",
     "vite": "^4.0.4",
     "vite-plugin-html-env": "^1.2.7",
     "vite-plugin-svgr": "^2.4.0",
-    "vite-tsconfig-paths": "^4.0.5"
+    "vite-tsconfig-paths": "^4.0.5",
+    "vitest": "^0.28.3"
   }
 }

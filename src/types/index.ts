@@ -12,7 +12,7 @@ export interface FileEntry extends Entry {
     date: DropboxTypes.common.Date;
 }
 
-export interface FolderEntry extends Entry {}
+export type FolderEntry = Entry
 
 export interface File {
     name: string;

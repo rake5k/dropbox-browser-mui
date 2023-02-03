@@ -1,7 +1,8 @@
 import { List, SxProps, Theme } from '@mui/material';
 import React, { memo, useRef } from 'react';
 
-import Entry from 'components/Entry';
+import FileEntry from 'components/FileEntry';
+import FolderEntry from 'components/FolderEntry';
 import { Entry as DbEntry } from 'types';
 
 interface Props {
@@ -20,9 +21,13 @@ export default memo(function EntryList({ entries, sx = [] }: Props) {
 
     return (
         <List sx={styles} ref={useRef<HTMLUListElement>(null)}>
-            {entries.map((entry, index) => (
-                <Entry {...entry} key={index} />
-            ))}
+            {entries.map((entry, index) => {
+                if (entry.type === 'file') {
+                    return <FileEntry {...entry} key={index} />
+                } else {
+                    return <FolderEntry {...entry} key={index} />
+                }
+            })}
         </List>
     );
 });

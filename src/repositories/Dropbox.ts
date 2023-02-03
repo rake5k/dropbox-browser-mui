@@ -7,7 +7,7 @@ const dbx = new Dropbox({
     accessToken: import.meta.env.VITE_DROPBOX_ACCESS_TOKEN,
 });
 
-export async function loadEntries(path: string): Promise<Entry[]> {
+export async function loadEntries(path: string): Promise<FileEntry[] | FolderEntry[]> {
     return dbx
         .filesListFolder({ path })
         .then((res) =>
@@ -77,7 +77,7 @@ function normalizeEntry(
         | DropboxTypes.files.FileMetadataReference
         | DropboxTypes.files.FolderMetadataReference
         | DropboxTypes.files.DeletedMetadataReference,
-): Entry {
+): FolderEntry | FileEntry {
     switch (entry['.tag']) {
         case 'file':
             return normalizeEntryFile(entry);

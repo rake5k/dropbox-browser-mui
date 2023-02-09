@@ -40,6 +40,7 @@
       dream2nixOutputs = dream2nix.lib.makeFlakeOutputs {
         systems = supportedSystems;
         config.projectRoot = ./.;
+        projects = ./projects.toml;
         source = gitignore.lib.gitignoreSource ./.;
         settings = [
           {

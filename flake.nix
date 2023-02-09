@@ -62,7 +62,7 @@
           {
             docker =
               let
-                app = dream2nixOutputs.packages."${system}".default;
+                app = self.packages."${system}".default;
                 lighttpdConf = pkgs.writeText "lighttpd.conf" ''
                   var.basedir  = "/var/www/localhost"
                   var.statedir = "/var/lib/lighttpd"

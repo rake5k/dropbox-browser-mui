@@ -42,11 +42,6 @@
         config.projectRoot = ./.;
         projects = ./projects.toml;
         source = gitignore.lib.gitignoreSource ./.;
-        settings = [
-          {
-            subsystemInfo.nodejs = 18;
-          }
-        ];
       };
       customOutput = {
         checks = forAllSystems (system:

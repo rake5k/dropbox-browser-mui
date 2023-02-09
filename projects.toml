@@ -16,3 +16,4 @@ translator = "package-lock"
 translators = [ "package-lock", "package-json",]
 
 [dropbox-browser-mui.subsystemInfo]
+nodejs = 18

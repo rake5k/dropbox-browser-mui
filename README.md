@@ -37,8 +37,3 @@ directory on a host and serve it with your favourite http server.
 Creates Docker image archive based on the `build` directory, which then can be loaded into the
 Docker daemon via `docker load < result`. It can then be run with `docker run -p 3000:80
 <image>:<tag>`.
-
-## References
-
-For further details about the project setup, see the [Create React App docs](https://cra.link/).
-

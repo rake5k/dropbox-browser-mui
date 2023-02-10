@@ -7,6 +7,7 @@
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
+        gitignore.follows = "gitignore";
         nixpkgs.follows = "nixpkgs";
       };
     };
@@ -20,6 +21,7 @@
       url = "github:nix-community/dream2nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        pre-commit-hooks.follows = "pre-commit-hooks";
       };
     };
   };
@@ -43,6 +45,7 @@
         projects = ./projects.toml;
         source = gitignore.lib.gitignoreSource ./.;
       };
+
       customOutput = {
         checks = forAllSystems (system:
           {

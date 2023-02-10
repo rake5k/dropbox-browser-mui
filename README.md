@@ -27,10 +27,11 @@ tests](#running-tests) for more information.
 
 ## Build
 
-### `npm run build`
+### `nix build`
 
-Builds the application, optimized for production. Afterwards you can copy the resulting `build`
-directory on a host and serve it with your favourite http server.
+Builds the application, optimized for production. Afterwards you can copy the
+resulting `./result/lib/node_modules/dropbox-browser-mui/dist` directory on a host and serve it with
+your favourite http server.
 
 ### `nix build .#docker`
 

@@ -30,10 +30,11 @@
     let
       name = "dropbox-browser-mui";
 
-      # System types to support.
-      supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
+      devSystems = [ "x86_64-linux" ];
+      forDevSystems = nixpkgs.lib.genAttrs devSystems;
 
-      # Helper function to generate an attrset '{ x86_64-linux = f "x86_64-linux"; ... }'.
+      # System types to support.
+      supportedSystems = [ "aarch64-linux" ] ++ devSystems;
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
       # Nixpkgs instantiated for supported system types.
@@ -47,7 +48,7 @@
       };
 
       customOutput = {
-        checks = forAllSystems (system:
+        checks = forDevSystems (system:
           {
             pre-commit-check = pre-commit-hooks.lib."${system}".run {
               src = ./.;
@@ -90,6 +91,9 @@
                 fakeRootCommands = ''
                   mkdir -p /var/tmp /var/www/localhost /var/lib/lighttpd /run
                 '';
+                # Crucially, instead of a relative path, this creates /bin, which is intercepted by
+                # fakechroot. This functionality is not available on darwin as of 2021.
+                # see: https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/docker/examples.nix
                 enableFakechroot = true;
 
                 config = {
@@ -101,9 +105,9 @@
               };
           });
 
-        devShells = forAllSystems (system:
+        devShells = forDevSystems (system:
           let
-            pkgs = nixpkgsFor.${system};
+            pkgs = nixpkgsFor."${system}";
           in
           {
             default = pkgs.mkShell {

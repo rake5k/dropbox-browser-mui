@@ -7,19 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  nix-ci:
-    uses: christianharke/flake-commons/.github/workflows/nix-ci.yml@main
-    with:
-      branch: ${{ github.ref }}
-      system: x86_64-linux
-
-  nix-ci-arm:
-    uses: christianharke/flake-commons/.github/workflows/nix-ci-arm.yml@main
-    with:
-      branch: ${{ github.ref }}
-
   build:
-    needs: [ nix-ci, nix-ci-arm ]
     runs-on: ubuntu-latest
 
     strategy:

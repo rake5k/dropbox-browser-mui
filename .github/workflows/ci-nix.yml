@@ -8,12 +8,14 @@ on:
 
 jobs:
   nix-ci:
+    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     uses: christianharke/flake-commons/.github/workflows/nix-ci.yml@main
     with:
       branch: ${{ github.ref }}
       system: x86_64-linux
 
   nix-ci-arm:
+    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     uses: christianharke/flake-commons/.github/workflows/nix-ci-arm.yml@main
     with:
       branch: ${{ github.ref }}

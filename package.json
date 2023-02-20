@@ -1,6 +1,6 @@
 {
   "name": "dropbox-browser-mui",
-  "version": "0.1.77",
+  "version": "0.1.78",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",

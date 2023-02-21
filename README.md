@@ -9,23 +9,50 @@ Trivial Material-UI based Dropbox browsing app.
 | ![GitHub](./img/GitHub_Logo_White.png) | [![Continuous Integration][gh-ci-badge]][gh-ci] [![Continuous Deployment][gh-cd-badge]][gh-cd] [![Release][gh-release-badge]][gh-release]                                                                                                                                                                                                          |
 |  [![SonarCloud][sonar-badge]][sonar]   | [![Reliability Rating][sonar-rr-badge]][sonar-rr] [![Maintainability Rating][sonar-mty-badge]][sonar-mty] [![Security Rating][sonar-sec-badge]][sonar-sec]<br /> [![Bugs][sonar-bugs-badge]][sonar-bugs] [![Code Smells][sonar-cs-badge]][sonar-cs] [![Vulnerabilities][sonar-vn-badge]][sonar-vn]<br /> [![Coverage][sonar-cov-badge]][sonar-cov] |
 
-## Development
+## Getting started
 
-In the project directory, you can run:
+### Development environment
+
+The easiest way to get up and running is by using [Nix][nix] and [Direnv][direnv]. This project
+makes use of the experimental Nix Flakes and therefore requires
+to [enable that feature][nix-flakes-enable] as well.
+
+For more info about this topic refer to the
+corresponding [blog post from Determinate Systems][nix-and-direnv].
+
+### Dropbox API
+
+In order to access the Dropbox V2 API, an access token is required. This can be generated on a
+per-app basis via the [Developer Console][dropbox-dev-console].
+
+The access token then needs to be provided via an enrivonment variable:
+
+```shell
+$ export VITE_DROPBOX_ACCESS_TOKEN=<token>
+```
+
+## Developing
+
+### `npm run dev`
+
+Runs the app in development mode on [http://localhost:5173](http://localhost:5173).
+
+Hot reloading will be available, and compilation or linting errors will also be displayed inside the
+browser.
 
 ### `npm start`
 
-Runs the app in the development mode. Open [http://localhost:5173](http://localhost:5173) to
-preview it in the browser.
-
-Hot reloading will be active, and compilation or lint errors will also be displayed in the browser.
+For production mode.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.<br> See the section about [running
-tests](#running-tests) for more information.
+Run the test cases.
 
-## Build
+### `npm test:watch`
+
+Launches the test runner in interactive watch mode.
+
+## Building
 
 ### `nix build`
 
@@ -35,7 +62,7 @@ your favourite http server.
 
 ### `nix build .#docker`
 
-Creates Docker image archive based on the `build` directory, which then can be loaded into the
+Creates a Docker image archive based on the `build` directory, which then can be loaded into the
 Docker daemon via `docker load < result`. It can then be run with `docker run -p 3000:80
 <image>:<tag>`.
 

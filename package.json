@@ -41,8 +41,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "serve": "vite preview",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:watch": "vitest",
+    "test": "vitest run --coverage"
   },
   "browserslist": {
     "production": [

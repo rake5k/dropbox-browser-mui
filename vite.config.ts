@@ -7,7 +7,7 @@ import VitePluginHtmlEnv from 'vite-plugin-html-env';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react(), viteTsconfigPaths(), svgrPlugin(), VitePluginHtmlEnv()],
+    plugins: [react(), viteTsconfigPaths(), svgrPlugin()],
     test: {
         environment: 'happy-dom',
         coverage: {

@@ -33,16 +33,20 @@ $ export VITE_DROPBOX_ACCESS_TOKEN=<token>
 
 ## Developing
 
-### `npm run dev`
+### `npm start`
 
 Runs the app in development mode on [http://localhost:5173](http://localhost:5173).
 
 Hot reloading will be available, and compilation or linting errors will also be displayed inside the
 browser.
 
-### `npm start`
+### `npm run lint`
 
-For production mode.
+Run the linter.
+
+### `npm run lint:fix`
+
+Run the linter and fix auto-fixable issues.
 
 ### `npm test`
 

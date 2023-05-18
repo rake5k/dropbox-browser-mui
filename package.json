@@ -29,7 +29,7 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.8.1",
     "stream": "npm:stream-browserify",
-    "util": "^0.12.4"
+    "util": "^0.12.5"
   },
   "engines": {
     "node": ">=16",

@@ -81,7 +81,7 @@
     "eslint-plugin-react": "^7.32.2",
     "happy-dom": "^9.18.3",
     "typescript": "^5.0.4",
-    "vite": "^4.2.2",
+    "vite": "^4.3.8",
     "vite-plugin-svgr": "^2.4.0",
     "vite-tsconfig-paths": "^4.0.5",
     "vitest": "^0.28.3"

@@ -79,7 +79,7 @@
     "eslint-plugin-n": "^16.2.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
-    "happy-dom": "^12.9.1",
+    "happy-dom": "^12.10.1",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
     "vite-plugin-svgr": "^4.1.0",

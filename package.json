@@ -21,7 +21,7 @@
     "husky": "^9.0.5",
     "lint-staged": "^15.2.0",
     "lodash-es": "^4.17.21",
-    "loglevel": "^1.8.1",
+    "loglevel": "^1.9.1",
     "moment": "^2.30.1",
     "prettier": "^3.2.4",
     "react": "^18.2.0",

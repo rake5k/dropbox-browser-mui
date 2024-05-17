@@ -8,7 +8,7 @@
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
     "@types/jest": "^29.5.12",
-    "@types/lodash": "^4.17.3",
+    "@types/lodash": "^4.17.4",
     "@types/node": "^20.12.12",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",

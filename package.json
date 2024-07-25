@@ -6,7 +6,7 @@
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.5",
-    "@mui/material": "^5.16.4",
+    "@mui/material": "^5.16.5",
     "@types/jest": "^29.5.12",
     "@types/lodash": "^4.17.7",
     "@types/node": "^20.14.12",

@@ -19,7 +19,7 @@
     "dropbox": "^10.34.0",
     "env-cmd": "^10.1.0",
     "husky": "^9.1.4",
-    "lint-staged": "^15.2.8",
+    "lint-staged": "^15.2.9",
     "lodash-es": "^4.17.21",
     "loglevel": "^1.9.1",
     "moment": "^2.30.1",

@@ -9,7 +9,7 @@
     "@mui/material": "^5.16.13",
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.14",
-    "@types/node": "^22.10.4",
+    "@types/node": "^22.10.5",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "@types/react-helmet": "^6.1.11",

@@ -11,7 +11,7 @@
     "@types/lodash": "^4.17.16",
     "@types/node": "^22.15.17",
     "@types/react": "^19.1.4",
-    "@types/react-dom": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
     "@types/react-helmet": "^6.1.11",
     "@types/react-router-dom": "^5.3.3",
     "buffer": "^6.0.3",

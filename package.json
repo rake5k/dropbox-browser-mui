@@ -17,7 +17,7 @@
     "buffer": "^6.0.3",
     "crypto": "npm:crypto-browserify",
     "dropbox": "^10.34.0",
-    "env-cmd": "^10.1.0",
+    "env-cmd": "^11.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
     "lodash-es": "^4.17.21",

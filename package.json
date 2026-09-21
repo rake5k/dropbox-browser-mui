@@ -23,7 +23,7 @@
     "lodash-es": "^4.18.1",
     "loglevel": "^1.9.2",
     "moment": "^2.31.0",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.8",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-helmet": "^6.1.0",
